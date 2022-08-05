@@ -14,7 +14,7 @@ import java.util.Set;
 @Builder
 public class OrderEntryDto {
     @Valid
-    private Set<BatchDto> batches;
+    private Set<BatchDto> batchStock;
 
     @Valid
     private SectionDto section;
@@ -24,4 +24,5 @@ public class OrderEntryDto {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate orderDate;
+
 }
