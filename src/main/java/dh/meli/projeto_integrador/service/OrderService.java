@@ -30,6 +30,9 @@ public class OrderService {
     @Autowired
     private AgentService agentService;
 
+    @Autowired
+    private BatchService batchService;
+
     public Set<Batch> createInboundOrder(OrderEntryDto orderEntryDto) {
         Warehouse warehouse = warehouseService.findWarehouse(orderEntryDto.getSection().getWarehouseId());
 
@@ -45,14 +48,14 @@ public class OrderService {
 
         OrderEntry orderEntry = new OrderEntry();
 
-        orderEntry.setSection(orderEntry.getSection());
+        orderEntry.setSection(section);
         orderEntry.setOrderDate(orderEntryDto.getOrderDate());
 
         Set<Batch> batches = new HashSet<Batch>();
 
         int finalQuantity = 0;
 
-        for (BatchDto batchDto : orderEntryDto.getBatches()) {
+        for (BatchDto batchDto : orderEntryDto.getBatchStock()) {
             Batch batch = new Batch();
 
             Product product = productService.findProduct(batchDto.getProductId());
@@ -82,12 +85,16 @@ public class OrderService {
         orderEntry.setBatches(batches);
 
         // Validates if wanted section has available space for storing new products
-        if (finalQuantity > section.getMaxProductLoad()) {
+        if (section.getCurrentProductLoad() + finalQuantity > section.getMaxProductLoad()) {
             throw new ForbiddenException("Product batches quantity sum overtakes section maximum product load");
         }
 
         try {
             orderRepository.save(orderEntry);
+            batches.forEach(batchService::createBatch);
+
+            section.setCurrentProductLoad(section.getCurrentProductLoad() + finalQuantity);
+            sectionService.saveSection(section);
         } catch (Exception e) {
             throw new InternalServerErrorException(e.getMessage());
         }
