@@ -1,5 +1,6 @@
 package dh.meli.projeto_integrador.service;
 
+import dh.meli.projeto_integrador.exception.InternalServerErrorException;
 import dh.meli.projeto_integrador.exception.ResourceNotFoundException;
 import dh.meli.projeto_integrador.model.Section;
 import dh.meli.projeto_integrador.repository.ISectionRepository;
@@ -22,5 +23,13 @@ public class SectionService {
         }
 
         return section.get();
+    }
+
+    public Section saveSection(Section section) {
+        try {
+            return sectionRepository.save(section);
+        } catch (Exception e) {
+            throw new InternalServerErrorException(e.getMessage());
+        }
     }
 }
