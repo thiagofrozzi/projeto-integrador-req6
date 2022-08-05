@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Set;
 
 @Getter @Setter
 @Entity
@@ -47,4 +48,8 @@ public class Batch {
     @JoinColumn(name = "order_entry_id", referencedColumnName = "id")
     @JsonIgnoreProperties("batches")
     private OrderEntry orderEntry;
+
+    @OneToMany(mappedBy = "batch")
+    @JsonIgnoreProperties("batch")
+    private Set<BatchCart> batchCarts;
 }
