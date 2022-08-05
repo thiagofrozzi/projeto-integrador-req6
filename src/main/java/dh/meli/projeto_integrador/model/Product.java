@@ -20,6 +20,10 @@ public class Product {
     @JsonIgnoreProperties("product")
     private Set<Batch> batches;
 
+    @ManyToOne
+    @JoinColumn(name = "section_id", referencedColumnName = "id")
+    private Section section;
+
     @Column(name = "name")
     private String name;
 
