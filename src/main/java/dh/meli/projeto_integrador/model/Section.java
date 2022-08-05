@@ -36,5 +36,5 @@ public class Section {
 
     @OneToMany(mappedBy = "section")
     @JsonIgnoreProperties("section")
-    private Set<Section> sections;
+    private Set<Product> products;
 }
