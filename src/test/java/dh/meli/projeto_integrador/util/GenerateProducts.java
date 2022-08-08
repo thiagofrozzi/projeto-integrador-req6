@@ -34,8 +34,8 @@ public class GenerateProducts {
 
     public static Product validProduct2() {
         return Product.builder()
-                .name("Uva")
-                .type("Fresco")
+                .name("sorvete")
+                .type("Congelado")
                 .price(20.1)
                 .build();
     }
