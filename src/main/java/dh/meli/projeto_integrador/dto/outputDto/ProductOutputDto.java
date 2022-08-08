@@ -1,11 +1,11 @@
 package dh.meli.projeto_integrador.dto.outputDto;
 
 import dh.meli.projeto_integrador.model.Product;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Data
+@Getter @Setter @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductOutputDto {
     private String name;
     private String type;
