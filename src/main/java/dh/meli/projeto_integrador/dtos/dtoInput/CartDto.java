@@ -6,24 +6,43 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
-@Getter @Setter
+/**
+ * Method Getter implemented by Lombok lib for get access the private attributes of the CartDto Class
+ */
+@Getter
+
+/**
+ * Method Setter implemented by Lombok lib for set the private attributes of the CartDto Class
+ */
+@Setter
+
+/**
+ * Method Constructor with all arguments implemented by Lombok lib
+ */
 @AllArgsConstructor
+
+/**
+ * Class used to create a Data Transfer Object for OrderEntry POJO
+ * @author Gabriela Azevedo
+ * @version 0.0.1
+ * @see java.lang.Object
+ */
 public class CartDto {
 
     @NotNull(message = "The date of the creation cart has to be a date. Format: (yyyy-mm-dd)")
     private LocalDate date;
 
-    private Long buyer_id;
+    @NotNull(message = "The buyer id cannot be null")
+    private Long buyerId;
 
-    @NotEmpty(message = "The status of the cart has to be OPENED of FINISHED")
+    @NotNull(message = "The status of the cart cannot be null")
     private PurchaseOrderStatusEnum orderStatus;
 
     @Size(min = 1, message = "The products list not to be empty")
-    private List< @Valid ProductDto> productList;
+    private List<@Valid ProductDto> products;
 }
