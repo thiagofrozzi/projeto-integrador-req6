@@ -1,4 +1,4 @@
-package dh.meli.projeto_integrador.dto;
+package dh.meli.projeto_integrador.dtos.dtoInput;
 
 import dh.meli.projeto_integrador.model.Batch;
 import lombok.*;

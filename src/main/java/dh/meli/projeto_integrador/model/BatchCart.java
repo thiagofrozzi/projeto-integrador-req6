@@ -1,5 +1,6 @@
 package dh.meli.projeto_integrador.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 @Getter @Setter
 @Entity
 @Table(name = "batch_cart")
+@Builder
 public class BatchCart {
 
     @Id
