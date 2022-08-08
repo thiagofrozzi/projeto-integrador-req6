@@ -13,10 +13,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -45,12 +43,11 @@ class ProductServiceTest {
         BDDMockito.when(productRepository.findAll())
                 .thenReturn(GenerateProducts.emptyProductDtoList());
 
-//        List<ProductOutputDto> products = productService.getAllProducts();
         NotFoundException exception = assertThrows(NotFoundException.class, () -> {
             productService.getAllProducts();
         });
 
-        assertThat(exception.getMessage()).isEqualTo(String.format("não existem produtos"));
+        assertThat(exception.getMessage()).isEqualTo(String.format("No Products Found"));
     }
 
     @Test
@@ -70,11 +67,10 @@ class ProductServiceTest {
         BDDMockito.when(productRepository.findAllByType(anyString()))
                 .thenReturn(GenerateProducts.emptyProductDtoList());
 
-//        List<ProductOutputDto> products = productService.getAllProducts();
         NotFoundException exception = assertThrows(NotFoundException.class, () -> {
             productService.getProductsByCategory(GenerateProducts.validProduct1().getType());
         });
 
-        assertThat(exception.getMessage()).isEqualTo(String.format("não existem produtos"));
+        assertThat(exception.getMessage()).isEqualTo(String.format("No Products Found"));
     }
 }
