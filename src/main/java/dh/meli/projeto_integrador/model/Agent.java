@@ -1,6 +1,7 @@
 package dh.meli.projeto_integrador.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Getter @Setter
 @Entity
 @Table(name = "agent")
+@Builder
 public class Agent {
 
     @Id
