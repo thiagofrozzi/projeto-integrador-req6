@@ -8,12 +8,25 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * Class responsible for business rules and communication with the Agent Repository layer;
+ * @author Diovana Valim;
+ * @version 0.0.1
+ */
 @Service
 public class AgentService {
 
+    /**
+     * Dependency Injection of the Agent Repository.
+     */
     @Autowired
     private IAgentRepository agentRepository;
 
+    /**
+     * Method to find an agent by id;
+     * @param id of type long. Agent identifier;
+     * @return an object of type Agent;
+     */
     public Agent findAgent(long id) {
         Optional<Agent> agent = agentRepository.findById(id);
 

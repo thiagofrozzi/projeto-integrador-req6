@@ -12,27 +12,56 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Class responsible for business rules and communication with the OrderEntry Repository layer;
+ * @author Diovana Valim, Thiago Guimaraes;
+ * @version 0.0.1
+ */
 @Service
 public class OrderService {
 
+    /**
+     * Dependency Injection of the OrderEntry Repository.
+     */
     @Autowired
     private IOrderRepository orderRepository;
 
+    /**
+     * Dependency Injection of the Product Service.
+     */
     @Autowired
     private ProductService productService;
 
+    /**
+     * Dependency Injection of the Warehouse Service.
+     */
     @Autowired
     private WarehouseService warehouseService;
 
+    /**
+     * Dependency Injection of the Section Service.
+     */
     @Autowired
     private SectionService sectionService;
 
+    /**
+     * Dependency Injection of the Agent Service.
+     */
     @Autowired
     private AgentService agentService;
 
+    /**
+     * Dependency Injection of the Batch Service.
+     */
     @Autowired
     private BatchService batchService;
 
+    /**
+     * Method to save new Inbound Order. Validates Warehouse, Section and Agent before inserting into
+     * application database;
+     * @param orderEntryDto of type OrderEntryDto. OrderEntry POJO;
+     * @return a Set of Batches;
+     */
     public Set<Batch> createInboundOrder(OrderEntryDto orderEntryDto) {
         Warehouse warehouse = warehouseService.findWarehouse(orderEntryDto.getSection().getWarehouseId());
 

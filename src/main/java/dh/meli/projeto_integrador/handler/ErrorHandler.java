@@ -11,9 +11,19 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
 
+/**
+ * Class to handle exceptions that are thrown over the code execution flow.
+ * @author Diovana Valim
+ * @version 0.0.1
+ */
 @ControllerAdvice
 public class ErrorHandler {
 
+    /**
+     * Method that captures a InternalServerErrorException and build a response to send through HTTP request.
+     * @param e instance of InternalServerErrorException class captured during the code execution flow.
+     * @return a ResponseEntity containing details of the exception and a compatible HTTP status code.
+     */
     @ExceptionHandler(InternalServerErrorException.class)
     public ResponseEntity<ExceptionDetails> internalServerErrorHandler(InternalServerErrorException e) {
         return new ResponseEntity<ExceptionDetails>(ExceptionDetails
@@ -26,6 +36,11 @@ public class ErrorHandler {
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Method that captures a ForbiddenException and build a response to send through HTTP request.
+     * @param e instance of ForbiddenException class captured during the code execution flow.
+     * @return a ResponseEntity containing details of the exception and a compatible HTTP status code.
+     */
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<ExceptionDetails> forbiddenExceptionHandler(ForbiddenException e) {
         return new ResponseEntity<ExceptionDetails>(ExceptionDetails
@@ -38,6 +53,11 @@ public class ErrorHandler {
                 HttpStatus.FORBIDDEN);
     }
 
+    /**
+     * Method that captures a ResourceNotFoundException and build a response to send through HTTP request.
+     * @param e instance of ResourceNotFoundException class captured during the code execution flow.
+     * @return a ResponseEntity containing details of the exception and a compatible HTTP status code.
+     */
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ExceptionDetails> resourceNotFoundExceptionHandler(ResourceNotFoundException e) {
         return new ResponseEntity<ExceptionDetails>(ExceptionDetails

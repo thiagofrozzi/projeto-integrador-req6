@@ -8,12 +8,25 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * Class responsible for business rules and communication with the Product Repository layer;
+ * @author Diovana Valim;
+ * @version 0.0.1
+ */
 @Service
 public class ProductService {
 
+    /**
+     * Dependency Injection of the Product Repository.
+     */
     @Autowired
     private IProductRepository productRepository;
 
+    /**
+     * Method to find a product by id;
+     * @param id of type long. Product identifier;
+     * @return an object of type Product;
+     */
     public Product findProduct(long id) {
         Optional<Product> product = productRepository.findById(id);
 

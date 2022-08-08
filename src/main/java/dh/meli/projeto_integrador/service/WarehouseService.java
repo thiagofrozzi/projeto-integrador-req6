@@ -8,12 +8,25 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * Class responsible for business rules and communication with the Warehouse Repository layer;
+ * @author Diovana Valim;
+ * @version 0.0.1
+ */
 @Service
 public class WarehouseService {
 
+    /**
+     * Dependency Injection of the Warehouse Repository.
+     */
     @Autowired
     private IWarehouseRepository warehouseRepository;
 
+    /**
+     * Method to find a warehouse by id;
+     * @param id of type long. Warehouse identifier;
+     * @return an object of type Warehouse;
+     */
     public Warehouse findWarehouse(long id) {
         Optional<Warehouse> warehouse = warehouseRepository.findById(id);
 
