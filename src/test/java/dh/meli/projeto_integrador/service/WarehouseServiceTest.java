@@ -1,7 +1,6 @@
 package dh.meli.projeto_integrador.service;
 
 import dh.meli.projeto_integrador.exception.ResourceNotFoundException;
-import dh.meli.projeto_integrador.model.Section;
 import dh.meli.projeto_integrador.model.Warehouse;
 import dh.meli.projeto_integrador.repository.IWarehouseRepository;
 import dh.meli.projeto_integrador.util.Generators;
