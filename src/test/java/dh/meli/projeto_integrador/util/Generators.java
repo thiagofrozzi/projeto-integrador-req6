@@ -62,13 +62,10 @@ public class Generators {
         product.setId(0);
         product.setName("Maçã");
         product.setType("Fruta");
-        product.setSection(section);
 
         HashSet<Product> products = new HashSet<Product>();
 
         products.add(product);
-
-        section.setProducts(products);
 
         OrderEntry orderEntry = new OrderEntry();
 

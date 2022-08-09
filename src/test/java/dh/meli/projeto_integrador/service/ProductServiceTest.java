@@ -50,7 +50,6 @@ public class ProductServiceTest {
         assertThat(product.getId()).isEqualTo(Generators.getProduct().getId());
         assertThat(product.getType()).isEqualTo(Generators.getProduct().getType());
         assertThat(product.getPrice()).isEqualTo(Generators.getProduct().getPrice());
-        assertThat(product.getSection().getId()).isEqualTo(Generators.getProduct().getSection().getId());
 
         verify(productRepository, atLeastOnce()).findById(id);
     }
