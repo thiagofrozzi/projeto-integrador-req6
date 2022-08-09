@@ -1,15 +1,19 @@
 package dh.meli.projeto_integrador.controller;
 
-import dh.meli.projeto_integrador.dto.dtoInput.BatchDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.ListProductByWarehouseDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.ProductOutputDto;
 import dh.meli.projeto_integrador.service.ProductService;
 import dh.meli.projeto_integrador.util.Generators;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -30,18 +34,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 @WebMvcTest(ProductController.class)
 class ProductControllerTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    MockMvc mockMvc;
 
     @InjectMocks
-    private ProductController productController;
+    ProductController productController;
+
+    @Mock
+    ProductService productService;
 
     @MockBean
-    private ProductService service;
-
+    ProductService service;
 
     @Test
     void listAllProducts_returnListOfProducts_whenSuccessTest() throws Exception {
@@ -79,7 +87,7 @@ class ProductControllerTest {
 
     @Test
     void listProductByWarehouseTest() {
-        BDDMockito.when(service.listProductByWarehouse(ArgumentMatchers.anyLong()))
+        BDDMockito.when(productService.listProductByWarehouse(ArgumentMatchers.anyLong()))
                 .thenReturn(Generators.getListProductByWarehouseDto());
 
         long id = 1;
@@ -91,9 +99,9 @@ class ProductControllerTest {
 
         assertThat(response.getBody().getProductId())
                 .isEqualTo(Generators.getListProductByWarehouseDto().getProductId());
-        assertThat(response.getBody().getWarehouses().get(0))
-                .isEqualTo(Generators.getListProductByWarehouseDto().getWarehouses().get(0));
+        assertThat(response.getBody().getWarehouses().get(0).getWarehouseCode())
+                .isEqualTo(Generators.getListProductByWarehouseDto().getWarehouses().get(0).getWarehouseCode());
 
-        verify(service, atLeastOnce()).listProductByWarehouse(id);
+        verify(productService, atLeastOnce()).listProductByWarehouse(id);
     }
 }
