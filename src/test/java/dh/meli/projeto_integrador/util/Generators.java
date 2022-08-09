@@ -3,7 +3,9 @@ package dh.meli.projeto_integrador.util;
 import dh.meli.projeto_integrador.dto.dtoInput.BatchDto;
 import dh.meli.projeto_integrador.dto.dtoInput.OrderEntryDto;
 import dh.meli.projeto_integrador.dto.dtoInput.SectionDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.ListProductByWarehouseDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.ProductOutputDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.TotalProductByWarehouseDto;
 import dh.meli.projeto_integrador.model.*;
 
 import java.time.LocalDate;
@@ -243,5 +245,19 @@ public class Generators {
     public static List<Product> emptyProductDtoList() {
         List<Product> productList = new ArrayList<>();
         return productList;
+    }
+
+    public static ListProductByWarehouseDto getListProductByWarehouseDto() {
+        List<TotalProductByWarehouseDto> totalProductByWarehouseDtoList = new ArrayList<TotalProductByWarehouseDto>();
+
+        TotalProductByWarehouseDto totalProductByWarehouseDto01 = new TotalProductByWarehouseDto(1, 100);
+        TotalProductByWarehouseDto totalProductByWarehouseDto02 = new TotalProductByWarehouseDto(2, 200);
+        TotalProductByWarehouseDto totalProductByWarehouseDto03 = new TotalProductByWarehouseDto(3, 300);
+
+        totalProductByWarehouseDtoList.add(totalProductByWarehouseDto01);
+        totalProductByWarehouseDtoList.add(totalProductByWarehouseDto02);
+        totalProductByWarehouseDtoList.add(totalProductByWarehouseDto03);
+
+        return new ListProductByWarehouseDto(1, totalProductByWarehouseDtoList);
     }
 }

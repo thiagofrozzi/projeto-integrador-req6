@@ -1,15 +1,21 @@
 package dh.meli.projeto_integrador.controller;
 
+import dh.meli.projeto_integrador.dto.dtoInput.BatchDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.ListProductByWarehouseDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.ProductOutputDto;
 import dh.meli.projeto_integrador.service.ProductService;
 import dh.meli.projeto_integrador.util.Generators;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -20,6 +26,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.mockito.ArgumentMatchers.anyString;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.verify;
 
 @WebMvcTest(ProductController.class)
 class ProductControllerTest {
@@ -27,12 +36,15 @@ class ProductControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @InjectMocks
+    private ProductController productController;
+
     @MockBean
     private ProductService service;
 
 
     @Test
-    void listAllProducts_returnListOfProducts_whenSuccess() throws Exception {
+    void listAllProducts_returnListOfProducts_whenSuccessTest() throws Exception {
         List<ProductOutputDto> list = Generators.productDtoList();
         BDDMockito.when(service.getAllProducts())
                 .thenReturn(list);
@@ -49,7 +61,7 @@ class ProductControllerTest {
 
 
     @Test
-    void listProductByCategory() throws Exception{
+    void listProductByCategoryTest() throws Exception {
         List<ProductOutputDto> list = Generators.productDtoList();
         BDDMockito.when(service.getProductsByCategory(anyString()))
                 .thenReturn(list);
@@ -63,5 +75,25 @@ class ProductControllerTest {
                         CoreMatchers.is(list.size())))
                 .andExpect(jsonPath("$[0].name",
                         CoreMatchers.is(Generators.validProductDto1().getName())));
+    }
+
+    @Test
+    void listProductByWarehouseTest() {
+        BDDMockito.when(service.listProductByWarehouse(ArgumentMatchers.anyLong()))
+                .thenReturn(Generators.getListProductByWarehouseDto());
+
+        long id = 1;
+
+        ResponseEntity<ListProductByWarehouseDto> response = productController.listProductByWarehouse(id);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+
+        assertThat(response.getBody().getProductId())
+                .isEqualTo(Generators.getListProductByWarehouseDto().getProductId());
+        assertThat(response.getBody().getWarehouses().get(0))
+                .isEqualTo(Generators.getListProductByWarehouseDto().getWarehouses().get(0));
+
+        verify(service, atLeastOnce()).listProductByWarehouse(id);
     }
 }
