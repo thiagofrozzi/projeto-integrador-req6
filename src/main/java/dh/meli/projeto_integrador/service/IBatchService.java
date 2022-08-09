@@ -8,5 +8,11 @@ import dh.meli.projeto_integrador.model.Batch;
  * @version 0.0.1
  */
 public interface IBatchService {
+
+    /**
+     * Method implemented by BatchService for to create a Batch
+     * @param batch an object of type Batch coming from user request
+     * @return an object of type Batch
+     */
     Batch createBatch(Batch batch);
 }
