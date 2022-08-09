@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
  */
 @AllArgsConstructor
 /**
- * Class used to create a Data Transfer Object for ProductDto POJO
+ * Class used to create a Data Transfer Object for Product POJO
  * @author Gabriela Azevedo
  * @version 0.0.1
  * @see java.lang.Object
