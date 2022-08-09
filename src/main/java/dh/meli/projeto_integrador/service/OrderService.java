@@ -9,7 +9,9 @@ import dh.meli.projeto_integrador.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -62,7 +64,7 @@ public class OrderService {
      * @param orderEntryDto of type OrderEntryDto. OrderEntry POJO;
      * @return a Set of Batches;
      */
-    public Set<Batch> createInboundOrder(OrderEntryDto orderEntryDto) {
+    public List<BatchDto> createInboundOrder(OrderEntryDto orderEntryDto) {
         Warehouse warehouse = warehouseService.findWarehouse(orderEntryDto.getSection().getWarehouseId());
 
         Section section = sectionService.findSection(orderEntryDto.getSection().getSectionId());
@@ -128,6 +130,12 @@ public class OrderService {
             throw new InternalServerErrorException(e.getMessage());
         }
 
-        return orderEntry.getBatches();
+        List<BatchDto> batchDtoList = new ArrayList<BatchDto>();
+
+        batches.forEach(batch -> {
+            batchDtoList.add(new BatchDto(batch));
+        });
+
+        return batchDtoList;
     }
 }
