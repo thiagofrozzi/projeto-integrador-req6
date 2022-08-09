@@ -11,4 +11,5 @@ import java.util.List;
 public interface IProductService {
     List<ProductOutputDto> getAllProducts();
     List<ProductOutputDto> getProductsByCategory(String category);
+    Product findProduct(long id);
 }
