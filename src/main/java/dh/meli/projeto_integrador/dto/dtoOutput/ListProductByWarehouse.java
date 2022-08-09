@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * Method Getter implemented by Lombok lib for get access the private attributes of the
@@ -29,5 +29,5 @@ import java.util.Set;
 public class ListProductByWarehouse {
     private long productId;
 
-    private Set<TotalProductByWarehouseDto> warehouses;
+    private List<TotalProductByWarehouseDto> warehouses;
 }
