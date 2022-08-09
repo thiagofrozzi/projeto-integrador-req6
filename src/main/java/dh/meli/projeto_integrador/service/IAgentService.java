@@ -10,7 +10,7 @@ import dh.meli.projeto_integrador.model.Agent;
 public interface IAgentService {
 
     /**
-     * Method implemented by AgentService for to find an Agent by Id
+     * Method for to find an Agent by Id
      * @param id long coming from user request
      * @return an object of type Agent
      */
