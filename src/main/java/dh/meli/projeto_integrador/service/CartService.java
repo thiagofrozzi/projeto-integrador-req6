@@ -6,10 +6,7 @@ import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;
 import dh.meli.projeto_integrador.exception.ForbiddenException;
 import dh.meli.projeto_integrador.exception.ResourceNotFoundException;
 import dh.meli.projeto_integrador.model.*;
-import dh.meli.projeto_integrador.repository.IBatchCartRepository;
-import dh.meli.projeto_integrador.repository.IBatchRepository;
-import dh.meli.projeto_integrador.repository.ICartRepository;
-import dh.meli.projeto_integrador.repository.ICustomerRepository;
+import dh.meli.projeto_integrador.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,17 +28,20 @@ public class CartService implements ICartService {
     @Autowired
     private ICartRepository cartRepository;
 
+    @Autowired
+    private IBatchRepository batchRepository;
+
     /**
      * Dependency Injection of the BatchCart Repository.
      */
     @Autowired
-    private IBatchCartRepository batchCartRepository;
+    private IProductCartRepository productCartRepository;
 
     /**
      * Dependency Injection of the Batch Repository.
      */
     @Autowired
-    private IBatchRepository batchRepository;
+    private IProductRepository productRepository;
 
     /**
      * Dependency Injection of the Customer Repository.
@@ -70,20 +70,21 @@ public class CartService implements ICartService {
      * @param savedCart an object of type Cart
      * @param productsList a list of objects of type ProductDto
      */
-    public void buildBatchCart(Cart savedCart, List<ProductDto> productsList) {
+    public void buildProductCart(Cart savedCart, List<ProductDto> productsList) {
         productsList.forEach(product -> {
-            Batch batchById = batchRepository.findById(product.getProductId()).get();
+            Product productById = productRepository.findById(product.getProductId()).get();
+            Batch batchById = batchRepository.findByProduct(productById);
 
-            if (product.getQuantity() > batchById.getCurrentQuantity()) {
-                throw new ForbiddenException("Product" + product.getProductId() + "does not have enough quantity in stock.");
-            }
+                if (product.getQuantity() > batchById.getCurrentQuantity()) {
+                   throw new ForbiddenException(String.format("The product: %s does not have enough quantity in stock.", productById.getName()));
+                }
 
-            BatchCart batchCart = BatchCart.builder()
+            ProductCart productCart = ProductCart.builder()
                     .cart(savedCart)
-                    .batch(batchById)
+                    .product(productById)
                     .quantity(product.getQuantity())
                     .build();
-            batchCartRepository.save(batchCart);
+            productCartRepository.save(productCart);
         });
     }
 
@@ -96,7 +97,8 @@ public class CartService implements ICartService {
         TotalPriceDto total = new TotalPriceDto(0.0);
 
         productsList.forEach(product -> {
-            Batch batchById = batchRepository.findById(product.getProductId()).get();
+            Product productById = productRepository.findById(product.getProductId()).get();
+            Batch batchById = batchRepository.findByProduct(productById);
             total.setTotalPrice(batchById.getProduct().getPrice() + total.getTotalPrice());
         });
         return total;
@@ -112,7 +114,7 @@ public class CartService implements ICartService {
     public TotalPriceDto createCart(CartDto cartDto) {
         Cart savedCart = buildCart(cartDto);
         List<ProductDto> productsList = cartDto.getProducts();
-        buildBatchCart(savedCart, productsList);
+        buildProductCart(savedCart, productsList);
         return totalCartPrice(productsList);
     }
 }

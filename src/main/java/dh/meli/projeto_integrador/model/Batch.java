@@ -72,7 +72,4 @@ public class Batch {
     @JsonIgnoreProperties("batches")
     private OrderEntry orderEntry;
 
-    @OneToMany(mappedBy = "batch")
-    @JsonIgnoreProperties("batch")
-    private Set<BatchCart> batchCarts;
 }

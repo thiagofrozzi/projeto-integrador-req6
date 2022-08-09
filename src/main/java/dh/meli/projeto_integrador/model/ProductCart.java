@@ -23,7 +23,7 @@ import javax.persistence.*;
 /**
  * The @Table annotation is used to specify table details that will be used to persist our entities in the database.
  */
-@Table(name = "batch_cart")
+@Table(name = "product_cart")
 
 /**
  * Method Builder implemented by Lombok lib
@@ -36,12 +36,17 @@ import javax.persistence.*;
 @AllArgsConstructor
 
 /**
+ * Method Constructor with no arguments implemented by Lombok lib
+ */
+@NoArgsConstructor
+
+/**
  * Class created for modeling the BatchCart entity on the database
  * @author Diovana Valim
  * @version 0.0.1
  * @see java.lang.Object
  */
-public class BatchCart {
+public class ProductCart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,13 +57,10 @@ public class BatchCart {
     private Cart cart;
 
     @ManyToOne
-    @JoinColumn(name = "batch_id", referencedColumnName = "id", nullable = false)
-    private Batch batch;
+    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
+    private Product product;
 
     @Column(name = "quantity", nullable = false)
     private int quantity;
 
-    public BatchCart() {
-
-    }
 }

@@ -63,4 +63,8 @@ public class Product {
 
     @Column(name = "price")
     private double price;
+
+    @OneToMany(mappedBy = "product")
+    @JsonIgnoreProperties("product")
+    private Set<ProductCart> productCarts;
 }

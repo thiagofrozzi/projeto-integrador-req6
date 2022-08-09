@@ -60,5 +60,5 @@ public class Cart {
 
     @OneToMany(mappedBy = "cart")
     @JsonIgnoreProperties("cart")
-    private Set<BatchCart> batchCarts;
+    private Set<ProductCart> productCarts;
 }
