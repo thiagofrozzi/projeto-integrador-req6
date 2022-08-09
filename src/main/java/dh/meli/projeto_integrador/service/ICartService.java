@@ -10,6 +10,10 @@ import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;
  * @version 0.0.1
  */
 public interface ICartService {
-    // método para criação de um carrinho de compras
+    /**
+     * Method implemented by CartService for to create a Cart
+     * @param cartDto an object of type CartDto coming from user request
+     * @return an object of type TotalPriceDto
+     */
     TotalPriceDto createCart(CartDto cartDto);
 }
