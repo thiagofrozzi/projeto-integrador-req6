@@ -3,6 +3,8 @@ package dh.meli.projeto_integrador.service;
 import dh.meli.projeto_integrador.dto.dtoInput.CartDto;
 import dh.meli.projeto_integrador.dto.dtoInput.ProductDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;
+import dh.meli.projeto_integrador.exception.ForbiddenException;
+import dh.meli.projeto_integrador.exception.ResourceNotFoundException;
 import dh.meli.projeto_integrador.model.*;
 import dh.meli.projeto_integrador.repository.IBatchCartRepository;
 import dh.meli.projeto_integrador.repository.IBatchRepository;
@@ -71,6 +73,10 @@ public class CartService implements ICartService {
     public void buildBatchCart(Cart savedCart, List<ProductDto> productsList) {
         productsList.forEach(product -> {
             Batch batchById = batchRepository.findById(product.getProductId()).get();
+
+            if (product.getQuantity() > batchById.getCurrentQuantity()) {
+                throw new ForbiddenException("Product" + product.getProductId() + "does not have enough quantity in stock.");
+            }
 
             BatchCart batchCart = BatchCart.builder()
                     .cart(savedCart)
