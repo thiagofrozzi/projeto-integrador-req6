@@ -8,13 +8,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class GenerateCustomer {
-//    public static Customer newCustomer1() {
-//        return Customer.builder()
-//                .id(1)
-//                .cpf("111.111.111-11")
-//                .name("Alberto")
-//                .emailAddress("Alberto@email.com")
-//                .carts(GenerateCart.newListCart1())
-//                .build();
-//    }
+    public static Customer newCustomer1() {
+        return Customer.builder()
+                .id(1L)
+                .cpf("111.111.111-11")
+                .name("Alberto")
+                .emailAddress("Alberto@email.com")
+                .build();
+    }
 }

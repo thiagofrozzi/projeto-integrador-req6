@@ -1,6 +1,6 @@
 package dh.meli.projeto_integrador.utils;
 
-import dh.meli.projeto_integrador.dtos.dtoInput.ProductDto;
+import dh.meli.projeto_integrador.dto.dtoInput.ProductDto;
 import dh.meli.projeto_integrador.enumClass.PurchaseOrderStatusEnum;
 import dh.meli.projeto_integrador.model.Batch;
 import dh.meli.projeto_integrador.model.Cart;
@@ -23,7 +23,7 @@ public class GenerateProduct {
 
 public static ProductDto newProductDto() {
     return ProductDto.builder()
-            .batchId(1L)
+            .productId(1L)
             .quantity(10)
             .build();
 }

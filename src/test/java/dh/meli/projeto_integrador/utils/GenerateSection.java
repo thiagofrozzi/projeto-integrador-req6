@@ -1,6 +1,5 @@
 package dh.meli.projeto_integrador.utils;
 
-import dh.meli.projeto_integrador.model.BatchCart;
 import dh.meli.projeto_integrador.model.OrderEntry;
 import dh.meli.projeto_integrador.model.Product;
 import dh.meli.projeto_integrador.model.Section;
