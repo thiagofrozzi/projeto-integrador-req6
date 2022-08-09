@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 /**
  * Class that extends of the RunTimeException error class. It represents the custom Exception 404
  * ResourceNotFoundException
- * @author Diovana Valim
+ * @author Diovana Valim, Rafael Cavalcante
  * @version 0.0.1
  */
 @ResponseStatus(HttpStatus.NOT_FOUND)
