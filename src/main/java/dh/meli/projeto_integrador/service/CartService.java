@@ -4,7 +4,6 @@ import dh.meli.projeto_integrador.dto.dtoInput.CartDto;
 import dh.meli.projeto_integrador.dto.dtoInput.ProductDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;
 import dh.meli.projeto_integrador.exception.ForbiddenException;
-import dh.meli.projeto_integrador.exception.ResourceNotFoundException;
 import dh.meli.projeto_integrador.model.*;
 import dh.meli.projeto_integrador.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +50,8 @@ public class CartService implements ICartService {
 
     /**
      * Method that receives an object of type CartDto, build the cart object and saves on the Cart table.
-     * @param cartDto
-     * @return
+     * @param cartDto an object of type CartDto
+     * @return an object of type Cart
      */
     public Cart buildCart(CartDto cartDto) {
         Customer customerById = customerRepository.findById(cartDto.getBuyerId()).get();
