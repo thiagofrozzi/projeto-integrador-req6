@@ -1,9 +1,7 @@
 package dh.meli.projeto_integrador.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -30,14 +28,14 @@ import java.util.Set;
  */
 @Table(name = "order_entry")
 @Builder
-
+@NoArgsConstructor
+@AllArgsConstructor
 /**
  * Class created for modeling the OrderEntry entity on the database
  * @author Diovana Valim
  * @version 0.0.1
  * @see java.lang.Object
  */
-
 public class OrderEntry {
 
     @Id

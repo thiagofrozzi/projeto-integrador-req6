@@ -1,9 +1,7 @@
 package dh.meli.projeto_integrador.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -31,6 +29,8 @@ import java.util.Set;
  */
 @Table(name = "batch")
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 /**
  * Class created for modeling the Batch entity on the database
  * @author Diovana Valim

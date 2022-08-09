@@ -1,9 +1,7 @@
 package dh.meli.projeto_integrador.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -28,6 +26,8 @@ import javax.persistence.*;
  */
 @Table(name = "agent")
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 /**
  * Class created for modeling the Agent entity on the database
  * @author Diovana Valim
