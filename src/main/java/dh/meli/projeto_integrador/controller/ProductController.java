@@ -13,10 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-
 /**
  * Class responsible for intermediating the requests sent by the user with the responses provided by the Service;
- * @author Rafael Cavalcante
+ * @author Diovana Valim, Rafael Cavalcante
  * @version 0.0.1
  */
 @RestController
