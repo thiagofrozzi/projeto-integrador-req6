@@ -11,5 +11,10 @@ import org.springframework.data.repository.CrudRepository;
  * @version 0.0.1
  */
 public interface IBatchRepository extends CrudRepository<Batch, Long> {
+    /**
+     * Method that find a product by id
+     * @param product an object of type Product
+     * @return an object of type Batch
+     */
     Batch findByProduct(Product product);
 }
