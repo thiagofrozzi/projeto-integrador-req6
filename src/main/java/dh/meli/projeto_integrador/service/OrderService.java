@@ -21,7 +21,7 @@ import java.util.Set;
  * @version 0.0.1
  */
 @Service
-public class OrderService {
+public class OrderService implements IOrderService {
 
     /**
      * Dependency Injection of the OrderEntry Repository.
@@ -66,6 +66,7 @@ public class OrderService {
      * @return a Set of Batches;
      */
     @Transactional
+    @Override
     public List<BatchDto> createInboundOrder(OrderEntryDto orderEntryDto) {
         Warehouse warehouse = warehouseService.findWarehouse(orderEntryDto.getSection().getWarehouseId());
 

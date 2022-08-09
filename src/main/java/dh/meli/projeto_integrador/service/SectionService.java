@@ -15,7 +15,7 @@ import java.util.Optional;
  * @version 0.0.1
  */
 @Service
-public class SectionService {
+public class SectionService implements ISectionService {
 
     /**
      * Dependency Injection of the Section Repository.
@@ -28,6 +28,7 @@ public class SectionService {
      * @param id of type long. Section identifier;
      * @return an object of type Section;
      */
+    @Override
     public Section findSection(long id) {
         Optional<Section> section = sectionRepository.findById(id);
 

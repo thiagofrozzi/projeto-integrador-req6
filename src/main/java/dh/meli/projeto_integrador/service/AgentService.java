@@ -14,7 +14,7 @@ import java.util.Optional;
  * @version 0.0.1
  */
 @Service
-public class AgentService {
+public class AgentService implements IAgentService{
 
     /**
      * Dependency Injection of the Agent Repository.
@@ -27,6 +27,7 @@ public class AgentService {
      * @param id of type long. Agent identifier;
      * @return an object of type Agent;
      */
+    @Override
     public Agent findAgent(long id) {
         Optional<Agent> agent = agentRepository.findById(id);
 

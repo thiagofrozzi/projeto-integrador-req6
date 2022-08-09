@@ -14,7 +14,7 @@ import java.util.Optional;
  * @version 0.0.1
  */
 @Service
-public class WarehouseService {
+public class WarehouseService implements IWarehouseService {
 
     /**
      * Dependency Injection of the Warehouse Repository.
@@ -27,6 +27,7 @@ public class WarehouseService {
      * @param id of type long. Warehouse identifier;
      * @return an object of type Warehouse;
      */
+    @Override
     public Warehouse findWarehouse(long id) {
         Optional<Warehouse> warehouse = warehouseRepository.findById(id);
 
