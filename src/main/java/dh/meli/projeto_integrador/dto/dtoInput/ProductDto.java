@@ -1,4 +1,4 @@
-package dh.meli.projeto_integrador.dtos.dtoInput;
+package dh.meli.projeto_integrador.dto.dtoInput;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

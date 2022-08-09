@@ -1,19 +1,42 @@
-package dh.meli.projeto_integrador.dtos.dtoInput;
+package dh.meli.projeto_integrador.dto.dtoInput;
 
 import dh.meli.projeto_integrador.model.Batch;
 import lombok.*;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Getter @Setter
+/**
+ * Method Getter implemented by Lombok lib for get access the private attributes of the Product Class
+ */
+@Getter
+/**
+ * Method Setter implemented by Lombok lib for set the private attributes of the Product Class
+ */
+@Setter
+/**
+ * Method Default Constructor implemented by Lombok lib
+ */
 @NoArgsConstructor
+/**
+ * Method Constructor with all arguments implemented by Lombok lib
+ */
 @AllArgsConstructor
+/**
+ * Method builder implemented by Lombok lib
+ */
 @Builder
+/**
+ * Class used to create a Data Transfer Object for Batch POJO
+ * @author Amanda Marinelli, Diovana Valim
+ * @version 0.0.1
+ * @see java.lang.Object
+ */
 public class BatchDto {
 
-    private long id;
+    private long batchId;
 
     @NotNull(message = "You should define product id.")
     private long productId;
@@ -28,7 +51,8 @@ public class BatchDto {
     @Min(value = 1)
     private int initialQuantity;
 
-    //TODO verificar se vamos utilizar a current quantity quando fizer o post
+    @NotNull(message = "You should define a valid quantity.")
+    @Min(value = 1)
     private int currentQuantity;
 
     @NotNull(message = "You should define due Date. Format: (yyyy-mm-dd).")
@@ -41,7 +65,7 @@ public class BatchDto {
     private LocalDate dueDate;
 
     public BatchDto(Batch batch) {
-        this.id = batch.getId();
+        this.batchId = batch.getId();
         this.productId = batch.getProduct().getId();
         this.currentTemperature = batch.getCurrentTemperature();
         this.minimumTemperature = batch.getMinimumTemperature();

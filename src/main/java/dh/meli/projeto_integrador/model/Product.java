@@ -1,8 +1,7 @@
 package dh.meli.projeto_integrador.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -11,16 +10,17 @@ import java.util.Set;
  * Method Getter implemented by Lombok lib for get access the private attributes of the Product Class
  */
 @Getter
-
 /**
  * Method Setter implemented by Lombok lib for set access the private attributes of the Product Class
  */
 @Setter
-
 /**
  * The @Entity annotation marks the Product Class as an entity bean,
  * so it must have a no-argument constructor that is visible at least with a protected scope.
  */
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 
 /**
@@ -43,6 +43,10 @@ public class Product {
     @OneToMany(mappedBy = "product")
     @JsonIgnoreProperties("product")
     private Set<Batch> batches;
+
+    @ManyToOne
+    @JoinColumn(name = "section_id", referencedColumnName = "id")
+    private Section section;
 
     @Column(name = "name")
     private String name;

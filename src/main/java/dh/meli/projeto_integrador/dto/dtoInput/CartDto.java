@@ -1,4 +1,4 @@
-package dh.meli.projeto_integrador.dtos.dtoInput;
+package dh.meli.projeto_integrador.dto.dtoInput;
 
 import dh.meli.projeto_integrador.enumClass.PurchaseOrderStatusEnum;
 import lombok.AllArgsConstructor;
@@ -15,17 +15,14 @@ import java.util.List;
  * Method Getter implemented by Lombok lib for get access the private attributes of the CartDto Class
  */
 @Getter
-
 /**
  * Method Setter implemented by Lombok lib for set the private attributes of the CartDto Class
  */
 @Setter
-
 /**
  * Method Constructor with all arguments implemented by Lombok lib
  */
 @AllArgsConstructor
-
 /**
  * Class used to create a Data Transfer Object for OrderEntry POJO
  * @author Gabriela Azevedo
