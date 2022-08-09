@@ -22,16 +22,16 @@ public class ErrorHandler {
 
     /**
      * Method that captures a NotFoundException and build a response to send through HTTP request.
-     * @param ex instance of NotFoundException class captured during the code execution flow.
+     * @param e instance of NotFoundException class captured during the code execution flow.
      * @return a ResponseEntity containing details of the exception and a compatible HTTP status code.
      */
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ExceptionDetails> handlerNotFoundEx(NotFoundException ex) {
-        return new ResponseEntity<>(
+    public ResponseEntity<ExceptionDetails> handlerNotFoundEx(NotFoundException e) {
+        return new ResponseEntity<ExceptionDetails>(
                 ExceptionDetails.builder()
                         .title("Object Not Found")
                         .status(HttpStatus.NOT_FOUND.value())
-                        .message(ex.getMessage())
+                        .message(e.getMessage())
                         .timestamp(LocalDateTime.now())
                         .build(),
                 HttpStatus.NOT_FOUND);
@@ -39,7 +39,7 @@ public class ErrorHandler {
 
     /**
      * Method that captures a InternalServerErrorException and build a response to send through HTTP request.
-     * @param ex instance of InternalServerErrorException class captured during the code execution flow.
+     * @param e instance of InternalServerErrorException class captured during the code execution flow.
      * @return a ResponseEntity containing details of the exception and a compatible HTTP status code.
      */
     @ExceptionHandler(InternalServerErrorException.class)
@@ -56,7 +56,7 @@ public class ErrorHandler {
 
     /**
      * Method that captures a ForbiddenException and build a response to send through HTTP request.
-     * @param ex instance of ForbiddenException class captured during the code execution flow.
+     * @param e instance of ForbiddenException class captured during the code execution flow.
      * @return a ResponseEntity containing details of the exception and a compatible HTTP status code.
      */
     @ExceptionHandler(ForbiddenException.class)
@@ -73,7 +73,7 @@ public class ErrorHandler {
 
     /**
      * Method that captures a ResourceNotFoundException and build a response to send through HTTP request.
-     * @param ex instance of ResourceNotFoundException class captured during the code execution flow.
+     * @param e instance of ResourceNotFoundException class captured during the code execution flow.
      * @return a ResponseEntity containing details of the exception and a compatible HTTP status code.
      */
     @ExceptionHandler(ResourceNotFoundException.class)

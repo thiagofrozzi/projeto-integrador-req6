@@ -6,9 +6,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
 /**
- * Interface that Extends the CrudRepository class to execute commands to the Database
+ * Interface IProductRepository will manage data persistence for Product object instances.
+ * Will read, save, update and delete data through the GET, POST, PUT and DELETE requests.
+ * @author Diovana Valim, Rafael Cavalcante
+ * @version 0.0.1
  */
 @Repository
 public interface IProductRepository extends CrudRepository<Product, Long> {

@@ -9,12 +9,25 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * Class responsible for business rules and communication with the Section Repository layer;
+ * @author Diovana Valim;
+ * @version 0.0.1
+ */
 @Service
 public class SectionService {
 
+    /**
+     * Dependency Injection of the Section Repository.
+     */
     @Autowired
     private ISectionRepository sectionRepository;
 
+    /**
+     * Method to find a section by id;
+     * @param id of type long. Section identifier;
+     * @return an object of type Section;
+     */
     public Section findSection(long id) {
         Optional<Section> section = sectionRepository.findById(id);
 
@@ -25,6 +38,11 @@ public class SectionService {
         return section.get();
     }
 
+    /**
+     * Method to save a new section;
+     * @param section of type Section. Section instance;
+     * @return an object of type Section;
+     */
     public Section saveSection(Section section) {
         try {
             return sectionRepository.save(section);
