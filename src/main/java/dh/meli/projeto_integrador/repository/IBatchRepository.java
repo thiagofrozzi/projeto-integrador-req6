@@ -1,6 +1,7 @@
 package dh.meli.projeto_integrador.repository;
 
 import dh.meli.projeto_integrador.model.Batch;
+import dh.meli.projeto_integrador.model.Product;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -9,4 +10,6 @@ import org.springframework.data.repository.CrudRepository;
  * @author Diovana Valim
  * @version 0.0.1
  */
-public interface IBatchRepository extends CrudRepository<Batch, Long> {}
+public interface IBatchRepository extends CrudRepository<Batch, Long> {
+    Batch findByProduct(Product product);
+}
