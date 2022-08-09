@@ -1,8 +1,8 @@
 package dh.meli.projeto_integrador.service;
 
-import dh.meli.projeto_integrador.dtos.dtoInput.CartDto;
-import dh.meli.projeto_integrador.dtos.dtoInput.ProductDto;
-import dh.meli.projeto_integrador.dtos.dtoOutput.TotalPriceDto;
+import dh.meli.projeto_integrador.dto.dtoInput.CartDto;
+import dh.meli.projeto_integrador.dto.dtoInput.ProductDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;
 import dh.meli.projeto_integrador.model.*;
 import dh.meli.projeto_integrador.repository.IBatchCartRepository;
 import dh.meli.projeto_integrador.repository.IBatchRepository;

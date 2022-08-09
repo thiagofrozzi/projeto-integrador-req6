@@ -1,7 +1,7 @@
 package dh.meli.projeto_integrador.controller;
 
-import dh.meli.projeto_integrador.dtos.dtoInput.CartDto;
-import dh.meli.projeto_integrador.dtos.dtoOutput.TotalPriceDto;
+import dh.meli.projeto_integrador.dto.dtoInput.CartDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;
 import dh.meli.projeto_integrador.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

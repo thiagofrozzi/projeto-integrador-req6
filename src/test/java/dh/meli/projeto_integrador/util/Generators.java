@@ -1,8 +1,9 @@
 package dh.meli.projeto_integrador.util;
 
-import dh.meli.projeto_integrador.dto.BatchDto;
-import dh.meli.projeto_integrador.dto.OrderEntryDto;
-import dh.meli.projeto_integrador.dto.SectionDto;
+import dh.meli.projeto_integrador.dto.dtoInput.BatchDto;
+import dh.meli.projeto_integrador.dto.dtoInput.OrderEntryDto;
+import dh.meli.projeto_integrador.dto.dtoInput.SectionDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.ProductOutputDto;
 import dh.meli.projeto_integrador.model.*;
 
 import java.time.LocalDate;
@@ -192,5 +193,58 @@ public class Generators {
 
     public static Batch getBatch() {
         return createBatch();
+    }
+
+    public static ProductOutputDto validProductDto1() {
+        return ProductOutputDto.builder()
+                .name("Maçã")
+                .type("Fresco")
+                .price(20.1)
+                .build();
+    }
+
+    public static ProductOutputDto validProductDto2() {
+        return ProductOutputDto.builder()
+                .name("Uva")
+                .type("Fresco")
+                .price(20.1)
+                .build();
+    }
+
+    public static Product validProduct1() {
+        return Product.builder()
+                .name("Maçã")
+                .type("Fresco")
+                .price(20.1)
+                .build();
+    }
+
+    public static Product validProduct2() {
+        return Product.builder()
+                .name("sorvete")
+                .type("Congelado")
+                .price(20.1)
+                .build();
+    }
+
+    public static List<ProductOutputDto> productDtoList() {
+        List<ProductOutputDto> productList = new ArrayList<>();
+        productList.add(validProductDto1());
+        productList.add(validProductDto2());
+
+        return productList;
+    }
+
+    public static List<Product> productList() {
+        List<Product> productList = new ArrayList<>();
+        productList.add(validProduct1());
+        productList.add(validProduct2());
+
+        return productList;
+    }
+
+    public static List<Product> emptyProductDtoList() {
+        List<Product> productList = new ArrayList<>();
+        return productList;
     }
 }

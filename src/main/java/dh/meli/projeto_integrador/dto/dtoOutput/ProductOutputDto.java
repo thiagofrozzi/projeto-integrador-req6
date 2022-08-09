@@ -1,14 +1,8 @@
-package dh.meli.projeto_integrador.dto.outputDto;
+package dh.meli.projeto_integrador.dto.dtoOutput;
 
 import dh.meli.projeto_integrador.model.Product;
 import lombok.*;
 
-/**
- *class for a data tranfers Object for a Property
- * @author Rafael Cavalcante
- * @version 0.0.1
- * @see java.lang.Object
- */
 /**
  * Method Getter implemented by Lombok lib for get access the private attributes of the Product Class
  */
@@ -29,13 +23,19 @@ import lombok.*;
  * Method builder implemented by Lombok lib
  */
 @Builder
+/**
+ * Class used to create a Data Transfer Object for Output Product POJO
+ * @author Rafael Cavalcante
+ * @version 0.0.1
+ * @see java.lang.Object
+ */
 public class ProductOutputDto {
     private String name;
     private String type;
     private Double price;
 
     /**
-     * method for constructing an ProductDto from a Product
+     * Method for constructing an ProductDto from a Product
      * @param product an object of type Property
      */
     public ProductOutputDto(Product product){

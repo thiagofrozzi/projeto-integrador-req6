@@ -2,7 +2,7 @@ package dh.meli.projeto_integrador.integration;
 
 import dh.meli.projeto_integrador.model.Product;
 import dh.meli.projeto_integrador.repository.IProductRepository;
-import dh.meli.projeto_integrador.util.GenerateProducts;
+import dh.meli.projeto_integrador.util.Generators;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,8 +38,8 @@ public class ProductIntegrationTest {
     @Test
     public void findAllProducts_ReturnListOfAllProducts_whenFindAllSuccess() throws Exception {
         List<Product> list = new ArrayList<>();
-        list.add(GenerateProducts.validProduct1());
-        list.add(GenerateProducts.validProduct2());
+        list.add(Generators.validProduct1());
+        list.add(Generators.validProduct2());
 
         productRepository.saveAll(list);
 
@@ -51,7 +51,7 @@ public class ProductIntegrationTest {
                 .andExpect(jsonPath("$.size()",
                         CoreMatchers.is(list.size())))
                 .andExpect(jsonPath("$[0].name",
-                        CoreMatchers.is(GenerateProducts.validProduct1().getName())));;
+                        CoreMatchers.is(Generators.validProduct1().getName())));;
     }
 
     @Test
@@ -72,13 +72,13 @@ public class ProductIntegrationTest {
     @Test
     public void findProductsByCategory_ReturnListOfProducts_whenFindAllSuccess() throws Exception {
         List<Product> list = new ArrayList<>();
-        list.add(GenerateProducts.validProduct1());
-        list.add(GenerateProducts.validProduct2());
+        list.add(Generators.validProduct1());
+        list.add(Generators.validProduct2());
 
         productRepository.saveAll(list);
 
         ResultActions response = mockMvc.perform(
-                get("/api/v1/fresh-products/{category}", GenerateProducts.validProduct2().getType())
+                get("/api/v1/fresh-products/{category}", Generators.validProduct2().getType())
                 .contentType(MediaType.APPLICATION_JSON));
 
 
@@ -86,15 +86,15 @@ public class ProductIntegrationTest {
                 .andExpect(jsonPath("$.size()",
                         CoreMatchers.is(list.size() -1)))
                 .andExpect(jsonPath("$[0].name",
-                        CoreMatchers.is(GenerateProducts.validProduct2().getName())))
+                        CoreMatchers.is(Generators.validProduct2().getName())))
                 .andExpect(jsonPath("$[0].type",
-                        CoreMatchers.is(GenerateProducts.validProduct2().getType())));
+                        CoreMatchers.is(Generators.validProduct2().getType())));
     }
 
     @Test
     public void findAll_ReturnEmptylist_whenProductsDoesntExists() throws Exception {
-        Product newProduct1 = GenerateProducts.validProduct1();
-        Product newProduct2 = GenerateProducts.validProduct2();
+        Product newProduct1 = Generators.validProduct1();
+        Product newProduct2 = Generators.validProduct2();
 
         productRepository.save(newProduct1);
 
@@ -111,6 +111,4 @@ public class ProductIntegrationTest {
                 .andExpect(jsonPath("$.title",
                         CoreMatchers.is("Object Not Found")));
     }
-
-
 }

@@ -1,11 +1,9 @@
 package dh.meli.projeto_integrador.service;
 
-import dh.meli.projeto_integrador.dto.outputDto.ProductOutputDto;
-import dh.meli.projeto_integrador.exception.NotFoundException;
+import dh.meli.projeto_integrador.dto.dtoOutput.ProductOutputDto;
 import dh.meli.projeto_integrador.exception.ResourceNotFoundException;
 import dh.meli.projeto_integrador.model.Product;
 import dh.meli.projeto_integrador.repository.IProductRepository;
-import dh.meli.projeto_integrador.util.GenerateProducts;
 import dh.meli.projeto_integrador.util.Generators;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -76,7 +74,7 @@ public class ProductServiceTest {
     @Test
     void getAllProducts_returnListProducts_whenProductsExists() {
         BDDMockito.when(productRepository.findAll())
-                .thenReturn(GenerateProducts.productList());
+                .thenReturn(Generators.productList());
 
         List<ProductOutputDto> products = productService.getAllProducts();
 
@@ -88,9 +86,9 @@ public class ProductServiceTest {
     @Test
     void getAllProducts_returnListProducts_whenProductsDontExist() {
         BDDMockito.when(productRepository.findAll())
-                .thenReturn(GenerateProducts.emptyProductDtoList());
+                .thenReturn(Generators.emptyProductDtoList());
 
-        NotFoundException exception = assertThrows(NotFoundException.class, () -> {
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
             productService.getAllProducts();
         });
 
@@ -100,9 +98,9 @@ public class ProductServiceTest {
     @Test
     void getProductsByCategory_returnListProducts_whenProductsExists() {
         BDDMockito.when(productRepository.findAllByType(anyString()))
-                .thenReturn(GenerateProducts.productList());
+                .thenReturn(Generators.productList());
 
-        List<ProductOutputDto> products = productService.getProductsByCategory(GenerateProducts.validProduct1().getType());
+        List<ProductOutputDto> products = productService.getProductsByCategory(Generators.validProduct1().getType());
 
 
         assertThat(products).isNotNull();
@@ -112,10 +110,10 @@ public class ProductServiceTest {
     @Test
     void getProductsByCategory_returnListProducts_whenProductsDontExist() {
         BDDMockito.when(productRepository.findAllByType(anyString()))
-                .thenReturn(GenerateProducts.emptyProductDtoList());
+                .thenReturn(Generators.emptyProductDtoList());
 
-        NotFoundException exception = assertThrows(NotFoundException.class, () -> {
-            productService.getProductsByCategory(GenerateProducts.validProduct1().getType());
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
+            productService.getProductsByCategory(Generators.validProduct1().getType());
         });
 
         assertThat(exception.getMessage()).isEqualTo(String.format("No Products Found"));

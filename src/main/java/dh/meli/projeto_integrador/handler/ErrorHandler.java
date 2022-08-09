@@ -1,7 +1,6 @@
 package dh.meli.projeto_integrador.handler;
 
 import dh.meli.projeto_integrador.exception.ExceptionDetails;
-import dh.meli.projeto_integrador.exception.NotFoundException;
 import dh.meli.projeto_integrador.exception.ForbiddenException;
 import dh.meli.projeto_integrador.exception.InternalServerErrorException;
 import dh.meli.projeto_integrador.exception.ResourceNotFoundException;
@@ -19,23 +18,6 @@ import java.time.LocalDateTime;
  */
 @ControllerAdvice
 public class ErrorHandler {
-
-    /**
-     * Method that captures a NotFoundException and build a response to send through HTTP request.
-     * @param e instance of NotFoundException class captured during the code execution flow.
-     * @return a ResponseEntity containing details of the exception and a compatible HTTP status code.
-     */
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ExceptionDetails> handlerNotFoundEx(NotFoundException e) {
-        return new ResponseEntity<ExceptionDetails>(
-                ExceptionDetails.builder()
-                        .title("Object Not Found")
-                        .status(HttpStatus.NOT_FOUND.value())
-                        .message(e.getMessage())
-                        .timestamp(LocalDateTime.now())
-                        .build(),
-                HttpStatus.NOT_FOUND);
-    }
 
     /**
      * Method that captures a InternalServerErrorException and build a response to send through HTTP request.

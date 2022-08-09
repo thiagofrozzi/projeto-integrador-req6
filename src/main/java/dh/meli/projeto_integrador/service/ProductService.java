@@ -1,7 +1,6 @@
 package dh.meli.projeto_integrador.service;
 
-import dh.meli.projeto_integrador.dto.outputDto.ProductOutputDto;
-import dh.meli.projeto_integrador.exception.NotFoundException;
+import dh.meli.projeto_integrador.dto.dtoOutput.ProductOutputDto;
 import dh.meli.projeto_integrador.exception.ResourceNotFoundException;
 import dh.meli.projeto_integrador.model.Product;
 import dh.meli.projeto_integrador.repository.IProductRepository;
@@ -35,9 +34,9 @@ public class ProductService implements IProductService {
     public List<ProductOutputDto> getAllProducts(){
         List<Product> products = (List<Product>) productRepository.findAll();
 
-        if (products.size() == 0) throw new NotFoundException("No Products Found");
+        if (products.size() == 0) throw new ResourceNotFoundException("No Products Found");
 
-        return products.stream().map(product-> new ProductOutputDto(product)).collect(Collectors.toList());
+        return products.stream().map(ProductOutputDto::new).collect(Collectors.toList());
     }
 
     /**
@@ -49,9 +48,9 @@ public class ProductService implements IProductService {
     public List<ProductOutputDto> getProductsByCategory(String category){
         List<Product> products = productRepository.findAllByType(category);
 
-        if(products.size() == 0) throw new NotFoundException("No Products Found");
+        if (products.size() == 0) throw new ResourceNotFoundException("No Products Found");
 
-        return products.stream().map(product-> new ProductOutputDto(product)).collect(Collectors.toList());
+        return products.stream().map(ProductOutputDto::new).collect(Collectors.toList());
 
     }
 

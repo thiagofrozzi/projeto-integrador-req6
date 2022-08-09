@@ -1,7 +1,7 @@
 package dh.meli.projeto_integrador.controller;
 
-import dh.meli.projeto_integrador.dto.BatchDto;
-import dh.meli.projeto_integrador.dto.OrderEntryDto;
+import dh.meli.projeto_integrador.dto.dtoInput.BatchDto;
+import dh.meli.projeto_integrador.dto.dtoInput.OrderEntryDto;
 import dh.meli.projeto_integrador.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

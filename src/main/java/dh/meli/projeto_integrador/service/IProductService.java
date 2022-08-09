@@ -1,6 +1,6 @@
 package dh.meli.projeto_integrador.service;
 
-import dh.meli.projeto_integrador.dto.outputDto.ProductOutputDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.ProductOutputDto;
 import dh.meli.projeto_integrador.model.Product;
 
 import java.util.List;

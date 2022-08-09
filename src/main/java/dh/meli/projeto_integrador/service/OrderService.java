@@ -1,7 +1,7 @@
 package dh.meli.projeto_integrador.service;
 
-import dh.meli.projeto_integrador.dto.BatchDto;
-import dh.meli.projeto_integrador.dto.OrderEntryDto;
+import dh.meli.projeto_integrador.dto.dtoInput.OrderEntryDto;
+import dh.meli.projeto_integrador.dto.dtoInput.BatchDto;
 import dh.meli.projeto_integrador.exception.ForbiddenException;
 import dh.meli.projeto_integrador.exception.InternalServerErrorException;
 import dh.meli.projeto_integrador.model.*;

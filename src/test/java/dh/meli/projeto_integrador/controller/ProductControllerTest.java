@@ -1,8 +1,8 @@
 package dh.meli.projeto_integrador.controller;
 
-import dh.meli.projeto_integrador.dto.outputDto.ProductOutputDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.ProductOutputDto;
 import dh.meli.projeto_integrador.service.ProductService;
-import dh.meli.projeto_integrador.util.GenerateProducts;
+import dh.meli.projeto_integrador.util.Generators;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
@@ -33,7 +33,7 @@ class ProductControllerTest {
 
     @Test
     void listAllProducts_returnListOfProducts_whenSuccess() throws Exception {
-        List<ProductOutputDto> list = GenerateProducts.productDtoList();
+        List<ProductOutputDto> list = Generators.productDtoList();
         BDDMockito.when(service.getAllProducts())
                 .thenReturn(list);
 
@@ -44,23 +44,24 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.size()",
                         CoreMatchers.is(list.size())))
                 .andExpect(jsonPath("$[0].name",
-                        CoreMatchers.is(GenerateProducts.validProductDto1().getName())));
+                        CoreMatchers.is(Generators.validProductDto1().getName())));
     }
 
 
     @Test
     void listProductByCategory() throws Exception{
-        List<ProductOutputDto> list = GenerateProducts.productDtoList();
+        List<ProductOutputDto> list = Generators.productDtoList();
         BDDMockito.when(service.getProductsByCategory(anyString()))
                 .thenReturn(list);
 
-        ResultActions response = mockMvc.perform(get("/api/v1/fresh-products/{cayegory}", GenerateProducts.validProductDto1().getType())
+        ResultActions response = mockMvc.perform(get("/api/v1/fresh-products/{cayegory}",
+                Generators.validProductDto1().getType())
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()",
                         CoreMatchers.is(list.size())))
                 .andExpect(jsonPath("$[0].name",
-                        CoreMatchers.is(GenerateProducts.validProductDto1().getName())));
+                        CoreMatchers.is(Generators.validProductDto1().getName())));
     }
 }

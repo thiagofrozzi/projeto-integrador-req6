@@ -1,4 +1,4 @@
-package dh.meli.projeto_integrador.dto;
+package dh.meli.projeto_integrador.dto.dtoInput;
 
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
