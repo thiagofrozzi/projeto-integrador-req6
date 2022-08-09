@@ -1,7 +1,7 @@
 package dh.meli.projeto_integrador.repository;
 
 import dh.meli.projeto_integrador.model.Product;
-import dh.meli.projeto_integrador.util.GenerateProducts;
+import dh.meli.projeto_integrador.util.Generators;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,8 @@ public class ProductRepositoryTest {
 
     @Test
     public void findAllProducts_ReturnListOfAllProducts_whenFindAllSuccess() {
-        Product newPerson1 = GenerateProducts.validProduct1();
-        Product newPerson2 = GenerateProducts.validProduct2();
+        Product newPerson1 = Generators.validProduct1();
+        Product newPerson2 = Generators.validProduct2();
         productRepository.save(newPerson1);
         productRepository.save(newPerson2);
 
@@ -45,8 +45,8 @@ public class ProductRepositoryTest {
 
     @Test
     public void findProductsByCategory_ReturnListOfProducts_whenFindAllSuccess() {
-        Product newProduct1 = GenerateProducts.validProduct1();
-        Product newProduct2 = GenerateProducts.validProduct2();
+        Product newProduct1 = Generators.validProduct1();
+        Product newProduct2 = Generators.validProduct2();
         productRepository.save(newProduct1);
         productRepository.save(newProduct2);
 
@@ -57,14 +57,11 @@ public class ProductRepositoryTest {
     }
     @Test
     public void findAll_ReturnEmptylist_whenProductsDoesntExists() {
-        Product newProduct1 = GenerateProducts.validProduct1();
-        Product newProduct2 = GenerateProducts.validProduct2();
+        Product newProduct1 = Generators.validProduct1();
+        Product newProduct2 = Generators.validProduct2();
         productRepository.save(newProduct1);
         List<Product> products = (List<Product>) productRepository.findAllByType(newProduct2.getType());
 
         assertThat(products).isEmpty();
     }
-
-//
-
 }

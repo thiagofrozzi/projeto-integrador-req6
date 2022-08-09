@@ -1,6 +1,6 @@
 package dh.meli.projeto_integrador.controller;
 
-import dh.meli.projeto_integrador.dto.outputDto.ProductOutputDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.ProductOutputDto;
 import dh.meli.projeto_integrador.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
