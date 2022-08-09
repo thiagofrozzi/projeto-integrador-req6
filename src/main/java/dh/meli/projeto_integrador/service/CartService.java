@@ -4,7 +4,7 @@ import dh.meli.projeto_integrador.dto.dtoInput.CartDto;
 import dh.meli.projeto_integrador.dto.dtoInput.ProductDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;
 import dh.meli.projeto_integrador.model.*;
-import dh.meli.projeto_integrador.repository.IBatchCartRepository;
+import dh.meli.projeto_integrador.repository.IProductCartRepository;
 import dh.meli.projeto_integrador.repository.IBatchRepository;
 import dh.meli.projeto_integrador.repository.ICartRepository;
 import dh.meli.projeto_integrador.repository.ICustomerRepository;
@@ -33,7 +33,7 @@ public class CartService implements ICartService {
      * Dependency Injection of the BatchCart Repository.
      */
     @Autowired
-    private IBatchCartRepository batchCartRepository;
+    private IProductCartRepository batchCartRepository;
 
     /**
      * Dependency Injection of the Batch Repository.
@@ -72,12 +72,12 @@ public class CartService implements ICartService {
         productsList.forEach(product -> {
             Batch batchById = batchRepository.findById(product.getProductId()).get();
 
-            BatchCart batchCart = BatchCart.builder()
+            ProductCart productCart = ProductCart.builder()
                     .cart(savedCart)
-                    .batch(batchById)
+//                    .batch(batchById)
                     .quantity(product.getQuantity())
                     .build();
-            batchCartRepository.save(batchCart);
+            batchCartRepository.save(productCart);
         });
     }
 

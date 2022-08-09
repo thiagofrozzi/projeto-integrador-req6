@@ -1,6 +1,6 @@
 package dh.meli.projeto_integrador.repository;
 
-import dh.meli.projeto_integrador.model.BatchCart;
+import dh.meli.projeto_integrador.model.ProductCart;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -9,5 +9,5 @@ import org.springframework.data.repository.CrudRepository;
  * @author Gabriela Azevedo
  * @version 0.0.1
  */
-public interface IBatchCartRepository extends CrudRepository<BatchCart, Long> {
+public interface IProductCartRepository extends CrudRepository<ProductCart, Long> {
 }
