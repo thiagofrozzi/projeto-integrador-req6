@@ -9,16 +9,17 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Generators {
 
-    public static Set<Batch> createInboundOrder() {
+    public static List<BatchDto> createInboundOrder() {
         Batch batch = createBatch();
 
-        HashSet<Batch> batches = new HashSet<Batch>();
+        List<BatchDto> batches = new ArrayList<BatchDto>();
 
-        batches.add(batch);
+        batches.add(new BatchDto(batch));
 
         return batches;
     }

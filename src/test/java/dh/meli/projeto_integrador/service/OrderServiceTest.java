@@ -23,6 +23,7 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @ExtendWith(MockitoExtension.class)
@@ -72,15 +73,13 @@ public class OrderServiceTest {
     void createInboundOrderTest() {
         OrderEntryDto orderEntryDto = Generators.createOrderEntryDto();
 
-        Set<Batch> batchSet = orderService.createInboundOrder(orderEntryDto);
-
-        ArrayList<Batch> batches = new ArrayList<Batch>(batchSet);
+        List<BatchDto> batches = orderService.createInboundOrder(orderEntryDto);
 
         OrderEntry generatedOrderEntry = Generators.getOrderEntry();
         ArrayList<Batch> generatedBatches = new ArrayList<Batch>(generatedOrderEntry.getBatches());
 
-        assertThat(batchSet.size()).isEqualTo(1);
-        assertThat(batches.get(0).getId()).isEqualTo(generatedBatches.get(0).getId());
+        assertThat(batches.size()).isEqualTo(1);
+        assertThat(batches.get(0).getBatchId()).isEqualTo(generatedBatches.get(0).getId());
         assertThat(batches.get(0).getDueDate()).isEqualTo(generatedBatches.get(0).getDueDate());
 
         verify(warehouseService, atLeastOnce()).findWarehouse(orderEntryDto.getSection().getWarehouseId());
@@ -101,7 +100,7 @@ public class OrderServiceTest {
         orderEntryDto.setBatchStock(batchDtoSet);
 
         ForbiddenException exception = Assertions.assertThrows(ForbiddenException.class, () -> {
-            Set<Batch> batches = orderService.createInboundOrder(orderEntryDto);
+            List<BatchDto> batches = orderService.createInboundOrder(orderEntryDto);
         });
 
         assertThat(exception.getMessage()).isEqualTo(String.format("Product batches quantity sum overtakes section " +
@@ -120,7 +119,7 @@ public class OrderServiceTest {
                 .thenReturn(Generators.getUnavailableSection());
 
         ForbiddenException exception = Assertions.assertThrows(ForbiddenException.class, () -> {
-            Set<Batch> batches = orderService.createInboundOrder(orderEntryDto);
+            List<BatchDto> batches = orderService.createInboundOrder(orderEntryDto);
         });
 
         assertThat(exception.getMessage()).isEqualTo("Product's Maçã section does not equals the given section");
@@ -138,7 +137,7 @@ public class OrderServiceTest {
                 .thenReturn(Generators.getUnavailableAgent());
 
         ForbiddenException exception = Assertions.assertThrows(ForbiddenException.class, () -> {
-            Set<Batch> batches = orderService.createInboundOrder(orderEntryDto);
+            List<BatchDto> batches = orderService.createInboundOrder(orderEntryDto);
         });
 
         assertThat(exception.getMessage()).isEqualTo("Agent's warehouse ID does not belong to section's warehouse ID");
