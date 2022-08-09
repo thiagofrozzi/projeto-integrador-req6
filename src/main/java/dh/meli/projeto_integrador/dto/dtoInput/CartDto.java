@@ -24,7 +24,7 @@ import java.util.List;
  */
 @AllArgsConstructor
 /**
- * Class used to create a Data Transfer Object for OrderEntry POJO
+ * Class used to create a Data Transfer Object for Cart POJO
  * @author Gabriela Azevedo
  * @version 0.0.1
  * @see java.lang.Object
