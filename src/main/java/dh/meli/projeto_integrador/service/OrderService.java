@@ -9,6 +9,7 @@ import dh.meli.projeto_integrador.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -64,6 +65,7 @@ public class OrderService {
      * @param orderEntryDto of type OrderEntryDto. OrderEntry POJO;
      * @return a Set of Batches;
      */
+    @Transactional
     public List<BatchDto> createInboundOrder(OrderEntryDto orderEntryDto) {
         Warehouse warehouse = warehouseService.findWarehouse(orderEntryDto.getSection().getWarehouseId());
 
