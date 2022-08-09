@@ -1,8 +1,10 @@
 package dh.meli.projeto_integrador.controller;
 
 import dh.meli.projeto_integrador.dto.dtoOutput.ProductOutputDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.ListProductByWarehouse;
 import dh.meli.projeto_integrador.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,12 +36,20 @@ public class ProductController {
     }
 
     /**
-     * A get method that when called will return in the body request a list of products of a specified category, present in the Database
+     * A get method that when called will return in the body request a list of products of a specified category,
+     * present in the Database
      * @param category a String received by the URL request to determine the type of product returned
      * @return Response Entity of type List of productDto and the corresponding HttpStatus ;
      */
     @GetMapping("/fresh-products/{category}")
-    public ResponseEntity<List<ProductOutputDto>> listProductByCategory(@PathVariable String category){
+    public ResponseEntity<List<ProductOutputDto>> listProductByCategory(@PathVariable String category) {
         return ResponseEntity.ok(productService.getProductsByCategory(category));
+    }
+
+    @GetMapping("/fresh-products/warehouse/product/{productId}")
+    public ResponseEntity<ListProductByWarehouse> listProductByWarehouse(@PathVariable long productId) {
+        ListProductByWarehouse listProductByWarehouse = productService.listProductByWarehouse(productId);
+
+        return new ResponseEntity<ListProductByWarehouse>(listProductByWarehouse, HttpStatus.OK);
     }
 }

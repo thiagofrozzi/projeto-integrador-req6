@@ -1,14 +1,21 @@
 package dh.meli.projeto_integrador.service;
 
 import dh.meli.projeto_integrador.dto.dtoOutput.ProductOutputDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.ListProductByWarehouse;
+import dh.meli.projeto_integrador.dto.dtoOutput.TotalProductByWarehouseDto;
 import dh.meli.projeto_integrador.exception.ResourceNotFoundException;
+import dh.meli.projeto_integrador.model.Batch;
 import dh.meli.projeto_integrador.model.Product;
+import dh.meli.projeto_integrador.model.Warehouse;
+import dh.meli.projeto_integrador.repository.IBatchRepository;
 import dh.meli.projeto_integrador.repository.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -24,6 +31,12 @@ public class ProductService implements IProductService {
      */
     @Autowired
     private IProductRepository productRepository;
+
+    /**
+     * Dependency Injection of the Batch Repository.
+     */
+    @Autowired
+    private IBatchRepository batchRepository;
 
 
     /**
@@ -68,5 +81,24 @@ public class ProductService implements IProductService {
         }
 
         return product.get();
+    }
+
+    @Override
+    public ListProductByWarehouse listProductByWarehouse(long productId) {
+        List<Batch> batchList = batchRepository.findBatchByProductId(productId);
+
+        Set<TotalProductByWarehouseDto> totalProductByWarehouseDtoSet = new HashSet<TotalProductByWarehouseDto>();
+
+        // FIXME - Same Warehouse, same TotalProductByWarehouseDto Object
+        for (Batch batch : batchList) {
+            TotalProductByWarehouseDto totalProductByWarehouseDto = new TotalProductByWarehouseDto(
+                    batch.getOrderEntry().getSection().getWarehouse().getId(),
+                    batch.getCurrentQuantity()
+            );
+
+            totalProductByWarehouseDtoSet.add(totalProductByWarehouseDto);
+        }
+
+        return new ListProductByWarehouse(productId, totalProductByWarehouseDtoSet);
     }
 }
