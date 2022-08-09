@@ -1,13 +1,14 @@
 package dh.meli.projeto_integrador.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
 
-@Getter @Setter
+@Getter @Setter @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "product")
 public class Product {
