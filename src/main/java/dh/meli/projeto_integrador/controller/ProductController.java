@@ -30,7 +30,7 @@ public class ProductController {
      */
     @GetMapping("/fresh-products")
     public ResponseEntity<List<ProductOutputDto>> listAllProducts(){
-    return ResponseEntity.ok(productService.getAllProducts());
+        return ResponseEntity.ok(productService.getAllProducts());
     }
 
     /**
@@ -40,6 +40,6 @@ public class ProductController {
      */
     @GetMapping("/fresh-products/{category}")
     public ResponseEntity<List<ProductOutputDto>> listProductByCategory(@PathVariable String category){
-    return ResponseEntity.ok(productService.getProductsByCategory(category));
+        return ResponseEntity.ok(productService.getProductsByCategory(category));
     }
 }
