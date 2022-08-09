@@ -13,7 +13,7 @@ import java.util.List;
 public interface IOrderService {
 
     /**
-     * Method implemented by OrderService for to create an OrderEntry
+     * Method for to create an OrderEntry
      * @param orderEntryDto an object of type OrderEntryDto coming from user request
      * @return a list of objects of type BatchDto
      */
