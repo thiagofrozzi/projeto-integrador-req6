@@ -8,17 +8,14 @@ import lombok.Setter;
  * Method Getter implemented by Lombok lib for get access the private attributes of the TotalPriceDto Class
  */
 @Getter
-
 /**
  * Method Setter implemented by Lombok lib for set the private attributes of the TotalPriceDto Class
  */
 @Setter
-
 /**
  * Method Constructor with all arguments implemented by Lombok lib
  */
 @AllArgsConstructor
-
 /**
  * Class used to create a Data Transfer Object for ProductDto POJO
  * @author Gabriela Azevedo
