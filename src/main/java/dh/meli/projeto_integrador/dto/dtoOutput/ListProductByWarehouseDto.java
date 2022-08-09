@@ -26,8 +26,7 @@ import java.util.List;
  * @version 0.0.1
  * @see java.lang.Object
  */
-public class ListProductByWarehouse {
+public class ListProductByWarehouseDto {
     private long productId;
-
     private List<TotalProductByWarehouseDto> warehouses;
 }

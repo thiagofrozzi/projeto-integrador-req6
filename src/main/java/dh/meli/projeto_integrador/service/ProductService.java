@@ -1,7 +1,7 @@
 package dh.meli.projeto_integrador.service;
 
 import dh.meli.projeto_integrador.dto.dtoOutput.ProductOutputDto;
-import dh.meli.projeto_integrador.dto.dtoOutput.ListProductByWarehouse;
+import dh.meli.projeto_integrador.dto.dtoOutput.ListProductByWarehouseDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.TotalProductByWarehouseDto;
 import dh.meli.projeto_integrador.exception.ResourceNotFoundException;
 import dh.meli.projeto_integrador.model.Batch;
@@ -79,8 +79,13 @@ public class ProductService implements IProductService {
         return product.get();
     }
 
+    /**
+     * Method to list product stock quantity by Warehouse;
+     * @param productId of type long. Product identifier;
+     * @return an object of type Product;
+     */
     @Override
-    public ListProductByWarehouse listProductByWarehouse(long productId) {
+    public ListProductByWarehouseDto listProductByWarehouse(long productId) {
         List<Batch> batchList = batchRepository.findBatchByProductId(productId);
 
         if (batchList.isEmpty()) {
@@ -115,6 +120,6 @@ public class ProductService implements IProductService {
             }
         }
 
-        return new ListProductByWarehouse(productId, totalProductByWarehouseDtoList);
+        return new ListProductByWarehouseDto(productId, totalProductByWarehouseDtoList);
     }
 }
