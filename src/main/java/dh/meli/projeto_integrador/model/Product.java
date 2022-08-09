@@ -15,19 +15,26 @@ import java.util.Set;
  */
 @Setter
 /**
+ * Method builder implemented by Lombok lib
+ */
+@Builder
+/**
+ * Method Constructor with all arguments implemented by Lombok lib
+ */
+@AllArgsConstructor
+/**
+ * Method Default Constructor implemented by Lombok lib
+ */
+@NoArgsConstructor
+/**
  * The @Entity annotation marks the Product Class as an entity bean,
  * so it must have a no-argument constructor that is visible at least with a protected scope.
  */
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
-
 /**
  * The @Table annotation is used to specify table details that will be used to persist our entities in the database.
  */
 @Table(name = "product")
-
 /**
  * Class created for modeling the Product entity on the database
  * @author Diovana Valim
