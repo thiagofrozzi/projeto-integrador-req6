@@ -1,10 +1,15 @@
 package dh.meli.projeto_integrador.service;
 
-import dh.meli.projeto_integrador.dtos.dtoOutput.UpdateStatusDto;
+import dh.meli.projeto_integrador.dto.dtoInput.CartDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.UpdateStatusDto;
 import dh.meli.projeto_integrador.exception.CartNotFoundException;
 import dh.meli.projeto_integrador.model.Cart;
+import dh.meli.projeto_integrador.model.Customer;
 import dh.meli.projeto_integrador.repository.ICartRepository;
+import dh.meli.projeto_integrador.repository.ICustomerRepository;
+import dh.meli.projeto_integrador.util.Generators;
 import dh.meli.projeto_integrador.utils.GenerateCart;
+import dh.meli.projeto_integrador.utils.GenerateCustomer;
 import org.hibernate.sql.Update;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -34,6 +39,9 @@ class CartServiceTest {
     @Mock
     ICartRepository cartRepository;
 
+    @Mock
+    ICustomerRepository customerRepository;
+
     @Test
     void createCart() {
     }
@@ -62,5 +70,30 @@ class CartServiceTest {
 
         assertThat(exception.getMessage()).isEqualTo("Cart not found with this id");
         verify(cartRepository, never()).save(GenerateCart.newCart1());
+    }
+
+    @Test
+    void buildCart() {
+        Cart newCart = GenerateCart.newCart1();
+        Customer newCustomer = GenerateCustomer.newCustomer1();
+
+        BDDMockito.when(customerRepository.findById(ArgumentMatchers.anyLong()))
+                .thenReturn(Optional.of(newCustomer));
+        BDDMockito.when(cartRepository.save(ArgumentMatchers.any(Cart.class)))
+                .thenReturn(newCart);
+
+        CartDto newCartDto = GenerateCart.newCartDto1();
+
+        Cart result = cartService.buildCart(newCartDto);
+
+        assertThat(result.getCustomer().getId()).isEqualTo(1L);
+    }
+
+    @Test
+    void buildProductCart() {
+    }
+
+    @Test
+    void totalCartPrice() {
     }
 }

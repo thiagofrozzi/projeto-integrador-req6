@@ -2,7 +2,6 @@ package dh.meli.projeto_integrador.service;
 
 import dh.meli.projeto_integrador.dto.dtoInput.ProductDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.UpdateStatusDto;
-import dh.meli.projeto_integrador.dtos.dtoOutput.UpdateStatusDto;
 import dh.meli.projeto_integrador.enumClass.PurchaseOrderStatusEnum;
 import dh.meli.projeto_integrador.exception.CartAlreadyFinishedException;
 import dh.meli.projeto_integrador.exception.CartNotFoundException;
@@ -124,6 +123,11 @@ public class CartService implements ICartService {
         return totalCartPrice(productsList);
     }
 
+    /**
+     * Method that calls the other methods of this class and persists the info of the carts on the database and returns the total price for the user.
+     * @param id of type Long
+     * @return an object of type UpdateStatusDto with an attribute message of type String.
+     */
     public UpdateStatusDto updateStatusCart(Long id){
         Cart existCart = cartRepository.findById(id).orElseThrow(() -> new CartNotFoundException("Cart not found with this id"));
 

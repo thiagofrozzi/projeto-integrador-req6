@@ -1,9 +1,7 @@
 package dh.meli.projeto_integrador.dto.dtoInput;
 
 import dh.meli.projeto_integrador.enumClass.PurchaseOrderStatusEnum;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -29,6 +27,7 @@ import java.util.List;
  * @version 0.0.1
  * @see java.lang.Object
  */
+@Builder
 public class CartDto {
 
     @NotNull(message = "The date of the creation cart has to be a date. Format: (yyyy-mm-dd)")
