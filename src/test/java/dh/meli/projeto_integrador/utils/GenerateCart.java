@@ -13,6 +13,13 @@ public class GenerateCart {
 
     public static Cart newCart1() {
         return Cart.builder()
+                .customer(GenerateCustomer.newCustomer1())
+                .status(PurchaseOrderStatusEnum.OPEN)
+                .build();
+    }
+
+    public static Cart newCartWithId1() {
+        return Cart.builder()
                 .id(1L)
                 .customer(GenerateCustomer.newCustomer1())
                 .status(PurchaseOrderStatusEnum.OPEN)
