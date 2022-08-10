@@ -13,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,15 +40,19 @@ public class ProductIntegrationTest {
     private IWarehouseRepository warehouseRepository;
 
     @Autowired
-    private  IAgentRepository agentRepository;
+    private IAgentRepository agentRepository;
 
     @Autowired
     private MockMvc mockMvc;
 
     @BeforeEach
     public void setup() {
-        productRepository.deleteAll();
         batchRepository.deleteAll();
+        orderRepository.deleteAll();
+        sectionRepository.deleteAll();
+        agentRepository.deleteAll();
+        warehouseRepository.deleteAll();
+        productRepository.deleteAll();
     }
 
     @Test
@@ -131,24 +134,18 @@ public class ProductIntegrationTest {
 
     @Test
     public void listProductByWarehouse_whenFindBatchIsSuccessfull() throws Exception {
-        Batch batch = Generators.getBatch();
-        Product product = Generators.getProduct();
-        Warehouse warehouse = Generators.getCleanWarehouse();
-        Section section = Generators.getCleanSection(warehouse);
-        OrderEntry orderEntry = Generators.getCleanOrderEntry(section);
+        Warehouse warehouse = warehouseRepository.save(Generators.getCleanWarehouse(0));
 
-        warehouseRepository.save(warehouse);
+        Section section = sectionRepository.save(Generators.getCleanSection(warehouse, 2000));
 
-        sectionRepository.save(section);
+        OrderEntry orderEntry = orderRepository.save(Generators.getCleanOrderEntry(section));
 
-        orderRepository.save(orderEntry);
+        Product product = productRepository.save(Generators.getProduct());
 
-        productRepository.save(product);
-
-        batchRepository.save(batch);
+        Batch batch = batchRepository.save(Generators.getCleanBatch(product, orderEntry));
 
         ResultActions response = mockMvc.perform(
-                get("/api/v1/fresh-products/warehouse/product/{productId}", batch.getId())
+                get("/api/v1/fresh-products/warehouse/product/{productId}", product.getId())
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(status().isOk());
