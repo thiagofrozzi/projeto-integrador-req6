@@ -12,10 +12,16 @@ import dh.meli.projeto_integrador.dto.dtoOutput.UpdateStatusDto;
  */
 public interface ICartService {
     /**
-     * Method for to create a Cart
+     * Method that creates a Cart
      * @param cartDto an object of type CartDto coming from user request
      * @return an object of type TotalPriceDto
      */
     TotalPriceDto createCart(CartDto cartDto);
+
+    /**
+     * Method that updates the cart status
+     * @param id Long
+     * @return a message to inform that the cart status was updated
+     */
     UpdateStatusDto updateStatusCart(Long id);
 }

@@ -25,7 +25,6 @@ public class ProductService implements IProductService {
     @Autowired
     private IProductRepository productRepository;
 
-
     /**
      * Method to find a list of products and return a ProductDto.
      * @return a list of objects of type ProductDto.
@@ -51,7 +50,6 @@ public class ProductService implements IProductService {
         if (products.size() == 0) throw new ResourceNotFoundException("No Products Found");
 
         return products.stream().map(ProductOutputDto::new).collect(Collectors.toList());
-
     }
 
     /**

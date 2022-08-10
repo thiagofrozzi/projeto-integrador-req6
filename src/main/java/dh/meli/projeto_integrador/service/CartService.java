@@ -31,6 +31,9 @@ public class CartService implements ICartService {
     @Autowired
     private ICartRepository cartRepository;
 
+    /**
+     * Dependency Injection of the Batch Repository.
+     */
     @Autowired
     private IBatchRepository batchRepository;
 
