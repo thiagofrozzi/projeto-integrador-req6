@@ -21,6 +21,9 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class ProductController {
 
+    /**
+     * Dependency Injection of the ProductService.
+     */
     @Autowired
     private ProductService productService;
 

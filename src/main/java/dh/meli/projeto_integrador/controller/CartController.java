@@ -42,6 +42,11 @@ public class CartController {
         return new ResponseEntity<>(createdCart, HttpStatus.CREATED);
     }
 
+    /**
+     * A PUT method responsible for update the cart status.
+     * @param id Long
+     * @return Response Entity of type UpdateStatusSto, with a message.
+     */
     @PutMapping("/{id}")
     public ResponseEntity<UpdateStatusDto> updatePurchaseOrder(@PathVariable Long id) {
         UpdateStatusDto result = cartService.updateStatusCart(id);
