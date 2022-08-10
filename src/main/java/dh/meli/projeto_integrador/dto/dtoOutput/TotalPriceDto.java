@@ -17,7 +17,9 @@ import lombok.Setter;
  * Method Constructor with all arguments implemented by Lombok lib
  */
 @AllArgsConstructor
-
+/**
+ * Method builder implemented by Lombok lib
+ */
 @Builder
 /**
  * Class used to create a Data Transfer Object for TotalPrice POJO
