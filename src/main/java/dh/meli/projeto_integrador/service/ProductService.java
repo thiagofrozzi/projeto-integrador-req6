@@ -1,14 +1,17 @@
 package dh.meli.projeto_integrador.service;
 
 import dh.meli.projeto_integrador.dto.dtoOutput.ProductOutputDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.ListProductByWarehouseDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.TotalProductByWarehouseDto;
 import dh.meli.projeto_integrador.exception.ResourceNotFoundException;
+import dh.meli.projeto_integrador.model.Batch;
 import dh.meli.projeto_integrador.model.Product;
+import dh.meli.projeto_integrador.repository.IBatchRepository;
 import dh.meli.projeto_integrador.repository.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -24,6 +27,12 @@ public class ProductService implements IProductService {
      */
     @Autowired
     private IProductRepository productRepository;
+
+    /**
+     * Dependency Injection of the Batch Repository.
+     */
+    @Autowired
+    private IBatchRepository batchRepository;
 
 
     /**
@@ -68,5 +77,49 @@ public class ProductService implements IProductService {
         }
 
         return product.get();
+    }
+
+    /**
+     * Method to list product stock quantity by Warehouse;
+     * @param productId of type long. Product identifier;
+     * @return an object of type Product;
+     */
+    @Override
+    public ListProductByWarehouseDto listProductByWarehouse(long productId) {
+        List<Batch> batchList = batchRepository.findBatchByProductId(productId);
+
+        if (batchList.isEmpty()) {
+            throw new ResourceNotFoundException(String.format("Could not find valid batch stock for product %d",
+                    productId));
+        }
+
+        List<TotalProductByWarehouseDto> totalProductByWarehouseDtoList = new ArrayList<TotalProductByWarehouseDto>();
+
+        for (Batch batch : batchList) {
+            TotalProductByWarehouseDto totalProductByWarehouseDto = new TotalProductByWarehouseDto(
+                    batch.getOrderEntry().getSection().getWarehouse().getId(),
+                    batch.getCurrentQuantity()
+            );
+
+            long batchWarehouseId = batch.getOrderEntry().getSection().getWarehouse().getId();
+
+            List<TotalProductByWarehouseDto> hasWarehouse = totalProductByWarehouseDtoList
+                    .stream()
+                    .filter(totalProductByWh -> totalProductByWh.getWarehouseCode() == batchWarehouseId)
+                    .collect(Collectors.toList());
+
+            if (hasWarehouse.isEmpty()) {
+                totalProductByWarehouseDtoList.add(totalProductByWarehouseDto);
+            } else {
+                totalProductByWarehouseDtoList.forEach(totalProductByWarehouse -> {
+                    if (totalProductByWarehouse.getWarehouseCode() == batchWarehouseId) {
+                        int finalQuantity = totalProductByWarehouse.getTotalQuantity() + batch.getCurrentQuantity();
+                        totalProductByWarehouse.setTotalQuantity(finalQuantity);
+                    }
+                });
+            }
+        }
+
+        return new ListProductByWarehouseDto(productId, totalProductByWarehouseDtoList);
     }
 }

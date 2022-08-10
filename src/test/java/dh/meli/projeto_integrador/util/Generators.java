@@ -7,6 +7,9 @@ import dh.meli.projeto_integrador.dto.dtoOutput.CartOutputDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.CartProductsOutputDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.ProductOutputDto;
 import dh.meli.projeto_integrador.enumClass.PurchaseOrderStatusEnum;
+import dh.meli.projeto_integrador.dto.dtoOutput.ListProductByWarehouseDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.ProductOutputDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.TotalProductByWarehouseDto;
 import dh.meli.projeto_integrador.model.*;
 
 import java.time.LocalDate;
@@ -61,14 +64,11 @@ public class Generators {
         product.setPrice(12.20);
         product.setId(0);
         product.setName("Maçã");
-        product.setType("Fruta");
-        product.setSection(section);
+        product.setType("Fresco");
 
         HashSet<Product> products = new HashSet<Product>();
 
         products.add(product);
-
-        section.setProducts(products);
 
         OrderEntry orderEntry = new OrderEntry();
 
@@ -195,6 +195,16 @@ public class Generators {
         return createBatch();
     }
 
+    public static List<Batch> getBatches() {
+        List<Batch> batchList = new ArrayList<Batch>();
+
+        Batch batch = createBatch();
+
+        batchList.add(batch);
+
+        return batchList;
+    }
+
     public static ProductOutputDto validProductDto1() {
         return ProductOutputDto.builder()
                 .name("Maçã")
@@ -249,6 +259,7 @@ public class Generators {
         List<Product> productList = new ArrayList<>();
         return productList;
     }
+
 
     public static Customer validCustomer1() {
         return Customer.builder()
@@ -337,5 +348,15 @@ public class Generators {
                 .products(validProductCartOutputDtoList())
                 .total(201.0)
                 .build();
+
+    public static ListProductByWarehouseDto getListProductByWarehouseDto() {
+        List<TotalProductByWarehouseDto> totalProductByWarehouseDtoList = new ArrayList<TotalProductByWarehouseDto>();
+
+        TotalProductByWarehouseDto totalProductByWarehouseDto01 = new TotalProductByWarehouseDto(0, 80);
+
+        totalProductByWarehouseDtoList.add(totalProductByWarehouseDto01);
+
+        return new ListProductByWarehouseDto(0, totalProductByWarehouseDtoList);
+
     }
 }
