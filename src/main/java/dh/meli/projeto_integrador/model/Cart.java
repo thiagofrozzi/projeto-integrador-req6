@@ -34,6 +34,9 @@ import java.util.Set;
  */
 @Builder
 
+@AllArgsConstructor
+@NoArgsConstructor
+
 /**
  * Class created for modeling the Cart entity on the database
  * @author Diovana Valim
