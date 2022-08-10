@@ -3,8 +3,6 @@ package dh.meli.projeto_integrador.service;
 import dh.meli.projeto_integrador.dto.dtoInput.ProductDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.UpdateStatusDto;
 import dh.meli.projeto_integrador.enumClass.PurchaseOrderStatusEnum;
-import dh.meli.projeto_integrador.exception.CartAlreadyFinishedException;
-import dh.meli.projeto_integrador.exception.CartNotFoundException;
 import dh.meli.projeto_integrador.dto.dtoInput.CartDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;
 import dh.meli.projeto_integrador.exception.ForbiddenException;
@@ -16,8 +14,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Class responsible for business rules and communication with the Cart Repository layer
@@ -76,14 +74,28 @@ public class CartService implements ICartService {
      * @param productsList a list of objects of type ProductDto
      */
     private void buildProductCart(Cart savedCart, List<ProductDto> productsList) {
+
+        List<String> listInvalidProducts = new ArrayList<>();
+        List<ProductDto> listValidProducts = new ArrayList<>();
+
         productsList.forEach(product -> {
             Product productById = productRepository.findById(product.getProductId()).get();
             Batch batchById = batchRepository.findByProduct(productById);
-
                 if (product.getQuantity() > batchById.getCurrentQuantity()) {
-                   throw new ForbiddenException(String.format("The product: %s does not have enough quantity in stock.", productById.getName()));
+                    listInvalidProducts.add(productById.getName());
                 }
 
+                if (product.getQuantity() <= batchById.getCurrentQuantity()) {
+                    listValidProducts.add(product);
+                }
+        });
+
+        if (listInvalidProducts.size() >= 1) {
+            throw new ForbiddenException(String.format("The product: %s does not have enough quantity in stock.", listInvalidProducts));
+        }
+
+        listValidProducts.forEach(product -> {
+            Product productById = productRepository.findById(product.getProductId()).get();
             ProductCart productCart = ProductCart.builder()
                     .cart(savedCart)
                     .product(productById)
@@ -129,9 +141,9 @@ public class CartService implements ICartService {
      * @return an object of type UpdateStatusDto with an attribute message of type String.
      */
     public UpdateStatusDto updateStatusCart(Long id){
-        Cart existCart = cartRepository.findById(id).orElseThrow(() -> new CartNotFoundException("Cart not found with this id"));
+        Cart existCart = cartRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cart not found with this id"));
 
-        if(existCart.getStatus() == PurchaseOrderStatusEnum.FINISHED) throw new CartAlreadyFinishedException("Cart already Finished");
+        if(existCart.getStatus() == PurchaseOrderStatusEnum.FINISHED) throw new ForbiddenException("Cart already Finished");
 
         existCart.setStatus(PurchaseOrderStatusEnum.FINISHED);
 
