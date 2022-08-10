@@ -56,8 +56,8 @@ public class CartService implements ICartService {
 
     /**
      * Method that receives an object of type CartDto, build the cart object and saves on the Cart table.
-     * @param cartDto
-     * @return
+     * @param cartDto an object of type CartDto
+     * @return an object of type Cart
      */
     public Cart buildCart(CartDto cartDto) {
         Customer customerById = customerRepository.findById(cartDto.getBuyerId()).get();
