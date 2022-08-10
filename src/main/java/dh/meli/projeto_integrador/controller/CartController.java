@@ -15,7 +15,7 @@ import java.util.Optional;
 
 /**
  * Class responsible for processing user's requests and generating appropriated HTTP responses;
- * @author Gabriela Azevedo, Thiago Frozzi e Amanda Marinelli
+ * @author Gabriela Azevedo, Thiago Frozzi, Amanda Marinelli, Rafael Cavalcante
  * @version 0.0.1;
  */
 @RestController
@@ -39,6 +39,11 @@ public class CartController {
         return new ResponseEntity<>(createdCart, HttpStatus.CREATED);
     }
 
+    /**
+     * A get method that when called will return in the body request a cart of a specified by the id in the URL
+     * @param id a Long received by the URL request to determine the id of the cart wanted
+     * @return Response Entity of type  CartOutputDto and the corresponding HttpStatus ;
+     */
     @GetMapping("/orders/{id}")
     public ResponseEntity<CartOutputDto> getCartById(@PathVariable Long id) {
         return ResponseEntity.ok(cartService.getCartById(id));
