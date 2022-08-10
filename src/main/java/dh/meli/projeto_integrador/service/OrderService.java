@@ -76,6 +76,10 @@ public class OrderService {
             throw new ForbiddenException("Agent's warehouse ID does not belong to section's warehouse ID");
         }
 
+        if (!section.getWarehouse().equals(warehouse)) {
+            throw new ForbiddenException("Section code doesn't belong to the entry warehouse");
+        }
+
         OrderEntry orderEntry = new OrderEntry();
 
         orderEntry.setSection(section);
