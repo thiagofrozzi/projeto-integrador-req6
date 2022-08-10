@@ -1,6 +1,5 @@
 package dh.meli.projeto_integrador.service;
 
-import dh.meli.projeto_integrador.dto.dtoOutput.BatchDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.ProductStockDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.ProductOutputDto;
 import dh.meli.projeto_integrador.exception.ResourceNotFoundException;
@@ -10,13 +9,15 @@ import dh.meli.projeto_integrador.repository.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 /**
  * Class responsible for business rules and communication with the Product Repository layer;
- *
- * @author Diovana Valim, Rafael Cavalcante e Amanda Marinelli
+ * @author Diovana Valim, Rafael Cavalcante, Amanda Marinelli e Thiago Almeida.
  * @version 0.0.1
  */
 @Service
@@ -31,7 +32,6 @@ public class ProductService implements IProductService {
 
     /**
      * Method to find a list of products and return a ProductDto.
-     *
      * @return a list of objects of type ProductDto.
      */
     @Override
@@ -45,7 +45,6 @@ public class ProductService implements IProductService {
 
     /**
      * Method to find a list of products of a specified category and return a ProductDto.
-     *
      * @param category of type String.
      * @return a list of objects of type ProductDto.
      */
@@ -60,7 +59,6 @@ public class ProductService implements IProductService {
 
     /**
      * Method to find a product by id;
-     *
      * @param id of type long. Product identifier;
      * @return an object of type Product;
      */
@@ -77,37 +75,60 @@ public class ProductService implements IProductService {
 
     /**
      * Method to find a product by id and return some properties about the batches;
-     *
      * @param id of type long. Product identifier;
+     * @param order of type character that identifies the specified order to list the result.
      * @return a DTO with informations of the product and his batches;
      */
     @Override
-    public ProductStockDto getProductBatchProps(Long id) {
-       //TODO pegar batch direto do ID -> projeto Dio
+    public ProductStockDto getProductBatchProps(Long id, Character order) {
+        //TODO pegar batch direto do ID -> projeto Dio
+
         Product product = findProduct(id);
         Set<Batch> batches = product.getBatches();
-
         if (batches.isEmpty()) {
             throw new ResourceNotFoundException("No available batch found for this product.");
         }
 
-        ProductStockDto productStockDto = new ProductStockDto(product, batches);
-        return productStockDto;
+        List<Batch> batchesInput = new ArrayList<Batch>(batches);
+        List<Batch> sortedFilteredList = sortByOrder(filterByDueDate(batchesInput), order);
+
+        if (sortedFilteredList.isEmpty()) {
+            throw new ResourceNotFoundException("Product found, but no Batch of given product has 3 or more weeks until due date");
+        }
+
+        return new ProductStockDto(product, sortedFilteredList);
     }
 
-    private static List<BatchDto> sortByOrder(List<BatchDto> batchList, Character order) {
+    /**
+     * Method to filter a list of batches to contain only batches that have 3 or more weeks until their due date;
+     * @param batchList a  List of Batch to be filtered.
+     * @return a filtered list of batches;
+     */
+    private static List<Batch> filterByDueDate(List<Batch> batchList) {
+        return batchList.stream()
+                .filter(batch -> DAYS.between(LocalDate.now(), batch.getDueDate()) > 21)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Method to sorted a list of batches
+     * @param batchList a  List of Batch to be sorted.
+     * @param order a  List of Batch to be sorted.
+     * @return a filtered list of batches;
+     */
+    private static List<Batch> sortByOrder(List<Batch> batchList, Character order) {
         switch (order) {
             case 'L':
                 return batchList.stream()
-                        .sorted(Comparator.comparing(BatchDto::getBatchNumber))
+                        .sorted((p1, p2) -> Long.valueOf(p1.getId()).compareTo(p2.getId()))
                         .collect(Collectors.toList());
             case 'Q':
                 return batchList.stream()
-                        .sorted(Comparator.comparing(BatchDto::getCurrentQuantity))
+                        .sorted((p1, p2) -> p1.getCurrentQuantity() - p2.getCurrentQuantity())
                         .collect(Collectors.toList());
             case 'V':
                 return batchList.stream()
-                        .sorted(Comparator.comparing(BatchDto::getDueDate))
+                        .sorted((p1, p2) -> p1.getDueDate().compareTo(p2.getDueDate()))
                         .collect(Collectors.toList());
             default:
                 return batchList;
