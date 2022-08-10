@@ -17,7 +17,6 @@ public class GenerateProduct {
                 .name("Morango")
                 .type("Fresco")
                 .price(4.99)
-//                .batches(GenerateBatch.newListBatch1())
                 .build();
     }
 

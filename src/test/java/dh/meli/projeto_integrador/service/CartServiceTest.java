@@ -1,15 +1,13 @@
 package dh.meli.projeto_integrador.service;
 
 import dh.meli.projeto_integrador.dto.dtoInput.CartDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.UpdateStatusDto;
 import dh.meli.projeto_integrador.exception.CartNotFoundException;
-import dh.meli.projeto_integrador.model.Cart;
-import dh.meli.projeto_integrador.model.Customer;
-import dh.meli.projeto_integrador.repository.ICartRepository;
-import dh.meli.projeto_integrador.repository.ICustomerRepository;
+import dh.meli.projeto_integrador.model.*;
+import dh.meli.projeto_integrador.repository.*;
 import dh.meli.projeto_integrador.util.Generators;
-import dh.meli.projeto_integrador.utils.GenerateCart;
-import dh.meli.projeto_integrador.utils.GenerateCustomer;
+import dh.meli.projeto_integrador.utils.*;
 import org.hibernate.sql.Update;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -42,8 +40,42 @@ class CartServiceTest {
     @Mock
     ICustomerRepository customerRepository;
 
+    @Mock
+    IProductRepository productRepository;
+
+    @Mock
+    IProductCartRepository productCartRepository;
+
+    @Mock
+    IBatchRepository batchRepository;
+
     @Test
     void createCart() {
+        Cart newCartWithId = GenerateCart.newCartWithId1();
+        Customer newCustomer = GenerateCustomer.newCustomer1();
+        Product newProduct = GenerateProduct.newProduct1();
+        Batch newBatch = GenerateBatch.newBatch1();
+        CartDto newCartDto = GenerateCart.newCartDto1();
+        ProductCart newProductCart = GenerateProductCart.newProductCart1();
+
+        BDDMockito.when(customerRepository.findById(ArgumentMatchers.anyLong()))
+                .thenReturn(Optional.of(newCustomer));
+        BDDMockito.when(cartRepository.save(ArgumentMatchers.any(Cart.class)))
+                .thenReturn(newCartWithId);
+        BDDMockito.when(productRepository.findById(ArgumentMatchers.anyLong()))
+                .thenReturn(Optional.of(newProduct));
+        BDDMockito.when(batchRepository.findByProduct(ArgumentMatchers.any(Product.class)))
+                .thenReturn(newBatch);
+        BDDMockito.when(productCartRepository.save(ArgumentMatchers.any(ProductCart.class)))
+                .thenReturn(newProductCart);
+
+
+        TotalPriceDto result = cartService.createCart(newCartDto);
+
+        assertThat(result.getTotalPrice()).isEqualTo(newProduct.getPrice());
+        verify(customerRepository, atLeastOnce()).findById(1L);
+        verify(cartRepository, atLeastOnce()).save(ArgumentMatchers.any(Cart.class));
+        verify(productCartRepository, atLeastOnce()).save(ArgumentMatchers.any(ProductCart.class));
     }
 
     @Test
@@ -70,30 +102,5 @@ class CartServiceTest {
 
         assertThat(exception.getMessage()).isEqualTo("Cart not found with this id");
         verify(cartRepository, never()).save(GenerateCart.newCart1());
-    }
-
-    @Test
-    void buildCart() {
-        Cart newCart = GenerateCart.newCart1();
-        Customer newCustomer = GenerateCustomer.newCustomer1();
-
-        BDDMockito.when(customerRepository.findById(ArgumentMatchers.anyLong()))
-                .thenReturn(Optional.of(newCustomer));
-        BDDMockito.when(cartRepository.save(ArgumentMatchers.any(Cart.class)))
-                .thenReturn(newCart);
-
-        CartDto newCartDto = GenerateCart.newCartDto1();
-
-        Cart result = cartService.buildCart(newCartDto);
-
-        assertThat(result.getCustomer().getId()).isEqualTo(1L);
-    }
-
-    @Test
-    void buildProductCart() {
-    }
-
-    @Test
-    void totalCartPrice() {
     }
 }

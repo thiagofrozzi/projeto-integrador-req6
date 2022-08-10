@@ -59,7 +59,7 @@ public class CartService implements ICartService {
      * @param cartDto an object of type CartDto
      * @return an object of type Cart
      */
-    public Cart buildCart(CartDto cartDto) {
+    private Cart buildCart(CartDto cartDto) {
         Customer customerById = customerRepository.findById(cartDto.getBuyerId()).get();
         Cart cart = Cart.builder()
                 .date(cartDto.getDate())
@@ -75,7 +75,7 @@ public class CartService implements ICartService {
      * @param savedCart an object of type Cart
      * @param productsList a list of objects of type ProductDto
      */
-    public void buildProductCart(Cart savedCart, List<ProductDto> productsList) {
+    private void buildProductCart(Cart savedCart, List<ProductDto> productsList) {
         productsList.forEach(product -> {
             Product productById = productRepository.findById(product.getProductId()).get();
             Batch batchById = batchRepository.findByProduct(productById);
@@ -98,7 +98,7 @@ public class CartService implements ICartService {
      * @param productsList List of objects of type ProductDto
      * @return an object of type TotalPriceDto with an attribute totalPrice of type Double.
      */
-    public TotalPriceDto totalCartPrice(List<ProductDto> productsList) {
+    private TotalPriceDto totalCartPrice(List<ProductDto> productsList) {
         TotalPriceDto total = new TotalPriceDto(0.0);
 
         productsList.forEach(product -> {
