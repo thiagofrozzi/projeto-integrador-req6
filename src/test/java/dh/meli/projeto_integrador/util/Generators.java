@@ -3,15 +3,15 @@ package dh.meli.projeto_integrador.util;
 import dh.meli.projeto_integrador.dto.dtoInput.BatchDto;
 import dh.meli.projeto_integrador.dto.dtoInput.OrderEntryDto;
 import dh.meli.projeto_integrador.dto.dtoInput.SectionDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.CartOutputDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.CartProductsOutputDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.ProductOutputDto;
+import dh.meli.projeto_integrador.enumClass.PurchaseOrderStatusEnum;
 import dh.meli.projeto_integrador.model.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Generators {
 
@@ -213,6 +213,7 @@ public class Generators {
 
     public static Product validProduct1() {
         return Product.builder()
+                .id(1L)
                 .name("Maçã")
                 .type("Fresco")
                 .price(20.1)
@@ -221,6 +222,7 @@ public class Generators {
 
     public static Product validProduct2() {
         return Product.builder()
+                .id(2L)
                 .name("sorvete")
                 .type("Congelado")
                 .price(20.1)
@@ -229,16 +231,16 @@ public class Generators {
 
     public static List<ProductOutputDto> productDtoList() {
         List<ProductOutputDto> productList = new ArrayList<>();
-        productList.add(validProductDto1());
         productList.add(validProductDto2());
+        productList.add(validProductDto1());
 
         return productList;
     }
 
     public static List<Product> productList() {
         List<Product> productList = new ArrayList<>();
-        productList.add(validProduct1());
         productList.add(validProduct2());
+        productList.add(validProduct1());
 
         return productList;
     }
@@ -246,5 +248,94 @@ public class Generators {
     public static List<Product> emptyProductDtoList() {
         List<Product> productList = new ArrayList<>();
         return productList;
+    }
+
+    public static Customer validCustomer1() {
+        return Customer.builder()
+                .id(1L)
+                .cpf("111.111.111-11")
+                .name("Alberto")
+                .emailAddress("Alberto@email.com")
+                .build();
+    }
+
+    public static ProductCart validProductCart1() {
+        return ProductCart.builder()
+                .id(1L)
+                .cart(validCartWhitoutProductCart())
+                .product(validProduct1())
+                .quantity(5)
+                .build();
+    }
+
+    public static ProductCart validProductCart2() {
+        return ProductCart.builder()
+                .id(2L)
+                .cart(validCartWhitoutProductCart())
+                .product(validProduct2())
+                .quantity(5)
+                .build();
+    }
+
+    public static Set<ProductCart> validProductCartList() {
+        Set<ProductCart> productCartList = new HashSet<>();
+        productCartList.add(validProductCart2());
+        productCartList.add(validProductCart1());
+        return productCartList;
+    }
+
+    public static Cart validCart1() {
+        return Cart.builder()
+                .id(1L)
+                .date(LocalDate.of(2022, 1, 13))
+                .status(PurchaseOrderStatusEnum.OPEN)
+                .customer(validCustomer1())
+                .productCarts(validProductCartList())
+                .build();
+    }
+
+    public static Cart validCartWhitoutProductCart() {
+        return Cart.builder()
+                .id(1L)
+                .date(LocalDate.of(2022, 1, 13))
+                .status(PurchaseOrderStatusEnum.OPEN)
+                .customer(validCustomer1())
+                .build();
+    }
+
+    public static CartProductsOutputDto validCartProductOutputDto1() {
+        return CartProductsOutputDto.builder()
+                .name("Maçã")
+                .type("Fresco")
+                .price(20.1)
+                .quantity(5)
+                .subtotal(100.5)
+                .build();
+    }
+    public static CartProductsOutputDto validCartProductOutputDto2() {
+        return CartProductsOutputDto.builder()
+                .name("sorvete")
+                .type("Congelado")
+                .price(20.1)
+                .quantity(5)
+                .subtotal(100.5)
+                .build();
+    }
+
+    public static List<CartProductsOutputDto> validProductCartOutputDtoList() {
+        List<CartProductsOutputDto> list = new ArrayList<>();
+        list.add(validCartProductOutputDto2());
+        list.add(validCartProductOutputDto1());
+        return list;
+    }
+
+    public static CartOutputDto validCartDto(){
+        return CartOutputDto.builder()
+                .status(PurchaseOrderStatusEnum.OPEN)
+                .customerName("Alberto")
+                .date(LocalDate.of(2022, 1, 13))
+                .products(validProductCartOutputDtoList())
+                .total(201.0)
+                .build();
     }
 }
