@@ -136,6 +136,13 @@ public class OrderService {
         return orderEntry.getBatches();
     }
 
+    /**
+     * Method to replace(delete old and create new) Inbound Order. Validates if given id is valid
+     * Also Validates Warehouse, Section and Agent before inserting into application database;
+     * @param orderEntryDto of type OrderEntryDto. OrderEntry POJO;
+     * @param id of type Long. OrderEntry identifier
+     * @return a Set of Batches;
+     */
     @Transactional
     public Set<Batch> updateInboundOrder(OrderEntryDto orderEntryDto, Long id) {
         OrderEntry foundOrder = findOrderEntry(id); // Checks if the order entry with a given id exists
@@ -148,6 +155,12 @@ public class OrderService {
         return createInboundOrder(orderEntryDto); // Replaces it with a newly created one
     }
 
+    /**
+     * Method to find an order entry given an id.
+     * Validates if given id is valid.
+     * @param id of type Long. OrderEntry identifier
+     * @return an object of type OrderEntry;
+     */
     public OrderEntry findOrderEntry(long id) {
         Optional<OrderEntry> orderEntry = orderRepository.findById(id);
         if (orderEntry.isEmpty()) {
@@ -157,6 +170,12 @@ public class OrderService {
         return orderEntry.get();
     }
 
+    /**
+     * Method to delete an order entry given an id.
+     * Validates if given id is valid.
+     * @param id of type Long. OrderEntry identifier
+     * @return the deleted order entry. An object of type OrderEntry;
+     */
     public OrderEntry delete(long id) {
         Optional<OrderEntry> orderEntry = orderRepository.findById(id);
         if (orderEntry.isEmpty()) {
@@ -167,6 +186,13 @@ public class OrderService {
         return orderEntry.get();
     }
 
+    /**
+     * Method to update the productLoad attribute of a given Section class before deleting an order entry instance.
+     * Decrements the productLoad in a section given all the batch stocks quantities that were stored in that section
+     * that came from the same order entry.
+     * @param batchList: List of objects of type Batch. Iterable list
+     * @param section an instance of Section. Section identifier
+     */
      static private void updateSectionProductLoadBeforeOrderDelete (List<Batch> batchList, Section section) {
         long currentProductLoad = section.getCurrentProductLoad();
         for (Batch batch : batchList) {
