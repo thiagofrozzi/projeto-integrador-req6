@@ -1,8 +1,12 @@
 package dh.meli.projeto_integrador.service;
 
+import dh.meli.projeto_integrador.dto.dtoOutput.ListProductByWarehouseDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.ProductOutputDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.TotalProductByWarehouseDto;
 import dh.meli.projeto_integrador.exception.ResourceNotFoundException;
+import dh.meli.projeto_integrador.model.Batch;
 import dh.meli.projeto_integrador.model.Product;
+import dh.meli.projeto_integrador.repository.IBatchRepository;
 import dh.meli.projeto_integrador.repository.IProductRepository;
 import dh.meli.projeto_integrador.util.Generators;
 import org.junit.jupiter.api.Assertions;
@@ -23,6 +27,7 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +40,9 @@ public class ProductServiceTest {
 
     @Mock
     IProductRepository productRepository;
+
+    @Mock
+    IBatchRepository batchRepository;
 
     @BeforeEach
     void setup() {
@@ -91,7 +99,7 @@ public class ProductServiceTest {
             productService.getAllProducts();
         });
 
-        assertThat(exception.getMessage()).isEqualTo(String.format("No Products Found"));
+        assertThat(exception.getMessage()).isEqualTo("No Products Found");
     }
 
     @Test
@@ -115,6 +123,54 @@ public class ProductServiceTest {
             productService.getProductsByCategory(Generators.validProduct1().getType());
         });
 
-        assertThat(exception.getMessage()).isEqualTo(String.format("No Products Found"));
+        assertThat(exception.getMessage()).isEqualTo("No Products Found");
+    }
+
+    @Test
+    void listProductByWarehouseTest() {
+        BDDMockito.when(batchRepository.findBatchByProductId(ArgumentMatchers.anyLong()))
+                .thenReturn(Generators.getBatches());
+
+
+        Product product = Generators.getProduct();
+
+        ListProductByWarehouseDto listProductByWarehouseDto = productService.listProductByWarehouse(product.getId());
+
+        assertThat(listProductByWarehouseDto.getProductId())
+                .isEqualTo(Generators.getListProductByWarehouseDto().getProductId());
+
+        for (int i = 0; i < listProductByWarehouseDto.getWarehouses().size(); i++) {
+            TotalProductByWarehouseDto totalProductByWarehouseDto = listProductByWarehouseDto.getWarehouses().get(i);
+
+            TotalProductByWarehouseDto generatedTotalProductByWarehouseDto = Generators
+                    .getListProductByWarehouseDto()
+                    .getWarehouses()
+                    .get(i);
+
+            assertThat(totalProductByWarehouseDto.getWarehouseCode())
+                    .isEqualTo(generatedTotalProductByWarehouseDto.getWarehouseCode());
+            assertThat(totalProductByWarehouseDto.getTotalQuantity())
+                    .isEqualTo(generatedTotalProductByWarehouseDto.getTotalQuantity());
+        }
+
+        verify(batchRepository, atLeastOnce()).findBatchByProductId(product.getId());
+    }
+
+    @Test
+    void listProductByWarehouse_WhenBatchListIsEmptyTest() throws Exception {
+        List<Batch> batchList = new ArrayList<Batch>();
+        BDDMockito.when(batchRepository.findBatchByProductId(ArgumentMatchers.anyLong()))
+                .thenReturn(batchList);
+
+        ResourceNotFoundException exception = Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+            ListProductByWarehouseDto listProductByWarehouseDto = productService.listProductByWarehouse(
+                    Generators.getProduct().getId()
+            );
+        });
+
+        assertThat(exception.getMessage()).isEqualTo(String.format("Could not find valid batch stock for product %d",
+                Generators.getProduct().getId()));
+
+        verify(batchRepository, atLeastOnce()).findBatchByProductId(Generators.getProduct().getId());
     }
 }
