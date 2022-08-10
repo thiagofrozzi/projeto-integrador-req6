@@ -1,9 +1,7 @@
 package dh.meli.projeto_integrador.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -38,6 +36,8 @@ import java.util.Set;
  * @see java.lang.Object
  */
 
+@AllArgsConstructor
+@NoArgsConstructor
 public class Customer {
 
     @Id
