@@ -1,6 +1,7 @@
 package dh.meli.projeto_integrador.dto.dtoOutput;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +17,8 @@ import lombok.Setter;
  * Method Constructor with all arguments implemented by Lombok lib
  */
 @AllArgsConstructor
+
+@Builder
 /**
  * Class used to create a Data Transfer Object for TotalPrice POJO
  * @author Gabriela Azevedo
