@@ -1,12 +1,15 @@
 package dh.meli.projeto_integrador.service;
 
 import dh.meli.projeto_integrador.dto.dtoInput.CartDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.CartOutputDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.UpdateStatusDto;
 import dh.meli.projeto_integrador.exception.CartNotFoundException;
+import dh.meli.projeto_integrador.exception.ResourceNotFoundException;
 import dh.meli.projeto_integrador.model.Cart;
 import dh.meli.projeto_integrador.model.Customer;
 import dh.meli.projeto_integrador.repository.ICartRepository;
 import dh.meli.projeto_integrador.repository.ICustomerRepository;
+import dh.meli.projeto_integrador.repository.IProductRepository;
 import dh.meli.projeto_integrador.util.Generators;
 import dh.meli.projeto_integrador.utils.GenerateCart;
 import dh.meli.projeto_integrador.utils.GenerateCustomer;
@@ -41,6 +44,9 @@ class CartServiceTest {
 
     @Mock
     ICustomerRepository customerRepository;
+
+    @Mock
+    IProductRepository productRepository;
 
     @Test
     void createCart() {
@@ -95,5 +101,58 @@ class CartServiceTest {
 
     @Test
     void totalCartPrice() {
+    }
+
+    @Test
+    void getCartById_WhenCartIsNotFound_ReturnException() {
+        BDDMockito.when(cartRepository.findById(anyLong()))
+                .thenReturn(Optional.empty());
+
+        long id = 0;
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
+            cartService.getCartById(id);
+        });
+
+        assertThat(exception.getMessage()).isEqualTo(String.format("Could not find valid cart for id %d", id));
+
+        verify(cartRepository, atLeastOnce()).findById(id);
+    }
+
+    @Test
+    void getCartById_WhenCartIsFound_ReturnACartOutputDto() {
+        BDDMockito.when(cartRepository.findById(anyLong()))
+                .thenReturn(Optional.ofNullable(Generators.validCart1()));
+
+        BDDMockito.when(customerRepository.findById(anyLong()))
+                .thenReturn(Optional.ofNullable(Generators.validCustomer1()));
+
+        BDDMockito.when(productRepository.findById(1L))
+                .thenReturn(Optional.ofNullable(Generators.validProduct1()));
+
+        BDDMockito.when(productRepository.findById(2L))
+                .thenReturn(Optional.ofNullable(Generators.validProduct2()));
+
+        long id = 1;
+         CartOutputDto cart = cartService.getCartById(id);
+
+
+        assertThat(cart.getCustomerName()).isEqualTo(Generators.validCustomer1().getName());
+        assertThat(cart.getStatus()).isEqualTo(Generators.validCart1().getStatus());
+        assertThat(cart.getDate()).isEqualTo(Generators.validCart1().getDate());
+        assertThat(cart.getProducts().size()).isEqualTo(2);
+        assertThat(cart.getProducts().get(0).getName()).isEqualTo(Generators.validProduct1().getName());
+        assertThat(cart.getProducts().get(0).getQuantity()).isEqualTo(Generators.validProductCart1().getQuantity());
+        assertThat(cart.getProducts().get(0).getType()).isEqualTo(Generators.validProduct1().getType());
+        assertThat(cart.getProducts().get(0).getPrice()).isEqualTo(Generators.validProduct1().getPrice());
+        assertThat(cart.getProducts().get(0).getSubtotal())
+                .isEqualTo(Generators.validProduct1().getPrice() * Generators.validProductCart1().getQuantity());
+        assertThat(cart.getTotal())
+                .isEqualTo(Generators.validProduct1().getPrice() * Generators.validProductCart1().getQuantity()
+                + Generators.validProduct2().getPrice() * Generators.validProductCart2().getQuantity());
+
+        verify(cartRepository, atLeastOnce()).findById(id);
+        verify(customerRepository, atLeastOnce()).findById(id);
+        verify(productRepository, atLeastOnce()).findById(1L);
+        verify(productRepository, atLeastOnce()).findById(2L);
     }
 }
