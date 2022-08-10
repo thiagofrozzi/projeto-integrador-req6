@@ -1,10 +1,10 @@
 package dh.meli.projeto_integrador.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dh.meli.projeto_integrador.enumClass.PurchaseOrderStatusEnum;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -35,6 +35,14 @@ import java.util.Set;
  * Method Builder implemented by Lombok lib
  */
 @Builder
+/**
+ * Method Constructor with all arguments implemented by Lombok lib
+ */
+@AllArgsConstructor
+/**
+ * Method Default Constructor implemented by Lombok lib
+ */
+@NoArgsConstructor
 
 /**
  * Class created for modeling the Cart entity on the database
@@ -50,7 +58,7 @@ public class Cart {
 
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    @JsonIgnoreProperties("carts")
+    @JsonBackReference
     private Customer customer;
 
     @Enumerated(EnumType.STRING)
@@ -59,6 +67,6 @@ public class Cart {
     private LocalDate date;
 
     @OneToMany(mappedBy = "cart")
-    @JsonIgnoreProperties("cart")
+    @JsonManagedReference
     private Set<ProductCart> productCarts;
 }
