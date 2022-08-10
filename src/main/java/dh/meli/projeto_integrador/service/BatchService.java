@@ -2,14 +2,17 @@ package dh.meli.projeto_integrador.service;
 
 import dh.meli.projeto_integrador.exception.InternalServerErrorException;
 import dh.meli.projeto_integrador.model.Batch;
+import dh.meli.projeto_integrador.model.OrderEntry;
 import dh.meli.projeto_integrador.repository.IBatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Class responsible for business rules and communication with the Batch Repository layer;
- * @author Diovana Valim;
- * @version 0.0.1
+ * @author Diovana Valim, Thiago Almeida;
+ * @version 0.0.2
  */
 @Service
 public class BatchService {
@@ -32,4 +35,13 @@ public class BatchService {
             throw new InternalServerErrorException(e.getMessage());
         }
     }
+
+    /**
+     * Method to find all batches that belongs to a given Order Entry;
+     * @param orderEntry of type OrderEntry. OrderEntry instance;
+     * @return a List of objects of type Batch;
+     */
+    public List<Batch> findAllByOrderEntry(OrderEntry orderEntry){
+        return batchRepository.findByOrderEntry(orderEntry);
+    };
 }
