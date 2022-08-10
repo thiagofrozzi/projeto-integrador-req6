@@ -1,9 +1,7 @@
 package dh.meli.projeto_integrador.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -17,6 +15,14 @@ import java.util.Set;
  * Method Setter implemented by Lombok lib for set access the private attributes of the Customer Class
  */
 @Setter
+/**
+ * Method Constructor with all arguments implemented by Lombok lib
+ */
+@AllArgsConstructor
+/**
+ * Method Default Constructor implemented by Lombok lib
+ */
+@NoArgsConstructor
 
 /**
  * The @Entity annotation marks the Customer Class as an entity bean,
