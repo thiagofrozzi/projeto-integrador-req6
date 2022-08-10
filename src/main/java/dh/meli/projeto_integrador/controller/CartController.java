@@ -3,6 +3,8 @@ package dh.meli.projeto_integrador.controller;
 import dh.meli.projeto_integrador.dto.dtoInput.CartDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.UpdateStatusDto;
+import dh.meli.projeto_integrador.enumClass.PurchaseOrderStatusEnum;
+import dh.meli.projeto_integrador.exception.ForbiddenException;
 import dh.meli.projeto_integrador.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +35,9 @@ public class CartController {
      */
     @PostMapping("/orders")
     public ResponseEntity<TotalPriceDto> createNewPurchaseOrder(@RequestBody @Valid CartDto cartDto) {
+        if (cartDto.getOrderStatus().equals(PurchaseOrderStatusEnum.FINISHED)) {
+            throw new ForbiddenException("The new cart cannot be created with order status 'FINISHED'");
+        }
         TotalPriceDto createdCart = cartService.createCart(cartDto);
         return new ResponseEntity<>(createdCart, HttpStatus.CREATED);
     }
