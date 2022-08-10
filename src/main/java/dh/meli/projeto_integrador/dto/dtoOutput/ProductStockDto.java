@@ -4,37 +4,41 @@ import dh.meli.projeto_integrador.model.Batch;
 import dh.meli.projeto_integrador.model.Product;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Builder
+
+/*
+ * Class used to create a Data Transfer Object for ProductService.getProductBatchProps method
+ * @author Amanda Marinelli, Thiago Almeida
+ * @version 0.0.1
+ * @see java.lang.Object
+ */
 public class ProductStockDto {
     private String section;
     private String name;
     private Long id;
-    private Set<BatchDto> batchStockDto;
+    private List<BatchDto> batchStockDto = new ArrayList<>();
 
-    public ProductStockDto(Product product, Set<Batch> batches) {
+    public ProductStockDto(Product product, List<Batch> batchList) {
         this.name = product.getName();
         this.id = product.getId();
         this.section = product.getType();
 
-        List<Batch> batchList = new ArrayList<>(batches);
-        Set<BatchDto> batchDtos = new HashSet<>();
-        BatchDto batchDto;
-
         for (Batch b:batchList) {
             long idWarehouse = (b.getOrderEntry().getSection().getWarehouse().getId());
-            batchDto = new BatchDto(idWarehouse,b.getId(), b.getCurrentQuantity(), b.getDueDate());
-            batchDtos.add(batchDto);
+            this.batchStockDto.add(new BatchDto(idWarehouse,b.getId(),b.getCurrentQuantity(), b.getDueDate()));
         }
-        this.batchStockDto = batchDtos;
     }
 }
 
