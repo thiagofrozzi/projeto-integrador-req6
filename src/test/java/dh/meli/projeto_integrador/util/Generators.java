@@ -63,7 +63,7 @@ public class Generators {
         product.setPrice(12.20);
         product.setId(0);
         product.setName("Maçã");
-        product.setType("Fruta");
+        product.setType("Fresco");
 
         HashSet<Product> products = new HashSet<Product>();
 
@@ -194,6 +194,16 @@ public class Generators {
         return createBatch();
     }
 
+    public static List<Batch> getBatches() {
+        List<Batch> batchList = new ArrayList<Batch>();
+
+        Batch batch = createBatch();
+
+        batchList.add(batch);
+
+        return batchList;
+    }
+
     public static ProductOutputDto validProductDto1() {
         return ProductOutputDto.builder()
                 .name("Maçã")
@@ -250,14 +260,10 @@ public class Generators {
     public static ListProductByWarehouseDto getListProductByWarehouseDto() {
         List<TotalProductByWarehouseDto> totalProductByWarehouseDtoList = new ArrayList<TotalProductByWarehouseDto>();
 
-        TotalProductByWarehouseDto totalProductByWarehouseDto01 = new TotalProductByWarehouseDto(1, 100);
-        TotalProductByWarehouseDto totalProductByWarehouseDto02 = new TotalProductByWarehouseDto(2, 200);
-        TotalProductByWarehouseDto totalProductByWarehouseDto03 = new TotalProductByWarehouseDto(3, 300);
+        TotalProductByWarehouseDto totalProductByWarehouseDto01 = new TotalProductByWarehouseDto(0, 80);
 
         totalProductByWarehouseDtoList.add(totalProductByWarehouseDto01);
-        totalProductByWarehouseDtoList.add(totalProductByWarehouseDto02);
-        totalProductByWarehouseDtoList.add(totalProductByWarehouseDto03);
 
-        return new ListProductByWarehouseDto(1, totalProductByWarehouseDtoList);
+        return new ListProductByWarehouseDto(0, totalProductByWarehouseDtoList);
     }
 }
