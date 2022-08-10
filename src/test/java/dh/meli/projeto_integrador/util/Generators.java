@@ -280,4 +280,35 @@ public class Generators {
 
         return new ListProductByWarehouseDto(1, totalProductByWarehouseDtoList);
     }
+
+    public static Warehouse getCleanWarehouse() {
+        Warehouse warehouse = new Warehouse();
+        warehouse.setId(1);
+        warehouse.setName("Armazém 01");
+        warehouse.setAddress("Rua Almeida 259");
+
+        return warehouse;
+    }
+
+    public static Section getCleanSection(Warehouse warehouse) {
+        Section section = new Section();
+
+        section.setId(1);
+        section.setCurrentProductLoad(130);
+        section.setMaxProductLoad(2000);
+        section.setProductType("Fresco");
+        section.setWarehouse(warehouse);
+
+        return section;
+    }
+
+    public static OrderEntry getCleanOrderEntry(Section section) {
+        OrderEntry orderEntry = new OrderEntry();
+
+        orderEntry.setId(1);
+        orderEntry.setOrderDate(LocalDate.now());
+        orderEntry.setSection(section);
+
+        return orderEntry;
+    }
 }

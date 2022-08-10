@@ -131,34 +131,13 @@ public class ProductIntegrationTest {
 
     @Test
     public void listProductByWarehouse_whenFindBatchIsSuccessfull() throws Exception {
-
         Batch batch = Generators.getBatch();
         Product product = Generators.getProduct();
-        Warehouse warehouse = Generators.getWarehouse();
-        Agent agent = Generators.getAgent();
+        Warehouse warehouse = Generators.getCleanWarehouse();
+        Section section = Generators.getCleanSection(warehouse);
+        OrderEntry orderEntry = Generators.getCleanOrderEntry(section);
 
-        Warehouse warehouse1 = new Warehouse();
-        warehouse1.setId(1);
-        warehouse1.setName("Armazém 01");
-        warehouse1.setAddress("Rua Almeida 259");
-
-        Section section = new Section();
-
-        section.setId(1);
-        section.setCurrentProductLoad(130);
-        section.setMaxProductLoad(2000);
-        section.setProductType("Fresco");
-        section.setWarehouse(warehouse);
-
-        OrderEntry orderEntry = new OrderEntry();
-
-        orderEntry.setId(1);
-        orderEntry.setOrderDate(LocalDate.now());
-        orderEntry.setSection(section);
-
-        Warehouse warehouse11 = warehouseRepository.save(warehouse1);
-
-        System.out.println(warehouse1.getId());
+        warehouseRepository.save(warehouse);
 
         sectionRepository.save(section);
 
@@ -167,8 +146,6 @@ public class ProductIntegrationTest {
         productRepository.save(product);
 
         batchRepository.save(batch);
-
-        batch.setId(1);
 
         ResultActions response = mockMvc.perform(
                 get("/api/v1/fresh-products/warehouse/product/{productId}", batch.getId())
