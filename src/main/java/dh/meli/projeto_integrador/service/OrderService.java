@@ -4,18 +4,19 @@ import dh.meli.projeto_integrador.dto.BatchDto;
 import dh.meli.projeto_integrador.dto.OrderEntryDto;
 import dh.meli.projeto_integrador.exception.ForbiddenException;
 import dh.meli.projeto_integrador.exception.InternalServerErrorException;
+import dh.meli.projeto_integrador.exception.ResourceNotFoundException;
 import dh.meli.projeto_integrador.model.*;
 import dh.meli.projeto_integrador.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Class responsible for business rules and communication with the OrderEntry Repository layer;
- * @author Diovana Valim, Thiago Guimaraes;
- * @version 0.0.1
+ * @author Diovana Valim, Thiago Almeida;
+ * @version 0.0.2
  */
 @Service
 public class OrderService {
@@ -80,7 +81,7 @@ public class OrderService {
         orderEntry.setSection(section);
         orderEntry.setOrderDate(orderEntryDto.getOrderDate());
 
-        Set<Batch> batches = new HashSet<Batch>();
+        Set<Batch> batches = new HashSet<>();
 
         int finalQuantity = 0;
 
@@ -129,5 +130,44 @@ public class OrderService {
         }
 
         return orderEntry.getBatches();
+    }
+
+    @Transactional
+    public Set<Batch> updateInboundOrder(OrderEntryDto orderEntryDto, Long id) {
+        OrderEntry foundOrder = findOrderEntry(id); // Checks if the order entry with a given id exists
+        List<Batch> batchList = batchService.findAllByOrderEntry(foundOrder);
+        Section section = foundOrder.getSection();
+
+        updateSectionProductLoadBeforeOrderDelete(batchList, section);
+        delete(id); // Deletes the old order entry
+
+        return createInboundOrder(orderEntryDto); // Replaces it with a newly created one
+    }
+
+    public OrderEntry findOrderEntry(long id) {
+        Optional<OrderEntry> orderEntry = orderRepository.findById(id);
+        if (orderEntry.isEmpty()) {
+            throw new ResourceNotFoundException(String.format("Could not find valid order entry for id %d", id));
+        }
+
+        return orderEntry.get();
+    }
+
+    public OrderEntry delete(long id) {
+        Optional<OrderEntry> orderEntry = orderRepository.findById(id);
+        if (orderEntry.isEmpty()) {
+            throw new ResourceNotFoundException(String.format("Could not find valid order entry for id %d", id));
+        }
+        orderRepository.delete(orderEntry.get());
+
+        return orderEntry.get();
+    }
+
+     static private void updateSectionProductLoadBeforeOrderDelete (List<Batch> batchList, Section section) {
+        long currentProductLoad = section.getCurrentProductLoad();
+        for (Batch batch : batchList) {
+            currentProductLoad -= batch.getCurrentQuantity();
+        }
+        section.setCurrentProductLoad(currentProductLoad);
     }
 }
