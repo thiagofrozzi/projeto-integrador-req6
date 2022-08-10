@@ -1,8 +1,7 @@
 package dh.meli.projeto_integrador.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -29,12 +28,16 @@ import java.util.Set;
  * The @Table annotation is used to specify table details that will be used to persist our entities in the database.
  */
 @Table(name = "batch")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 /**
  * Class created for modeling the Batch entity on the database
  * @author Diovana Valim
  * @version 0.0.1
  * @see java.lang.Object
  */
+
 public class Batch {
 
     @Id

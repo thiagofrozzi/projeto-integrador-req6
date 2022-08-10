@@ -3,7 +3,9 @@ package dh.meli.projeto_integrador.controller;
 import dh.meli.projeto_integrador.dto.dtoInput.CartDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.CartOutputDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;
-import dh.meli.projeto_integrador.model.Cart;
+
+
+import dh.meli.projeto_integrador.dto.dtoOutput.UpdateStatusDto;
 import dh.meli.projeto_integrador.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
+
 
 /**
  * Class responsible for processing user's requests and generating appropriated HTTP responses;
@@ -39,6 +41,7 @@ public class CartController {
         return new ResponseEntity<>(createdCart, HttpStatus.CREATED);
     }
 
+
     /**
      * A get method that when called will return in the body request a cart of a specified by the id in the URL
      * @param id a Long received by the URL request to determine the id of the cart wanted
@@ -48,16 +51,13 @@ public class CartController {
     public ResponseEntity<CartOutputDto> getCartById(@PathVariable Long id) {
         return ResponseEntity.ok(cartService.getCartById(id));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UpdateStatusDto> updatePurchaseOrder(@PathVariable Long id) {
+        UpdateStatusDto result = cartService.updateStatusCart(id);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }
-
-
-
-
-
-
-
-
-
 
 
 

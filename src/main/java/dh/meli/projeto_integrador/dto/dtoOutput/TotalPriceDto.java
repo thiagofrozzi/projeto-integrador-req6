@@ -17,7 +17,7 @@ import lombok.Setter;
  */
 @AllArgsConstructor
 /**
- * Class used to create a Data Transfer Object for ProductDto POJO
+ * Class used to create a Data Transfer Object for TotalPrice POJO
  * @author Gabriela Azevedo
  * @version 0.0.1
  * @see java.lang.Object

@@ -1,8 +1,7 @@
 package dh.meli.projeto_integrador.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -26,6 +25,9 @@ import javax.persistence.*;
  * The @Table annotation is used to specify table details that will be used to persist our entities in the database.
  */
 @Table(name = "agent")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 /**
  * Class created for modeling the Agent entity on the database
  * @author Diovana Valim

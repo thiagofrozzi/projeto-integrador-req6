@@ -11,7 +11,23 @@ import java.util.List;
  * @version 0.0.1
  */
 public interface IProductService {
+    /**
+     *
+     * @return
+     */
     List<ProductOutputDto> getAllProducts();
+
+    /**
+     *
+     * @param category
+     * @return
+     */
     List<ProductOutputDto> getProductsByCategory(String category);
+
+    /**
+     *
+     * @param id
+     * @return
+     */
     Product findProduct(long id);
 }

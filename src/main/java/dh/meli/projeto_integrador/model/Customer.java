@@ -1,6 +1,7 @@
 package dh.meli.projeto_integrador.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,6 +28,8 @@ import java.util.Set;
  * The @Table annotation is used to specify table details that will be used to persist our entities in the database.
  */
 @Table(name = "customer")
+@Builder
+
 
 /**
  * Class created for modeling the Customer entity on the database
@@ -34,6 +37,7 @@ import java.util.Set;
  * @version 0.0.1
  * @see java.lang.Object
  */
+
 public class Customer {
 
     @Id

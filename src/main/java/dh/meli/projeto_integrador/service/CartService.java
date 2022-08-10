@@ -1,10 +1,19 @@
 package dh.meli.projeto_integrador.service;
 
-import dh.meli.projeto_integrador.dto.dtoInput.CartDto;
 import dh.meli.projeto_integrador.dto.dtoInput.ProductDto;
+
 import dh.meli.projeto_integrador.dto.dtoOutput.CartOutputDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.CartProductsOutputDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;
+
+import dh.meli.projeto_integrador.dto.dtoOutput.UpdateStatusDto;
+import dh.meli.projeto_integrador.enumClass.PurchaseOrderStatusEnum;
+import dh.meli.projeto_integrador.exception.CartAlreadyFinishedException;
+import dh.meli.projeto_integrador.exception.CartNotFoundException;
+import dh.meli.projeto_integrador.dto.dtoInput.CartDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;
+import dh.meli.projeto_integrador.exception.ForbiddenException;
+
 import dh.meli.projeto_integrador.exception.ResourceNotFoundException;
 import dh.meli.projeto_integrador.model.*;
 import dh.meli.projeto_integrador.repository.*;
@@ -16,9 +25,6 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-
-
 
 /**
  * Class responsible for business rules and communication with the Cart Repository layer
@@ -34,29 +40,26 @@ public class CartService implements ICartService {
     @Autowired
     private ICartRepository cartRepository;
 
+    @Autowired
+    private IBatchRepository batchRepository;
+
     /**
      * Dependency Injection of the BatchCart Repository.
      */
     @Autowired
-    private IProductCartRepository batchCartRepository;
+    private IProductCartRepository productCartRepository;
 
     /**
      * Dependency Injection of the Batch Repository.
      */
     @Autowired
-    private IBatchRepository batchRepository;
+    private IProductRepository productRepository;
 
     /**
      * Dependency Injection of the Customer Repository.
      */
     @Autowired
     private ICustomerRepository customerRepository;
-
-    /**
-     * Dependency Injection of the Product Repository.
-     */
-    @Autowired
-    private IProductRepository productRepository;
 
     /**
      * Method that receives an object of type CartDto, build the cart object and saves on the Cart table.
@@ -79,16 +82,21 @@ public class CartService implements ICartService {
      * @param savedCart an object of type Cart
      * @param productsList a list of objects of type ProductDto
      */
-    public void buildBatchCart(Cart savedCart, List<ProductDto> productsList) {
+    public void buildProductCart(Cart savedCart, List<ProductDto> productsList) {
         productsList.forEach(product -> {
-            Batch batchById = batchRepository.findById(product.getProductId()).get();
+            Product productById = productRepository.findById(product.getProductId()).get();
+            Batch batchById = batchRepository.findByProduct(productById);
+
+                if (product.getQuantity() > batchById.getCurrentQuantity()) {
+                   throw new ForbiddenException(String.format("The product: %s does not have enough quantity in stock.", productById.getName()));
+                }
 
             ProductCart productCart = ProductCart.builder()
                     .cart(savedCart)
-//                    .batch(batchById)
+                    .product(productById)
                     .quantity(product.getQuantity())
                     .build();
-            batchCartRepository.save(productCart);
+            productCartRepository.save(productCart);
         });
     }
 
@@ -101,7 +109,8 @@ public class CartService implements ICartService {
         TotalPriceDto total = new TotalPriceDto(0.0);
 
         productsList.forEach(product -> {
-            Batch batchById = batchRepository.findById(product.getProductId()).get();
+            Product productById = productRepository.findById(product.getProductId()).get();
+            Batch batchById = batchRepository.findByProduct(productById);
             total.setTotalPrice(batchById.getProduct().getPrice() + total.getTotalPrice());
         });
         return total;
@@ -117,11 +126,12 @@ public class CartService implements ICartService {
     public TotalPriceDto createCart(CartDto cartDto) {
         Cart savedCart = buildCart(cartDto);
         List<ProductDto> productsList = cartDto.getProducts();
-        buildBatchCart(savedCart, productsList);
+        buildProductCart(savedCart, productsList);
         return totalCartPrice(productsList);
     }
 
     /**
+<<<<<<< HEAD
      * A method that recive a list of ProductCart fetch the products and create a list of CartProductsOutputDto.
      * @param cartProducts a list of objects of type ProductCart.
      * @return a list of CartProductsOutputDto.
@@ -163,7 +173,8 @@ public class CartService implements ICartService {
     public CartOutputDto getCartById(Long id) {
         Optional<Cart> cart = cartRepository.findById(id);
 
-        if(cart.isEmpty()) throw new ResourceNotFoundException(String.format("Could not find valid cart for id %d", id));
+        if (cart.isEmpty())
+            throw new ResourceNotFoundException(String.format("Could not find valid cart for id %d", id));
 
         Customer customer = customerRepository.findById(cart.get().getCustomer().getId()).get();
 
@@ -179,5 +190,22 @@ public class CartService implements ICartService {
                 .products(cartProductsDtos)
                 .total(total)
                 .build();
+    }
+    /**
+     * Method that calls the other methods of this class and persists the info of the carts on the database and returns the total price for the user.
+     * @param id of type Long
+     * @return an object of type UpdateStatusDto with an attribute message of type String.
+     */
+    public UpdateStatusDto updateStatusCart(Long id){
+        Cart existCart = cartRepository.findById(id).orElseThrow(() -> new CartNotFoundException("Cart not found with this id"));
+
+        if(existCart.getStatus() == PurchaseOrderStatusEnum.FINISHED) throw new CartAlreadyFinishedException("Cart already Finished");
+
+        existCart.setStatus(PurchaseOrderStatusEnum.FINISHED);
+
+        cartRepository.save(existCart);
+
+        return new UpdateStatusDto("Cart Finished successfully");
+
     }
 }
