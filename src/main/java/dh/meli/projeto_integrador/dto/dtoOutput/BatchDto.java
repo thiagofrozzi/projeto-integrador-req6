@@ -1,6 +1,5 @@
-package dh.meli.projeto_integrador.dtos.dtoOutput;
+package dh.meli.projeto_integrador.dto.dtoOutput;
 
-import dh.meli.projeto_integrador.model.Batch;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,14 +12,10 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class BatchDto {
-
+    private long idWarehouse;
     private long batchNumber;
     private int currentQuantity;
     private LocalDate dueDate;
-
-    public BatchDto(Batch batch) {
-        this.batchNumber = batch.getId();
-        this.currentQuantity = batch.getCurrentQuantity();
-        this.dueDate = batch.getDueDate();
-    }
 }
+
+
