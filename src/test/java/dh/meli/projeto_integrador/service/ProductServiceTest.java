@@ -84,7 +84,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    void getAllProducts_returnListProducts_whenProductsDontExist() {
+    void getAllProducts_throwsNotFoundException_whenProductsDontExist() {
         BDDMockito.when(productRepository.findAll())
                 .thenReturn(Generators.emptyProductDtoList());
 
