@@ -1,7 +1,7 @@
 package dh.meli.projeto_integrador.integration;
 
-import dh.meli.projeto_integrador.model.Product;
-import dh.meli.projeto_integrador.repository.IProductRepository;
+import dh.meli.projeto_integrador.model.*;
+import dh.meli.projeto_integrador.repository.*;
 import dh.meli.projeto_integrador.util.Generators;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,11 +29,27 @@ public class ProductIntegrationTest {
     private IProductRepository productRepository;
 
     @Autowired
+    private IBatchRepository batchRepository;
+
+    @Autowired
+    private IOrderRepository orderRepository;
+
+    @Autowired
+    private ISectionRepository sectionRepository;
+
+    @Autowired
+    private IWarehouseRepository warehouseRepository;
+
+    @Autowired
+    private  IAgentRepository agentRepository;
+
+    @Autowired
     private MockMvc mockMvc;
 
     @BeforeEach
     public void setup() {
         productRepository.deleteAll();
+        batchRepository.deleteAll();
     }
 
     @Test
@@ -66,7 +83,7 @@ public class ProductIntegrationTest {
                 .andExpect(jsonPath("$.status",
                         CoreMatchers.is(404)))
                 .andExpect(jsonPath("$.title",
-                        CoreMatchers.is("Object Not Found")));
+                        CoreMatchers.is("Resource Not Found")));
     }
 
     @Test
@@ -109,6 +126,71 @@ public class ProductIntegrationTest {
                 .andExpect(jsonPath("$.status",
                         CoreMatchers.is(404)))
                 .andExpect(jsonPath("$.title",
-                        CoreMatchers.is("Object Not Found")));
+                        CoreMatchers.is("Resource Not Found")));
+    }
+
+    @Test
+    public void listProductByWarehouse_whenFindBatchIsSuccessfull() throws Exception {
+
+        Batch batch = Generators.getBatch();
+        Product product = Generators.getProduct();
+        Warehouse warehouse = Generators.getWarehouse();
+        Agent agent = Generators.getAgent();
+
+        Warehouse warehouse1 = new Warehouse();
+        warehouse1.setId(1);
+        warehouse1.setName("Armazém 01");
+        warehouse1.setAddress("Rua Almeida 259");
+
+        Section section = new Section();
+
+        section.setId(1);
+        section.setCurrentProductLoad(130);
+        section.setMaxProductLoad(2000);
+        section.setProductType("Fresco");
+        section.setWarehouse(warehouse);
+
+        OrderEntry orderEntry = new OrderEntry();
+
+        orderEntry.setId(1);
+        orderEntry.setOrderDate(LocalDate.now());
+        orderEntry.setSection(section);
+
+        Warehouse warehouse11 = warehouseRepository.save(warehouse1);
+
+        System.out.println(warehouse1.getId());
+
+        sectionRepository.save(section);
+
+        orderRepository.save(orderEntry);
+
+        productRepository.save(product);
+
+        batchRepository.save(batch);
+
+        batch.setId(1);
+
+        ResultActions response = mockMvc.perform(
+                get("/api/v1/fresh-products/warehouse/product/{productId}", batch.getId())
+                .contentType(MediaType.APPLICATION_JSON));
+
+        response.andExpect(status().isOk());
+    }
+
+    @Test
+    public void listProductByWarehouse_whenFindBatchFailed() throws Exception {
+        long id = 20;
+
+        ResultActions response = mockMvc.perform(
+                get("/api/v1/fresh-products/warehouse/product/{productId}", id)
+                        .contentType(MediaType.APPLICATION_JSON));
+
+        response.andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message",
+                        CoreMatchers.is("Could not find valid batch stock for product 20")))
+                .andExpect(jsonPath("$.status",
+                        CoreMatchers.is(404)))
+                .andExpect(jsonPath("$.title",
+                        CoreMatchers.is("Resource Not Found")));
     }
 }
