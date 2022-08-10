@@ -41,7 +41,7 @@ public class OrderEntry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToMany(mappedBy = "orderEntry")
+    @OneToMany(mappedBy = "orderEntry", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("orderEntry")
     private Set<Batch> batches;
 
