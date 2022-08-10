@@ -9,9 +9,8 @@ import dh.meli.projeto_integrador.model.*;
 import dh.meli.projeto_integrador.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import javax.transaction.Transactional;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -159,7 +158,7 @@ public class OrderService implements IOrderService {
      * @return a Set of Batches;
      */
     @Transactional
-    public Set<Batch> updateInboundOrder(OrderEntryDto orderEntryDto, Long id) {
+    public List<BatchDto> updateInboundOrder(OrderEntryDto orderEntryDto, Long id) {
         OrderEntry foundOrder = findOrderEntry(id); // Checks if the order entry with a given id exists
         List<Batch> batchList = batchService.findAllByOrderEntry(foundOrder);
         Section section = foundOrder.getSection();

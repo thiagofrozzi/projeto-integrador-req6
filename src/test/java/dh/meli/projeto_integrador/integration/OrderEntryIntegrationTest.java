@@ -92,7 +92,7 @@ public class OrderEntryIntegrationTest {
         response.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.size()",
                         CoreMatchers.is(1)))
-                .andExpect(jsonPath("$[0].batchId",
+                .andExpect(jsonPath("$[0].batchNumber",
                         CoreMatchers.is(expectedBatchId)))
                 .andExpect(jsonPath("[0].productId",
                         CoreMatchers.is(expectedProductId)))
