@@ -13,5 +13,10 @@ import java.util.List;
  * @version 0.0.2
  */
 public interface IBatchRepository extends CrudRepository<Batch, Long> {
+	/**
+	 * Method to find all batches that belongs to a given Order Entry;
+	 * @param orderEntry of type OrderEntry. OrderEntry instance;
+	 * @return a List of objects of type Batch;
+	 */
 	List<Batch> findByOrderEntry(OrderEntry orderEntry);
 }
