@@ -1,6 +1,8 @@
 package dh.meli.projeto_integrador.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -53,6 +55,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "section_id", referencedColumnName = "id")
+    @JsonBackReference
     private Section section;
 
     @Column(name = "name")
@@ -65,6 +68,6 @@ public class Product {
     private double price;
 
     @OneToMany(mappedBy = "product")
-    @JsonIgnoreProperties("product")
+    @JsonManagedReference
     private Set<ProductCart> productCarts;
 }
