@@ -15,6 +15,5 @@ public interface IProductService {
     List<ProductOutputDto> getAllProducts();
     List<ProductOutputDto> getProductsByCategory(String category);
     Product findProduct(long id);
-    ProductStockDto getProductBatchProps(Long id);
-//  List<ProductStockDto> getOrderedProductBatchProps(Long id, Character c);
+    ProductStockDto getProductBatchProps(Long id,Character order);
 }
