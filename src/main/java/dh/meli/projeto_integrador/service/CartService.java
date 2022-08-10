@@ -22,7 +22,7 @@ import java.util.Optional;
 
 /**
  * Class responsible for business rules and communication with the Cart Repository layer
- * @author Gabriela Azevedo
+ * @author Gabriela Azevedo, Rafael Cavalcante.
  * @version 0.0.1
  */
 @Service
@@ -51,7 +51,6 @@ public class CartService implements ICartService {
      */
     @Autowired
     private ICustomerRepository customerRepository;
-
 
     /**
      * Dependency Injection of the Product Repository.
@@ -122,6 +121,11 @@ public class CartService implements ICartService {
         return totalCartPrice(productsList);
     }
 
+    /**
+     * A method that recive a list of ProductCart fetch the products and create a list of CartProductsOutputDto.
+     * @param cartProducts a list of objects of type ProductCart.
+     * @return a list of CartProductsOutputDto.
+     */
     private List<CartProductsOutputDto> createCartProductList (List<ProductCart> cartProducts) {
         List<CartProductsOutputDto> cartProductsDtos = new ArrayList<>();
         for (ProductCart productCart : cartProducts) {
@@ -138,13 +142,24 @@ public class CartService implements ICartService {
         return cartProductsDtos;
     }
 
+    /**
+     * An auxiliar method that receives a list of type CartProductsOutputDto and calculates the total price of the cart products.
+     * @param cartProductsDtos List of objects of type CartProductsOutputDto
+     * @return a Double totalPrice.
+     */
     private Double calculateCartTotal(List<CartProductsOutputDto> cartProductsDtos){
-        Double total = 0.0;
+        Double totalPrice = 0.0;
         for (CartProductsOutputDto productCartDto : cartProductsDtos) {
-            total += productCartDto.getSubtotal();
+            totalPrice += productCartDto.getSubtotal();
         }
-        return total;
+        return totalPrice;
     }
+
+    /**
+     * Method that handles the request to fetch a cart in the database and return an Dto with the relevant information.
+     * @param id a Long with the id of the cart requested
+     * @return an object of type CartOutputDto with all the information regarding the cart requested.
+     */
     public CartOutputDto getCartById(Long id) {
         Optional<Cart> cart = cartRepository.findById(id);
 
