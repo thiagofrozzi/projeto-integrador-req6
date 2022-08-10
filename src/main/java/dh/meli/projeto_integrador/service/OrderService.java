@@ -80,6 +80,10 @@ public class OrderService implements IOrderService {
             throw new ForbiddenException("Agent's warehouse ID does not belong to section's warehouse ID");
         }
 
+        if (section.getWarehouse().getId() != warehouse.getId()) {
+            throw new ForbiddenException("Section does not belong to the given warehouse");
+        }
+
         OrderEntry orderEntry = new OrderEntry();
 
         orderEntry.setSection(section);
@@ -94,10 +98,12 @@ public class OrderService implements IOrderService {
 
             Product product = productService.findProduct(batchDto.getProductId());
 
-            String productType = product.getSection().getProductType();
+            String sectionProductType = orderEntry.getSection().getProductType();
+
+            String productType = product.getType();
 
             // Validates if product's section equals request given section
-            if (!productType.equals(section.getProductType())) {
+            if (!productType.equals(sectionProductType)) {
                 throw new ForbiddenException(String.format("Product's %s section does not equals the given section",
                         product.getName()));
             }

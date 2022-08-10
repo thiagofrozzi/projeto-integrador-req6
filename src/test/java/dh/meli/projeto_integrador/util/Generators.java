@@ -3,7 +3,9 @@ package dh.meli.projeto_integrador.util;
 import dh.meli.projeto_integrador.dto.dtoInput.BatchDto;
 import dh.meli.projeto_integrador.dto.dtoInput.OrderEntryDto;
 import dh.meli.projeto_integrador.dto.dtoInput.SectionDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.ListProductByWarehouseDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.ProductOutputDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.TotalProductByWarehouseDto;
 import dh.meli.projeto_integrador.model.*;
 
 import java.time.LocalDate;
@@ -61,14 +63,11 @@ public class Generators {
         product.setPrice(12.20);
         product.setId(0);
         product.setName("Maçã");
-        product.setType("Fruta");
-        product.setSection(section);
+        product.setType("Fresco");
 
         HashSet<Product> products = new HashSet<Product>();
 
         products.add(product);
-
-        section.setProducts(products);
 
         OrderEntry orderEntry = new OrderEntry();
 
@@ -195,6 +194,16 @@ public class Generators {
         return createBatch();
     }
 
+    public static List<Batch> getBatches() {
+        List<Batch> batchList = new ArrayList<Batch>();
+
+        Batch batch = createBatch();
+
+        batchList.add(batch);
+
+        return batchList;
+    }
+
     public static ProductOutputDto validProductDto1() {
         return ProductOutputDto.builder()
                 .name("Maçã")
@@ -246,5 +255,15 @@ public class Generators {
     public static List<Product> emptyProductDtoList() {
         List<Product> productList = new ArrayList<>();
         return productList;
+    }
+
+    public static ListProductByWarehouseDto getListProductByWarehouseDto() {
+        List<TotalProductByWarehouseDto> totalProductByWarehouseDtoList = new ArrayList<TotalProductByWarehouseDto>();
+
+        TotalProductByWarehouseDto totalProductByWarehouseDto01 = new TotalProductByWarehouseDto(0, 80);
+
+        totalProductByWarehouseDtoList.add(totalProductByWarehouseDto01);
+
+        return new ListProductByWarehouseDto(0, totalProductByWarehouseDtoList);
     }
 }

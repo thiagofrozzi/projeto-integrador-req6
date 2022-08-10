@@ -23,6 +23,5 @@ import lombok.Setter;
  * @see java.lang.Object
  */
 public class TotalPriceDto {
-
     private Double totalPrice;
 }
