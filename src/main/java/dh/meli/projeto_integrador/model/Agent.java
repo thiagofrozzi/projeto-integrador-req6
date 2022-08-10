@@ -9,24 +9,30 @@ import javax.persistence.*;
  * Method Getter implemented by Lombok lib for get access the private attributes of the Agent Class
  */
 @Getter
-
 /**
  * Method Setter implemented by Lombok lib for set the private attributes of the Agent Class
  */
 @Setter
-
 /**
  * The @Entity annotation marks the Agent Class as an entity bean,
  * so it must have a no-argument constructor that is visible at least with a protected scope.
  */
 @Entity
-
 /**
  * The @Table annotation is used to specify table details that will be used to persist our entities in the database.
  */
 @Table(name = "agent")
+/**
+ * Method builder implemented by Lombok lib
+ */
 @Builder
+/**
+ * Method Default Constructor implemented by Lombok lib
+ */
 @NoArgsConstructor
+/**
+ * Method Constructor with all arguments implemented by Lombok lib
+ */
 @AllArgsConstructor
 /**
  * Class created for modeling the Agent entity on the database
