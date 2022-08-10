@@ -281,21 +281,48 @@ public class Generators {
         return new ListProductByWarehouseDto(1, totalProductByWarehouseDtoList);
     }
 
-    public static Warehouse getCleanWarehouse() {
+    public static Batch getCleanBatch(Product product, OrderEntry orderEntry) {
+        Batch batch = new Batch();
+
+        batch.setId(1);
+        batch.setCurrentTemperature(10);
+        batch.setMinimumTemperature(0);
+        batch.setInitialQuantity(100);
+        batch.setCurrentQuantity(100);
+        batch.setManufacturingDate(LocalDate.now());
+        batch.setManufacturingTime(LocalTime.now());
+        batch.setDueDate(LocalDate.now());
+        batch.setProduct(product);
+        batch.setOrderEntry(orderEntry);
+
+        return batch;
+    }
+
+    public static Warehouse getCleanWarehouse(long id) {
         Warehouse warehouse = new Warehouse();
-        warehouse.setId(1);
+        warehouse.setId(id);
         warehouse.setName("Armazém 01");
         warehouse.setAddress("Rua Almeida 259");
 
         return warehouse;
     }
 
-    public static Section getCleanSection(Warehouse warehouse) {
+    public static Product getCleanProduct() {
+        Product product = new Product();
+
+        product.setName("Peixe");
+        product.setPrice(23.90);
+        product.setType("Congelado");
+
+        return product;
+    }
+
+    public static Section getCleanSection(Warehouse warehouse, int maxProductLoad) {
         Section section = new Section();
 
         section.setId(1);
         section.setCurrentProductLoad(130);
-        section.setMaxProductLoad(2000);
+        section.setMaxProductLoad(maxProductLoad);
         section.setProductType("Fresco");
         section.setWarehouse(warehouse);
 
@@ -310,5 +337,47 @@ public class Generators {
         orderEntry.setSection(section);
 
         return orderEntry;
+    }
+
+    public static Agent getCleanAgent(Warehouse warehouse) {
+        Agent agent = new Agent();
+
+        agent.setName("João Maria");
+        agent.setPhoneNumber("(48) 998764332");
+        agent.setEmailAddress("joao.maria@gmail.com");
+        agent.setWarehouse(warehouse);
+
+        return agent;
+    }
+
+    public static OrderEntryDto getCleanOrderEntryDto(long agentId, long warehouseId, long sectionId, long productId) {
+        BatchDto batchDto = new BatchDto();
+
+        batchDto.setProductId(productId);
+        batchDto.setCurrentQuantity(20);
+        batchDto.setInitialQuantity(20);
+        batchDto.setCurrentTemperature(10);
+        batchDto.setMinimumTemperature(0);
+        batchDto.setManufacturingDate(LocalDate.now());
+        batchDto.setManufacturingTime(LocalTime.now());
+        batchDto.setDueDate(LocalDate.now());
+
+        Set<BatchDto> batchDtoSet = new HashSet<BatchDto>();
+
+        batchDtoSet.add(batchDto);
+
+        SectionDto sectionDto = new SectionDto();
+
+        sectionDto.setSectionId(sectionId);
+        sectionDto.setWarehouseId(warehouseId);
+
+        OrderEntryDto orderEntryDto = new OrderEntryDto();
+
+        orderEntryDto.setSection(sectionDto);
+        orderEntryDto.setAgentId(agentId);
+        orderEntryDto.setBatchStock(batchDtoSet);
+        orderEntryDto.setOrderDate(LocalDate.now());
+
+        return orderEntryDto;
     }
 }
