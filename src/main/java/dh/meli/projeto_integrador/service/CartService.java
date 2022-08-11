@@ -220,7 +220,11 @@ public class CartService implements ICartService {
         return new UpdateStatusDto("Cart Finished successfully");
 
     }
-
+    /**
+     * Method that fetch a cart in the database and verify that it exists throwing an exception if it doesn't
+     * @param id of type Long
+     * @return an object of type Cart with an the corresponding id
+     */
     private Cart findCartIfExists(Long id) {
         return cartRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cart not found with this id"));
     }
