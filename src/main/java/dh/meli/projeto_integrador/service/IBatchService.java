@@ -1,6 +1,10 @@
 package dh.meli.projeto_integrador.service;
 
+import dh.meli.projeto_integrador.dto.dtoOutput.BatchStockDto;
 import dh.meli.projeto_integrador.model.Batch;
+import dh.meli.projeto_integrador.model.OrderEntry;
+
+import java.util.List;
 
 /**
  * Interface to specify service methods implemented on BatchService class.
@@ -15,4 +19,27 @@ public interface IBatchService {
      * @return an object of type Batch
      */
     Batch createBatch(Batch batch);
+
+    /**
+     * Method to find all batches that belongs to a given Order Entry;
+     * @param orderEntry of type OrderEntry. OrderEntry instance;
+     * @return a List of objects of type Batch;
+     */
+    List<Batch> findAllByOrderEntry(OrderEntry orderEntry);
+
+    /**
+     * Method used to get batch entries by section ordered by due date
+     * @param sectionId of type long represents section identifier
+     * @param numberOfDays of type long represents the amount of days further than now to query batchStock
+     * @return
+     */
+    List<BatchStockDto> getBatchBySectionOrderedByDueDate(long sectionId, long numberOfDays);
+
+    /**
+     * Method used to get batch entries by category ordered by due date
+     * @param category of type String represents the product type
+     * @param numberOfDays of type long represents the amount of days further than now to query batchStock
+     * @return
+     */
+    List<BatchStockDto> getBatchByCategoryOrderedByDueDate(long numberOfDays, String category);
 }
