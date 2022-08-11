@@ -67,8 +67,4 @@ public class Section {
 
     @Column(name = "current_product_load")
     private long currentProductLoad;
-
-    @OneToMany(mappedBy = "section")
-    @JsonIgnoreProperties("section")
-    private Set<Product> products;
 }
