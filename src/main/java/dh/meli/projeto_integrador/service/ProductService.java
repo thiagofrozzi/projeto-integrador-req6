@@ -18,6 +18,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 /**
  * Class responsible for business rules and communication with the Product Repository layer;
+ *
  * @author Diovana Valim, Rafael Cavalcante, Amanda Marinelli e Thiago Almeida.
  * @version 0.0.1
  */
@@ -38,6 +39,7 @@ public class ProductService implements IProductService {
 
     /**
      * Method to find a list of products and return a ProductDto.
+     *
      * @return a list of objects of type ProductDto.
      */
     @Override
@@ -51,6 +53,7 @@ public class ProductService implements IProductService {
 
     /**
      * Method to find a list of products of a specified category and return a ProductDto.
+     *
      * @param category of type String.
      * @return a list of objects of type ProductDto.
      */
@@ -65,6 +68,7 @@ public class ProductService implements IProductService {
 
     /**
      * Method to find a product by id;
+     *
      * @param id of type long. Product identifier;
      * @return an object of type Product;
      */
@@ -81,7 +85,8 @@ public class ProductService implements IProductService {
 
     /**
      * Method to find a product by id and return some properties about the batches;
-     * @param id of type long. Product identifier;
+     *
+     * @param id    of type long. Product identifier;
      * @param order of type character that identifies the specified order to list the result.
      * @return a DTO with informations of the product and his batches;
      */
@@ -107,6 +112,7 @@ public class ProductService implements IProductService {
 
     /**
      * Method to filter a list of batches to contain only batches that have 3 or more weeks until their due date;
+     *
      * @param batchList a  List of Batch to be filtered.
      * @return a filtered list of batches;
      */
@@ -118,8 +124,9 @@ public class ProductService implements IProductService {
 
     /**
      * Method to sorted a list of batches
+     *
      * @param batchList a  List of Batch to be sorted.
-     * @param order a  List of Batch to be sorted.
+     * @param order     a  List of Batch to be sorted.
      * @return a filtered list of batches;
      */
     private static List<Batch> sortByOrder(List<Batch> batchList, Character order) {
@@ -132,12 +139,10 @@ public class ProductService implements IProductService {
                 return batchList.stream()
                         .sorted(Comparator.comparingInt(Batch::getCurrentQuantity))
                         .collect(Collectors.toList());
-            case 'V':
+            default:
                 return batchList.stream()
                         .sorted(Comparator.comparing(Batch::getDueDate))
                         .collect(Collectors.toList());
-            default:
-                return batchList;
         }
     }
 }
