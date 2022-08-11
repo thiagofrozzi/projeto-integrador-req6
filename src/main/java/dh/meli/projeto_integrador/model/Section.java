@@ -67,4 +67,5 @@ public class Section {
 
     @Column(name = "current_product_load")
     private long currentProductLoad;
+
 }

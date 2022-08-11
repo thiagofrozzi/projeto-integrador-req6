@@ -2,7 +2,6 @@ package dh.meli.projeto_integrador.repository;
 
 import dh.meli.projeto_integrador.model.Batch;
 import dh.meli.projeto_integrador.model.Product;
-
 import org.springframework.data.jpa.repository.Query;
 import dh.meli.projeto_integrador.model.OrderEntry;
 
@@ -17,12 +16,14 @@ import java.util.List;
  * @version 0.0.2
  */
 public interface IBatchRepository extends CrudRepository<Batch, Long> {
+
     /**
      * Method that find a product by id
      * @param product an object of type Product
      * @return an object of type Batch
      */
     Batch findByProduct(Product product);
+
 
     @Query(value = "SELECT * FROM batch WHERE product_id = ?1", nativeQuery = true)
     List<Batch> findBatchByProductId(long id);

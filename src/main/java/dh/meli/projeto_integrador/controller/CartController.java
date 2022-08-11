@@ -1,7 +1,10 @@
 package dh.meli.projeto_integrador.controller;
 
 import dh.meli.projeto_integrador.dto.dtoInput.CartDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.CartOutputDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;
+
+
 import dh.meli.projeto_integrador.dto.dtoOutput.UpdateStatusDto;
 import dh.meli.projeto_integrador.enumClass.PurchaseOrderStatusEnum;
 import dh.meli.projeto_integrador.exception.ForbiddenException;
@@ -13,9 +16,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+
 /**
  * Class responsible for processing user's requests and generating appropriated HTTP responses;
- * @author Gabriela Azevedo, Thiago Frozzi e Amanda Marinelli
+ * @author Gabriela Azevedo, Thiago Frozzi, Amanda Marinelli, Rafael Cavalcante
  * @version 0.0.1;
  */
 @RestController
@@ -40,6 +44,16 @@ public class CartController {
         }
         TotalPriceDto createdCart = cartService.createCart(cartDto);
         return new ResponseEntity<>(createdCart, HttpStatus.CREATED);
+    }
+
+    /**
+     * A get method that when called will return in the body request a cart of a specified by the id in the URL
+     * @param id a Long received by the URL request to determine the id of the cart wanted
+     * @return Response Entity of type  CartOutputDto and the corresponding HttpStatus ;
+     */
+    @GetMapping("/orders/{id}")
+    public ResponseEntity<CartOutputDto> getCartById(@PathVariable Long id) {
+        return ResponseEntity.ok(cartService.getCartById(id));
     }
 
     /**
