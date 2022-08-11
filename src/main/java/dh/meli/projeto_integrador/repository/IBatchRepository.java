@@ -18,16 +18,16 @@ import java.util.List;
 public interface IBatchRepository extends CrudRepository<Batch, Long> {
 
     /**
-     * Method that find a batch by product
-     * @param product an object of type Product
-     * @return an object of type Batch
+     * Method that find a batch by product;
+     * @param product an object of type Product;
+     * @return an object of type Batch;
      */
     Batch findByProduct(Product product);
 
 	/**
-	 * Method that find a batch by product id
-	 * @param id long that represents Product identifier
-	 * @return a List of Batches
+	 * Method that find a batch by product id;
+	 * @param id long that represents Product identifier;
+	 * @return a List of Batches;
 	 */
     @Query(value = "SELECT * FROM batch WHERE product_id = ?1", nativeQuery = true)
     List<Batch> findBatchByProductId(long id);
@@ -40,8 +40,8 @@ public interface IBatchRepository extends CrudRepository<Batch, Long> {
 	List<Batch> findByOrderEntry(OrderEntry orderEntry);
 
 	/**
-	 * Method to find all batches that belongs to a given Order Entry;
-	 * @param sectionId long that represents Section identifier
+	 * Method to find all batches querying by section_id parameter;
+	 * @param sectionId long that represents Section identifier;
 	 * @return a List of objects of type Batch;
 	 */
 	@Query(value = "SELECT * from batch " +
@@ -49,4 +49,13 @@ public interface IBatchRepository extends CrudRepository<Batch, Long> {
 			"JOIN section ON section.id = order_entry.section_id  " +
 			"WHERE section.id = ?1", nativeQuery = true)
 	List<Batch> findBatchBySectionId(long sectionId);
+
+	/**
+	 * Method to find all batches querying by associated product type;
+	 * @param category String;
+	 * @return a List of objects of type Batch;
+	 */
+	@Query(value = "SELECT * FROM batch JOIN product ON product.id = batch.product_id WHERE product.type = ?1",
+			nativeQuery = true)
+	List<Batch> findBatchByProductType(String category);
 }
