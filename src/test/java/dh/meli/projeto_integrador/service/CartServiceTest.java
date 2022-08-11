@@ -14,17 +14,14 @@ import dh.meli.projeto_integrador.repository.IProductRepository;
 import dh.meli.projeto_integrador.util.Generators;
 import dh.meli.projeto_integrador.utils.GenerateCart;
 import dh.meli.projeto_integrador.utils.GenerateCustomer;
-import org.hibernate.sql.Update;
 
-import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;
-import dh.meli.projeto_integrador.dto.dtoOutput.UpdateStatusDto;
+
+import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;;
 import dh.meli.projeto_integrador.exception.ForbiddenException;
-import dh.meli.projeto_integrador.exception.ResourceNotFoundException;
 import dh.meli.projeto_integrador.model.*;
 import dh.meli.projeto_integrador.repository.*;
 import dh.meli.projeto_integrador.utils.*;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -168,7 +165,7 @@ class CartServiceTest {
             cartService.getCartById(id);
         });
 
-        assertThat(exception.getMessage()).isEqualTo(String.format("Could not find valid cart for id %d", id));
+        assertThat(exception.getMessage()).isEqualTo("Cart not found with this id");
 
         verify(cartRepository, atLeastOnce()).findById(id);
     }
