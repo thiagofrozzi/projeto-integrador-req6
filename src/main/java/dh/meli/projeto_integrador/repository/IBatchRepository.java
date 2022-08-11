@@ -2,7 +2,6 @@ package dh.meli.projeto_integrador.repository;
 
 import dh.meli.projeto_integrador.model.Batch;
 import dh.meli.projeto_integrador.model.Product;
-
 import org.springframework.data.jpa.repository.Query;
 import dh.meli.projeto_integrador.model.OrderEntry;
 
@@ -17,6 +16,7 @@ import java.util.List;
  * @version 0.0.2
  */
 public interface IBatchRepository extends CrudRepository<Batch, Long> {
+
     /**
      * Method that find a product by id
      * @param product an object of type Product
@@ -24,18 +24,18 @@ public interface IBatchRepository extends CrudRepository<Batch, Long> {
      */
     Batch findByProduct(Product product);
 
-	/**
-	 * Method for to find a Batch by product id
-	 * @param id Long
-	 * @return a list of objects of type Batch
-	 */
-	@Query(value = "SELECT * FROM batch WHERE product_id = ?1", nativeQuery = true)
+    /**
+     * Method for to find a Batch by product id
+     * @param id Long
+     * @return a list of objects of type Batch
+     */
+    @Query(value = "SELECT * FROM batch WHERE product_id = ?1", nativeQuery = true)
     List<Batch> findBatchByProductId(long id);
-    
-	/**
-	 * Method to find all batches that belongs to a given Order Entry;
-	 * @param orderEntry of type OrderEntry. OrderEntry instance;
-	 * @return a List of objects of type Batch;
-	 */
-	List<Batch> findByOrderEntry(OrderEntry orderEntry);
+
+    /**
+     * Method to find all batches that belongs to a given Order Entry;
+     * @param orderEntry of type OrderEntry. OrderEntry instance;
+     * @return a List of objects of type Batch;
+     */
+    List<Batch> findByOrderEntry(OrderEntry orderEntry);
 }

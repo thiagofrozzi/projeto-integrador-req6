@@ -1,11 +1,17 @@
 package dh.meli.projeto_integrador.service;
 
 import dh.meli.projeto_integrador.dto.dtoInput.ProductDto;
+
+import dh.meli.projeto_integrador.dto.dtoOutput.CartOutputDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.CartProductsOutputDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;
+
 import dh.meli.projeto_integrador.dto.dtoOutput.UpdateStatusDto;
 import dh.meli.projeto_integrador.enumClass.PurchaseOrderStatusEnum;
 import dh.meli.projeto_integrador.dto.dtoInput.CartDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;
 import dh.meli.projeto_integrador.exception.ForbiddenException;
+
 import dh.meli.projeto_integrador.exception.ResourceNotFoundException;
 import dh.meli.projeto_integrador.model.*;
 import dh.meli.projeto_integrador.repository.*;
@@ -16,10 +22,11 @@ import javax.transaction.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Class responsible for business rules and communication with the Cart Repository layer
- * @author Gabriela Azevedo
+ * @author Gabriela Azevedo, Rafael Cavalcante.
  * @version 0.0.1
  */
 @Service
@@ -139,12 +146,70 @@ public class CartService implements ICartService {
     }
 
     /**
+<<<<<<< HEAD
+     * A method that recive a list of ProductCart fetch the products and create a list of CartProductsOutputDto.
+     * @param cartProducts a list of objects of type ProductCart.
+     * @return a list of CartProductsOutputDto.
+     */
+    private List<CartProductsOutputDto> createCartProductList (List<ProductCart> cartProducts) {
+        List<CartProductsOutputDto> cartProductsDtos = new ArrayList<>();
+        for (ProductCart productCart : cartProducts) {
+            Product product = productRepository.findById(productCart.getProduct().getId()).get();
+            cartProductsDtos.add(CartProductsOutputDto.builder()
+                    .name(product.getName())
+                    .type(product.getType())
+                    .price(product.getPrice())
+                    .quantity(productCart.getQuantity())
+                    .subtotal(product.getPrice() * productCart.getQuantity())
+                    .build()
+            );
+        }
+        return cartProductsDtos;
+    }
+
+    /**
+     * An auxiliar method that receives a list of type CartProductsOutputDto and calculates the total price of the cart products.
+     * @param cartProductsDtos List of objects of type CartProductsOutputDto
+     * @return a Double totalPrice.
+     */
+    private Double calculateCartTotal(List<CartProductsOutputDto> cartProductsDtos){
+        Double totalPrice = 0.0;
+        for (CartProductsOutputDto productCartDto : cartProductsDtos) {
+            totalPrice += productCartDto.getSubtotal();
+        }
+        return totalPrice;
+    }
+
+    /**
+     * Method that handles the request to fetch a cart in the database and return an Dto with the relevant information.
+     * @param id a Long with the id of the cart requested
+     * @return an object of type CartOutputDto with all the information regarding the cart requested.
+     */
+    public CartOutputDto getCartById(Long id) {
+        Cart existCart = findCartIfExists(id);
+
+        Customer customer = customerRepository.findById(existCart.getCustomer().getId()).get();
+
+        List<ProductCart> cartProducts = new ArrayList<>(existCart.getProductCarts());
+
+        List<CartProductsOutputDto> cartProductsDtos = createCartProductList(cartProducts);
+
+        Double total = calculateCartTotal(cartProductsDtos);
+        return CartOutputDto.builder()
+                .customerName(customer.getName())
+                .status(existCart.getStatus())
+                .date(existCart.getDate())
+                .products(cartProductsDtos)
+                .total(total)
+                .build();
+    }
+    /**
      * Method that calls the other methods of this class and persists the info of the carts on the database and returns the total price for the user.
      * @param id of type Long
      * @return an object of type UpdateStatusDto with an attribute message of type String.
      */
     public UpdateStatusDto updateStatusCart(Long id){
-        Cart existCart = cartRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cart not found with this id"));
+        Cart existCart = findCartIfExists(id);
 
         if(existCart.getStatus() == PurchaseOrderStatusEnum.FINISHED) throw new ForbiddenException("Cart already Finished");
 
@@ -153,5 +218,14 @@ public class CartService implements ICartService {
         cartRepository.save(existCart);
 
         return new UpdateStatusDto("Cart Finished successfully");
+
+    }
+    /**
+     * Method that fetch a cart in the database and verify that it exists throwing an exception if it doesn't
+     * @param id of type Long
+     * @return an object of type Cart with an the corresponding id
+     */
+    private Cart findCartIfExists(Long id) {
+        return cartRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cart not found with this id"));
     }
 }

@@ -60,7 +60,7 @@ public class ProductRepositoryTest {
         Product newProduct1 = Generators.validProduct1();
         Product newProduct2 = Generators.validProduct2();
         productRepository.save(newProduct1);
-        List<Product> products = (List<Product>) productRepository.findAllByType(newProduct2.getType());
+        List<Product> products = productRepository.findAllByType(newProduct2.getType());
 
         assertThat(products).isEmpty();
     }

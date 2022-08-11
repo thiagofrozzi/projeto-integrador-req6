@@ -1,4 +1,4 @@
-package dh.meli.projeto_integrador.dto.dtoInput;
+package dh.meli.projeto_integrador.dto.dtoOutput;
 
 import lombok.*;
 
@@ -23,14 +23,15 @@ import lombok.*;
  */
 @Builder
 /**
- * Class used to create a Data Transfer Object for Section POJO
- * @author Diovana Valim, Thiago Almeida
- * @version 0.0.2
+ * Class used to create a Data Transfer Object for used on CartOutputDto POJO
+ * @author Rafael Cavalcante
+ * @version 0.0.1
  * @see java.lang.Object
  */
-public class SectionDto {
-
-    private long sectionId;
-
-    private long warehouseId;
+public class CartProductsOutputDto {
+    private String name;
+    private String type;
+    private Double price;
+    private Integer quantity;
+    private Double subtotal;
 }
