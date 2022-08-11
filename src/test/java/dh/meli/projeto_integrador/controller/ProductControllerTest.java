@@ -15,10 +15,10 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.mockito.ArgumentMatchers.anyString;
 
 
 @WebMvcTest(ProductController.class)
@@ -49,7 +49,7 @@ class ProductControllerTest {
 
 
     @Test
-    void listProductByCategory() throws Exception{
+    void listProductByCategory() throws Exception {
         List<ProductOutputDto> list = Generators.productDtoList();
         BDDMockito.when(service.getProductsByCategory(anyString()))
                 .thenReturn(list);
@@ -64,4 +64,16 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$[0].name",
                         CoreMatchers.is(Generators.validProductDto1().getName())));
     }
+
+    @Test
+    void getProductBratches() throws Exception {
+        BDDMockito.when(service.getProductBatchProps(anyLong(), anyChar()))
+                .thenReturn(Generators.getEmptyProductStockDto());
+
+        ResultActions response = mockMvc.perform(get("/api/v1/fresh-products/list/1",
+                Generators.getEmptyProductStockDto())
+                .contentType(MediaType.APPLICATION_JSON));
+        response.andExpect(status().isOk());
+    }
+
 }
