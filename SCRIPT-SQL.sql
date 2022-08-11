@@ -31,6 +31,12 @@ insert into product values
 (null, 'Sorvete', 20.10, 'Congelado');
 
 insert into customer values
-(null, '111.111.111-11', 'Alberto@email.com', 'Alberto', '1111-1111'),
-(null, '222.222.222-22', 'Bernado@email.com', 'Bernardo', '2222-2222'),
-(null, '333.333.333-33', 'Carolina@email.com', 'Carolina', '3333-3333');
+(null,'111.111.111-11','Alberto@email.com','Alberto','1111-1111'),
+(null,'222.222.222-22','Bernado@email.com','Bernardo','2222-2222'),
+(null,'333.333.333-33','Carolina@email.com','Carolina', '3333-3333');
+
+insert into cart values (1, "2022-08-08", "OPEN", 1);
+insert into cart values (2, "2022-08-08", "OPEN", 1);
+insert into cart values (3, "2022-08-08", "OPEN", 1);
+insert into cart values (4, "2022-08-08", "OPEN", 1);
+insert into cart values (5, "2022-08-08", "OPEN", 1);

@@ -6,11 +6,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Method Getter implemented by Lombok lib for get access the private attributes of the TotalPriceDto Class
+ * Method Getter implemented by Lombok lib for get access the private attributes of the UpdateStatusDto Class
  */
 @Getter
+
 /**
- * Method Setter implemented by Lombok lib for set the private attributes of the TotalPriceDto Class
+ * Method Setter implemented by Lombok lib for set the private attributes of the UpdateStatusDto Class
  */
 @Setter
 /**
@@ -22,11 +23,11 @@ import lombok.Setter;
  */
 @Builder
 /**
- * Class used to create a Data Transfer Object for TotalPrice POJO
- * @author Gabriela Azevedo
+ * Class used to create a Data Transfer Object for UpdateStatusDto POJO
+ * @author Thiago Frozzi
  * @version 0.0.1
  * @see java.lang.Object
  */
-public class TotalPriceDto {
-    private Double totalPrice;
+public class UpdateStatusDto {
+    private String message;
 }

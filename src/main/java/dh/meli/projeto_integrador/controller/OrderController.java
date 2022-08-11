@@ -19,6 +19,9 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class OrderController {
 
+    /**
+     * Dependency Injection of the OrderService.
+     */
     @Autowired
     private OrderService orderService;
 

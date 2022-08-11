@@ -69,5 +69,4 @@ public class ErrorHandler {
                 .build(),
                 HttpStatus.NOT_FOUND);
     }
-    
 }
