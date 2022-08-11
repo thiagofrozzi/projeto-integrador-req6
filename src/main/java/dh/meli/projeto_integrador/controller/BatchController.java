@@ -1,5 +1,6 @@
 package dh.meli.projeto_integrador.controller;
 
+import dh.meli.projeto_integrador.dto.dtoInput.CategoryDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.BatchStockDto;
 import dh.meli.projeto_integrador.service.BatchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +30,10 @@ public class BatchController {
     }
 
     @GetMapping("/fresh-products/due-date/number-of-days/{numberOfDays}/category/{category}")
-    public ResponseEntity<List<BatchStockDto>> getBatchByCategoryOrderedByDueDate(@PathVariable long numberOfDays,
+    public ResponseEntity<List<BatchStockDto>> getBatchByProductTypeOrderedByDueDate(@PathVariable long numberOfDays,
                                                                                   @PathVariable String category) {
-        List<BatchStockDto> batchStockDtoList = batchService.getBatchByCategoryOrderedByDueDate(numberOfDays,
-                category);
+        List<BatchStockDto> batchStockDtoList = batchService.getBatchByProductTypeOrderedByDueDate(numberOfDays,
+                new CategoryDto(category));
 
         return new ResponseEntity<List<BatchStockDto>>(batchStockDtoList, HttpStatus.OK);
     }
