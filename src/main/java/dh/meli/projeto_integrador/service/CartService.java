@@ -22,6 +22,7 @@ import javax.transaction.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Class responsible for business rules and communication with the Cart Repository layer
