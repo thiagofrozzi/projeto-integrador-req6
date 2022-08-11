@@ -1,6 +1,5 @@
 package dh.meli.projeto_integrador.dto.dtoInput;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 /**
@@ -31,9 +30,7 @@ import lombok.*;
  */
 public class SectionDto {
 
-    @JsonProperty("sectionCode")
     private long sectionId;
 
-    @JsonProperty("warehouseCode")
     private long warehouseId;
 }
