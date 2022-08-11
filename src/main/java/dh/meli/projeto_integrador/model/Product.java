@@ -1,6 +1,5 @@
 package dh.meli.projeto_integrador.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -59,11 +58,6 @@ public class Product {
     @OneToMany(mappedBy = "product")
     @JsonIgnoreProperties("product")
     private Set<Batch> batches;
-
-    @ManyToOne
-    @JoinColumn(name = "section_id", referencedColumnName = "id")
-    @JsonBackReference
-    private Section section;
 
     @Column(name = "name")
     private String name;

@@ -9,6 +9,7 @@ import dh.meli.projeto_integrador.dto.dtoOutput.CartProductsOutputDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.ProductOutputDto;
 import dh.meli.projeto_integrador.enumClass.PurchaseOrderStatusEnum;
 
+
 import dh.meli.projeto_integrador.dto.dtoOutput.ListProductByWarehouseDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.TotalProductByWarehouseDto;
 import dh.meli.projeto_integrador.model.*;
@@ -360,6 +361,7 @@ public class Generators {
                 .products(validProductCartOutputDtoList())
                 .total(201.0)
                 .build();
+
     }
 
     public static ListProductByWarehouseDto getListProductByWarehouseDto() {
@@ -470,6 +472,7 @@ public class Generators {
         orderEntryDto.setOrderDate(LocalDate.now());
 
         return orderEntryDto;
-
     }
+
+
 }
