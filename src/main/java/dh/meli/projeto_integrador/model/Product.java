@@ -1,6 +1,14 @@
 package dh.meli.projeto_integrador.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -51,10 +59,6 @@ public class Product {
     @JsonIgnoreProperties("product")
     private Set<Batch> batches;
 
-    @ManyToOne
-    @JoinColumn(name = "section_id", referencedColumnName = "id")
-    private Section section;
-
     @Column(name = "name")
     private String name;
 
@@ -65,6 +69,6 @@ public class Product {
     private double price;
 
     @OneToMany(mappedBy = "product")
-    @JsonIgnoreProperties("product")
+    @JsonManagedReference
     private Set<ProductCart> productCarts;
 }
