@@ -1,5 +1,6 @@
 package dh.meli.projeto_integrador.dto.dtoInput;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 /**
@@ -24,13 +25,15 @@ import lombok.*;
 @Builder
 /**
  * Class used to create a Data Transfer Object for Section POJO
- * @author Diovana Valim
- * @version 0.0.1
+ * @author Diovana Valim, Thiago Almeida
+ * @version 0.0.2
  * @see java.lang.Object
  */
 public class SectionDto {
 
+    @JsonProperty("sectionCode")
     private long sectionId;
 
+    @JsonProperty("warehouseCode")
     private long warehouseId;
 }

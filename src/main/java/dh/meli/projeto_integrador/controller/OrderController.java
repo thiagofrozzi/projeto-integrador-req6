@@ -6,10 +6,7 @@ import dh.meli.projeto_integrador.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,5 +35,12 @@ public class OrderController {
         List<BatchDto> batchDtoList = orderService.createInboundOrder(orderEntryDto);
 
         return new ResponseEntity<List<BatchDto>>(batchDtoList, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/fresh-products/inboundorder/{id}")
+    public ResponseEntity<List<BatchDto>> updateInboundOrder(@RequestBody OrderEntryDto orderEntryDto, @PathVariable Long id) {
+        List<BatchDto> batches = orderService.updateInboundOrder(orderEntryDto, id);
+
+        return new ResponseEntity<List<BatchDto>>(batches, HttpStatus.CREATED);
     }
 }

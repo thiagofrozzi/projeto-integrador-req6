@@ -22,7 +22,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -75,12 +74,12 @@ public class OrderServiceTest {
 
         List<BatchDto> batches = orderService.createInboundOrder(orderEntryDto);
 
-        OrderEntry generatedOrderEntry = Generators.getOrderEntry();
-        ArrayList<Batch> generatedBatches = new ArrayList<Batch>(generatedOrderEntry.getBatches());
+        List<Batch> generatedBatches = Generators.getBatches();
 
         assertThat(batches.size()).isEqualTo(1);
-        assertThat(batches.get(0).getBatchId()).isEqualTo(generatedBatches.get(0).getId());
         assertThat(batches.get(0).getDueDate()).isEqualTo(generatedBatches.get(0).getDueDate());
+        assertThat(batches.get(0).getCurrentQuantity()).isEqualTo(generatedBatches.get(0).getCurrentQuantity());
+        assertThat(batches.get(0).getProductId()).isEqualTo(generatedBatches.get(0).getProduct().getId());
 
         verify(warehouseService, atLeastOnce()).findWarehouse(orderEntryDto.getSection().getWarehouseId());
         verify(sectionService, atLeastOnce()).findSection(orderEntryDto.getSection().getSectionId());
