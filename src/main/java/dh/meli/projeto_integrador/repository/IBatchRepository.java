@@ -24,7 +24,12 @@ public interface IBatchRepository extends CrudRepository<Batch, Long> {
      */
     Batch findByProduct(Product product);
 
-    @Query(value = "SELECT * FROM batch WHERE product_id = ?1", nativeQuery = true)
+	/**
+	 * Method for to find a Batch by product id
+	 * @param id Long
+	 * @return a list of objects of type Batch
+	 */
+	@Query(value = "SELECT * FROM batch WHERE product_id = ?1", nativeQuery = true)
     List<Batch> findBatchByProductId(long id);
     
 	/**

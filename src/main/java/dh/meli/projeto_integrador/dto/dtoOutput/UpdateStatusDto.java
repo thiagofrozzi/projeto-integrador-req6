@@ -9,7 +9,6 @@ import lombok.Setter;
  * Method Getter implemented by Lombok lib for get access the private attributes of the UpdateStatusDto Class
  */
 @Getter
-
 /**
  * Method Setter implemented by Lombok lib for set the private attributes of the UpdateStatusDto Class
  */
