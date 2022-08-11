@@ -2,6 +2,8 @@ package dh.meli.projeto_integrador.dto.dtoInput;
 
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Method Getter implemented by Lombok lib for get access the private attributes of the Product Class
  */
@@ -30,7 +32,9 @@ import lombok.*;
  */
 public class SectionDto {
 
+    @NotNull(message = "You shall define a section ID")
     private long sectionId;
 
+    @NotNull(message = "You shall define a warehouse ID")
     private long warehouseId;
 }
