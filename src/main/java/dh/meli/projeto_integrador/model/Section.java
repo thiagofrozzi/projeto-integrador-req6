@@ -1,8 +1,7 @@
 package dh.meli.projeto_integrador.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -27,7 +26,18 @@ import java.util.Set;
  * The @Table annotation is used to specify table details that will be used to persist our entities in the database.
  */
 @Table(name = "section")
-
+/**
+ * Method builder implemented by Lombok lib
+ */
+@Builder
+/**
+ * Method Default Constructor implemented by Lombok lib
+ */
+@NoArgsConstructor
+/**
+ * Method Constructor with all arguments implemented by Lombok lib
+ */
+@AllArgsConstructor
 /**
  * Class created for modeling the Section entity on the database
  * @author Diovana Valim
@@ -58,7 +68,4 @@ public class Section {
     @Column(name = "current_product_load")
     private long currentProductLoad;
 
-    @OneToMany(mappedBy = "section")
-    @JsonIgnoreProperties("section")
-    private Set<Product> products;
 }
