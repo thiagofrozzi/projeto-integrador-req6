@@ -48,6 +48,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class CartIntegrationTest {
 
     @Autowired
@@ -94,11 +95,13 @@ public class CartIntegrationTest {
         Product savedproduct2 =productRepository.save(product2);
         productCart1.setCart(savedCart);
         productCart2.setCart(savedCart);
+        productCart1.setProduct(savedproduct1);
+        productCart2.setProduct(savedproduct2);
         ProductCart savedProductCart1 = productCartRepository.save(productCart1);
         ProductCart savedProductCart2 = productCartRepository.save(productCart2);
 
         ResultActions response = mockMvc.perform(
-                get("/api/v1/fresh-products//orders/{id}", savedCart.getId())
+                get("/api/v1/fresh-products/orders/{id}", savedCart.getId())
                         .contentType(MediaType.APPLICATION_JSON));
 
 
@@ -133,9 +136,11 @@ public class CartIntegrationTest {
         Customer customer = GenerateCustomer.newCustomer1();
         customerRepository.save(customer);
         Product product = GenerateProduct.newProduct1();
-        productRepository.save(product);
+        Product newProduct = productRepository.save(product);
         Batch batch = GenerateBatch.newBatch1();
+        batch.setProduct(newProduct);
         batchRepository.save(batch);
+        cartDto.getProducts().get(0).setProductId(newProduct.getId());
 
         ResultActions response = mockMvc.perform(post("/api/v1/fresh-products/orders")
                 .content(objectMapper.writeValueAsString(cartDto))
