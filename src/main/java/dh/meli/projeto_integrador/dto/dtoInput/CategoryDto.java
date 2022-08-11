@@ -44,6 +44,5 @@ public class CategoryDto {
                 throw new InvalidParameterTypeException(String.format("Invalid value %s for category path param",
                         category));
         }
-
     }
 }
