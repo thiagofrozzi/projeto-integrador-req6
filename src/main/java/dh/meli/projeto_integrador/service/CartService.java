@@ -186,22 +186,19 @@ public class CartService implements ICartService {
      * @return an object of type CartOutputDto with all the information regarding the cart requested.
      */
     public CartOutputDto getCartById(Long id) {
-        Optional<Cart> cart = cartRepository.findById(id);
+        Cart existCart = findCartIfExists(id);
 
-        if (cart.isEmpty())
-            throw new ResourceNotFoundException(String.format("Could not find valid cart for id %d", id));
+        Customer customer = customerRepository.findById(existCart.getCustomer().getId()).get();
 
-        Customer customer = customerRepository.findById(cart.get().getCustomer().getId()).get();
-
-        List<ProductCart> cartProducts = new ArrayList<>(cart.get().getProductCarts());
+        List<ProductCart> cartProducts = new ArrayList<>(existCart.getProductCarts());
 
         List<CartProductsOutputDto> cartProductsDtos = createCartProductList(cartProducts);
 
         Double total = calculateCartTotal(cartProductsDtos);
         return CartOutputDto.builder()
                 .customerName(customer.getName())
-                .status(cart.get().getStatus())
-                .date(cart.get().getDate())
+                .status(existCart.getStatus())
+                .date(existCart.getDate())
                 .products(cartProductsDtos)
                 .total(total)
                 .build();
@@ -212,7 +209,7 @@ public class CartService implements ICartService {
      * @return an object of type UpdateStatusDto with an attribute message of type String.
      */
     public UpdateStatusDto updateStatusCart(Long id){
-        Cart existCart = cartRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cart not found with this id"));
+        Cart existCart = findCartIfExists(id);
 
         if(existCart.getStatus() == PurchaseOrderStatusEnum.FINISHED) throw new ForbiddenException("Cart already Finished");
 
@@ -222,5 +219,9 @@ public class CartService implements ICartService {
 
         return new UpdateStatusDto("Cart Finished successfully");
 
+    }
+
+    private Cart findCartIfExists(Long id) {
+        return cartRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cart not found with this id"));
     }
 }
