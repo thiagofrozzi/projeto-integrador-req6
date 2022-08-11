@@ -1,5 +1,6 @@
 package dh.meli.projeto_integrador.service;
 
+import dh.meli.projeto_integrador.dto.dtoInput.CategoryDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.BatchStockDto;
 import dh.meli.projeto_integrador.model.Batch;
 import dh.meli.projeto_integrador.model.OrderEntry;
@@ -31,7 +32,7 @@ public interface IBatchService {
      * Method used to get batch entries by section ordered by due date
      * @param sectionId of type long represents section identifier
      * @param numberOfDays of type long represents the amount of days further than now to query batchStock
-     * @return
+     * @return a List of objects of type BatchStockDto
      */
     List<BatchStockDto> getBatchBySectionOrderedByDueDate(long sectionId, long numberOfDays);
 
@@ -39,7 +40,15 @@ public interface IBatchService {
      * Method used to get batch entries by category ordered by due date
      * @param category of type String represents the product type
      * @param numberOfDays of type long represents the amount of days further than now to query batchStock
-     * @return
+     * @return a List of objects of type BatchStockDto
      */
-    List<BatchStockDto> getBatchByCategoryOrderedByDueDate(long numberOfDays, String category);
+    List<BatchStockDto> getBatchByProductTypeOrderedByDueDate(long numberOfDays, CategoryDto category);
+
+    /**
+     * Method used to filter batch entries by due date, ordering asc
+     * @param batchList list of batch entries
+     * @param numberOfDays of type long represents the amount of days further than now to query batchStock
+     * @return a List of objects of type BatchStockDto
+     */
+    List<BatchStockDto> filterBatchStockByDueDate(long numberOfDays, List<Batch> batchList);
 }

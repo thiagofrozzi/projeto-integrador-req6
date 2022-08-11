@@ -1,5 +1,6 @@
 package dh.meli.projeto_integrador.service;
 
+import dh.meli.projeto_integrador.dto.dtoInput.CategoryDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.BatchStockDto;
 import dh.meli.projeto_integrador.exception.InternalServerErrorException;
 import dh.meli.projeto_integrador.exception.ResourceNotFoundException;
@@ -56,22 +57,50 @@ public class BatchService implements IBatchService {
      * Method used to get batch entries by section ordered by due date
      * @param sectionId of type long represents section identifier
      * @param numberOfDays of type long represents the amount of days further than now to query batchStock
-     * @return
+     * @return a List of objects of type BatchStockDto
      */
     @Override
     public List<BatchStockDto> getBatchBySectionOrderedByDueDate(long sectionId, long numberOfDays) {
-        List<Batch> batchArrayList =  batchRepository.findBatchBySectionId(sectionId);
+        List<Batch> batchList =  batchRepository.findBatchBySectionId(sectionId);
 
-        if (batchArrayList.isEmpty()) {
+        if (batchList.isEmpty()) {
             throw new ResourceNotFoundException("The given section does not have available batch stock");
         }
 
+        return filterBatchStockByDueDate(numberOfDays, batchList);
+    }
+
+    /**
+     * Method used to get batch entries by category ordered by due date
+     * @param category of type String represents the product type
+     * @param numberOfDays of type long represents the amount of days further than now to query batchStock
+     * @return a List of objects of type BatchStockDto
+     */
+    @Override
+    public List<BatchStockDto> getBatchByProductTypeOrderedByDueDate(long numberOfDays, CategoryDto category) {
+        List<Batch> batchList = batchRepository.findBatchByProductType(category.getProductType());
+
+        if (batchList.isEmpty()) {
+            throw new ResourceNotFoundException("The given category does not have available batch stock");
+        }
+
+        return filterBatchStockByDueDate(numberOfDays, batchList);
+    }
+
+    /**
+     * Method used to filter batch entries by due date, ordering asc
+     * @param batchList list of batch entries
+     * @param numberOfDays of type long represents the amount of days further than now to query batchStock
+     * @return a List of objects of type BatchStockDto
+     */
+    @Override
+    public List<BatchStockDto> filterBatchStockByDueDate(long numberOfDays, List<Batch> batchList) {
         LocalDate now = LocalDate.now();
         LocalDate finalDate = LocalDate.now().plusDays(numberOfDays);
 
         List<BatchStockDto> batchStockDtoList = new ArrayList<BatchStockDto>();
 
-        for (Batch batch : batchArrayList) {
+        for (Batch batch : batchList) {
             if (batch.getDueDate().isAfter(now) && batch.getDueDate().isBefore(finalDate)) {
                 batchStockDtoList.add(new BatchStockDto(batch));
             }
@@ -80,16 +109,5 @@ public class BatchService implements IBatchService {
         batchStockDtoList.sort(Comparator.comparing(BatchStockDto::getDueDate));
 
         return batchStockDtoList;
-    }
-
-    /**
-     * Method used to get batch entries by category ordered by due date
-     * @param category of type String represents the product type
-     * @param numberOfDays of type long represents the amount of days further than now to query batchStock
-     * @return
-     */
-    @Override
-    public List<BatchStockDto> getBatchByCategoryOrderedByDueDate(long numberOfDays, String category) {
-        return new ArrayList<BatchStockDto>();
     }
 }
