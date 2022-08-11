@@ -257,8 +257,8 @@ public class Generators {
 
     public static List<ProductOutputDto> productDtoList() {
         List<ProductOutputDto> productList = new ArrayList<>();
-        productList.add(validProductDto2());
         productList.add(validProductDto1());
+        productList.add(validProductDto2());
 
         return productList;
     }
@@ -303,8 +303,8 @@ public class Generators {
 
     public static Set<ProductCart> validProductCartList() {
         Set<ProductCart> productCartList = new HashSet<>();
-        productCartList.add(validProductCart1());
         productCartList.add(validProductCart2());
+        productCartList.add(validProductCart1());
         return productCartList;
     }
 
