@@ -3,6 +3,7 @@ package dh.meli.projeto_integrador.service;
 import dh.meli.projeto_integrador.dto.dtoInput.BatchDto;
 import dh.meli.projeto_integrador.dto.dtoInput.OrderEntryDto;
 import dh.meli.projeto_integrador.exception.ForbiddenException;
+import dh.meli.projeto_integrador.exception.ResourceNotFoundException;
 import dh.meli.projeto_integrador.model.*;
 import dh.meli.projeto_integrador.repository.IOrderRepository;
 import dh.meli.projeto_integrador.util.Generators;
@@ -19,10 +20,11 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @ExtendWith(MockitoExtension.class)
@@ -140,6 +142,97 @@ public class OrderServiceTest {
         });
 
         assertThat(exception.getMessage()).isEqualTo("Agent's warehouse ID does not belong to section's warehouse ID");
+
+        verify(warehouseService, atLeastOnce()).findWarehouse(orderEntryDto.getSection().getWarehouseId());
+        verify(sectionService, atLeastOnce()).findSection(orderEntryDto.getSection().getSectionId());
+        verify(agentService, atLeastOnce()).findAgent(orderEntryDto.getAgentId());
+    }
+
+    @Test
+    void findOrderEntry_WrongId() throws Exception {
+        Long id = 1L;
+
+        BDDMockito.when(orderRepository.findById(ArgumentMatchers.anyLong()))
+            .thenReturn(Optional.empty());
+
+        ResourceNotFoundException exception = Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+            OrderEntry orderEntry = orderService.findOrderEntry(id);
+        });
+
+        assertThat(exception.getMessage()).isEqualTo("Could not find valid order entry for id 1");
+    }
+
+    @Test
+    void findOrderEntry_CorrectId() {
+        OrderEntry orderEntryMock = Generators.getOrderEntry();
+
+        BDDMockito.when(orderRepository.findById(ArgumentMatchers.anyLong()))
+            .thenReturn(Optional.of(orderEntryMock));
+
+        OrderEntry orderEntry = orderService.findOrderEntry(1);
+
+        assertThat(orderEntry.getSection().getId()).isEqualTo(orderEntryMock.getSection().getId());
+        assertThat(orderEntry.getOrderDate()).isEqualTo(orderEntryMock.getOrderDate());
+        assertThat(orderEntry.getId()).isEqualTo(orderEntryMock.getId());
+        assertThat(orderEntry.getBatches()).isEqualTo(orderEntryMock.getBatches());
+    }
+
+    @Test
+    void delete_WrongId() throws Exception {
+        Long id = 1L;
+
+        BDDMockito.when(orderRepository.findById(ArgumentMatchers.anyLong()))
+            .thenReturn(Optional.empty());
+
+        ResourceNotFoundException exception = Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+            OrderEntry orderEntry = orderService.delete(id);
+        });
+
+        assertThat(exception.getMessage()).isEqualTo("Could not find valid order entry for id 1");
+    }
+
+    @Test
+    void delete_CorrectId() {
+        OrderEntry orderEntryMock = Generators.getOrderEntry();
+
+        BDDMockito.when(orderRepository.findById(ArgumentMatchers.anyLong()))
+            .thenReturn(Optional.of(orderEntryMock));
+
+        OrderEntry orderEntry = orderService.delete(1);
+
+        assertThat(orderEntry.getSection().getId()).isEqualTo(orderEntryMock.getSection().getId());
+        assertThat(orderEntry.getOrderDate()).isEqualTo(orderEntryMock.getOrderDate());
+        assertThat(orderEntry.getId()).isEqualTo(orderEntryMock.getId());
+        assertThat(orderEntry.getBatches()).isEqualTo(orderEntryMock.getBatches());
+    }
+
+    @Test
+    void updateInboundOrderTest() {
+        OrderEntryDto orderEntryDto = Generators.createOrderEntryDto();
+        OrderEntryDto orderEntryDto2 = Generators.createOrderEntryDto2();
+        OrderEntry orderEntryMock = Generators.getOrderEntry();
+        Long id = 1L;
+
+        BDDMockito.when(orderRepository.findById(ArgumentMatchers.anyLong()))
+            .thenReturn(Optional.of(Generators.getOrderEntry()));
+        BDDMockito.when(orderRepository.save(ArgumentMatchers.any(OrderEntry.class)))
+            .thenReturn(Generators.getOrderEntry2());
+        BDDMockito.when(batchService.createBatch(ArgumentMatchers.any(Batch.class)))
+            .thenReturn(Generators.createBatch2());
+        BDDMockito.when(productService.findProduct(ArgumentMatchers.anyLong()))
+            .thenReturn(Generators.getProduct2());
+
+        List<BatchDto> batches = orderService.createInboundOrder(orderEntryDto);
+        List<BatchDto> batches2 = orderService.updateInboundOrder(orderEntryDto2, id);
+
+        List<Batch> generatedBatches = new ArrayList<Batch>();
+        Batch batch = Generators.createBatch2();
+        generatedBatches.add(batch);
+
+        assertThat(batches2.size()).isEqualTo(1);
+        assertThat(batches2.get(0).getDueDate()).isEqualTo(generatedBatches.get(0).getDueDate());
+        assertThat(batches2.get(0).getCurrentQuantity()).isEqualTo(generatedBatches.get(0).getCurrentQuantity());
+        assertThat(batches2.get(0).getProductId()).isEqualTo(generatedBatches.get(0).getProduct().getId());
 
         verify(warehouseService, atLeastOnce()).findWarehouse(orderEntryDto.getSection().getWarehouseId());
         verify(sectionService, atLeastOnce()).findSection(orderEntryDto.getSection().getSectionId());
