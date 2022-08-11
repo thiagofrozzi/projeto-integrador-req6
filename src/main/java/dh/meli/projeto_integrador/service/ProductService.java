@@ -5,6 +5,7 @@ import dh.meli.projeto_integrador.dto.dtoOutput.ProductOutputDto;
 import dh.meli.projeto_integrador.exception.ResourceNotFoundException;
 import dh.meli.projeto_integrador.model.Batch;
 import dh.meli.projeto_integrador.model.Product;
+import dh.meli.projeto_integrador.repository.IBatchRepository;
 import dh.meli.projeto_integrador.repository.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,11 @@ public class ProductService implements IProductService {
     @Autowired
     private IProductRepository productRepository;
 
+    /**
+     * Dependency Injection of the Batch Repository.
+     */
+    @Autowired
+    private IBatchRepository batchRepository;
 
     /**
      * Method to find a list of products and return a ProductDto.
@@ -81,15 +87,15 @@ public class ProductService implements IProductService {
      */
     @Override
     public ProductStockDto getProductBatchProps(Long id, Character order) {
-        //TODO pegar batch direto do ID -> projeto Dio
 
         Product product = findProduct(id);
-        Set<Batch> batches = product.getBatches();
-        if (batches.isEmpty()) {
+
+        List<Batch> batchesInput = batchRepository.findBatchByProductId(id);
+
+        if (batchesInput.isEmpty()) {
             throw new ResourceNotFoundException("No available batch found for this product.");
         }
 
-        List<Batch> batchesInput = new ArrayList<Batch>(batches);
         List<Batch> sortedFilteredList = sortByOrder(filterByDueDate(batchesInput), order);
 
         if (sortedFilteredList.isEmpty()) {
@@ -120,15 +126,15 @@ public class ProductService implements IProductService {
         switch (order) {
             case 'L':
                 return batchList.stream()
-                        .sorted((p1, p2) -> Long.valueOf(p1.getId()).compareTo(p2.getId()))
+                        .sorted(Comparator.comparingLong(Batch::getId))
                         .collect(Collectors.toList());
             case 'Q':
                 return batchList.stream()
-                        .sorted((p1, p2) -> p1.getCurrentQuantity() - p2.getCurrentQuantity())
+                        .sorted(Comparator.comparingInt(Batch::getCurrentQuantity))
                         .collect(Collectors.toList());
             case 'V':
                 return batchList.stream()
-                        .sorted((p1, p2) -> p1.getDueDate().compareTo(p2.getDueDate()))
+                        .sorted(Comparator.comparing(Batch::getDueDate))
                         .collect(Collectors.toList());
             default:
                 return batchList;
