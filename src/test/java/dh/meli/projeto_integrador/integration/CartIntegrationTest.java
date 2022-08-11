@@ -119,7 +119,7 @@ public class CartIntegrationTest {
 
         response.andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message",
-                        CoreMatchers.is(String.format("Could not find valid cart for id %d", Generators.validCart1().getId()))))
+                        CoreMatchers.is(String.format("Cart not found with this id"))))
                 .andExpect(jsonPath("$.status",
                         CoreMatchers.is(404)))
                 .andExpect(jsonPath("$.title",
