@@ -1,6 +1,5 @@
 package dh.meli.projeto_integrador.integration;
 
-
 import dh.meli.projeto_integrador.model.Cart;
 import dh.meli.projeto_integrador.model.Customer;
 import dh.meli.projeto_integrador.model.Product;
@@ -15,13 +14,7 @@ import dh.meli.projeto_integrador.dto.dtoInput.CartDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.UpdateStatusDto;
 import dh.meli.projeto_integrador.model.Batch;
-import dh.meli.projeto_integrador.model.Cart;
-import dh.meli.projeto_integrador.model.Customer;
-import dh.meli.projeto_integrador.model.Product;
 import dh.meli.projeto_integrador.repository.IBatchRepository;
-import dh.meli.projeto_integrador.repository.ICartRepository;
-import dh.meli.projeto_integrador.repository.ICustomerRepository;
-import dh.meli.projeto_integrador.repository.IProductRepository;
 import dh.meli.projeto_integrador.utils.*;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,11 +26,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
-
-import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 

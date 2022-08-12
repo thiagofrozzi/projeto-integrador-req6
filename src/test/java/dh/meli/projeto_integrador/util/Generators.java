@@ -4,14 +4,10 @@ import dh.meli.projeto_integrador.dto.dtoInput.BatchDto;
 import dh.meli.projeto_integrador.dto.dtoInput.OrderEntryDto;
 import dh.meli.projeto_integrador.dto.dtoInput.SectionDto;
 
-import dh.meli.projeto_integrador.dto.dtoOutput.CartOutputDto;
-import dh.meli.projeto_integrador.dto.dtoOutput.CartProductsOutputDto;
-import dh.meli.projeto_integrador.dto.dtoOutput.ProductOutputDto;
+import dh.meli.projeto_integrador.dto.dtoOutput.*;
 import dh.meli.projeto_integrador.enumClass.PurchaseOrderStatusEnum;
 
 
-import dh.meli.projeto_integrador.dto.dtoOutput.ListProductByWarehouseDto;
-import dh.meli.projeto_integrador.dto.dtoOutput.TotalProductByWarehouseDto;
 import dh.meli.projeto_integrador.model.*;
 
 import java.time.LocalDate;
@@ -80,6 +76,71 @@ public class Generators {
         batch01.setMinimumTemperature(0);
         batch01.setInitialQuantity(100);
         batch01.setCurrentQuantity(100);
+        batch01.setManufacturingDate(LocalDate.now());
+        batch01.setManufacturingTime(LocalTime.now());
+        batch01.setDueDate(LocalDate.now().plusDays(45));
+        batch01.setProduct(product);
+        batch01.setOrderEntry(orderEntry);
+
+        HashSet<Batch> batches = new HashSet<Batch>();
+
+        batches.add(batch01);
+
+        orderEntry.setBatches(batches);
+
+        return batch01;
+    }
+
+    public static Batch createBatch2() {
+        Warehouse warehouse = new Warehouse();
+
+        warehouse.setId(2);
+        warehouse.setName("Armazém 02");
+        warehouse.setAddress("Rua Botanica 468");
+
+        Section section = new Section();
+
+        section.setId(4);
+        section.setCurrentProductLoad(50);
+        section.setMaxProductLoad(800);
+        section.setProductType("Fresco");
+        section.setWarehouse(warehouse);
+
+        HashSet<Section> sections = new HashSet<Section>();
+
+        sections.add(section);
+
+        warehouse.setSections(sections);
+
+        Product product = new Product();
+        product.setId(4);
+        product.setPrice(20.1);
+        product.setName("Uva");
+        product.setType("Fresco");
+
+        HashSet<Product> products = new HashSet<Product>();
+
+        products.add(product);
+
+        OrderEntry orderEntry = new OrderEntry();
+
+        orderEntry.setId(2);
+        orderEntry.setOrderDate(LocalDate.now());
+        orderEntry.setSection(section);
+
+        HashSet<OrderEntry> orderEntries = new HashSet<OrderEntry>();
+
+        orderEntries.add(orderEntry);
+
+        section.setOrderEntries(orderEntries);
+
+        Batch batch01 = new Batch();
+
+        batch01.setId(2);
+        batch01.setCurrentTemperature(15);
+        batch01.setMinimumTemperature(0);
+        batch01.setInitialQuantity(50);
+        batch01.setCurrentQuantity(50);
         batch01.setManufacturingDate(LocalDate.now());
         batch01.setManufacturingTime(LocalTime.now());
         batch01.setDueDate(LocalDate.now());
@@ -171,7 +232,7 @@ public class Generators {
         batchDto.setMinimumTemperature(0);
         batchDto.setManufacturingDate(LocalDate.now());
         batchDto.setManufacturingTime(LocalTime.now());
-        batchDto.setDueDate(LocalDate.now());
+        batchDto.setDueDate(LocalDate.now().plusDays(45));
 
         Set<BatchDto> batchDtoSet = new HashSet<BatchDto>();
 
@@ -445,6 +506,7 @@ public class Generators {
                 .subtotal(100.5)
                 .build();
     }
+
     public static CartProductsOutputDto validCartProductOutputDto2() {
         return CartProductsOutputDto.builder()
                 .name("sorvete")
@@ -493,7 +555,7 @@ public class Generators {
         batch.setCurrentQuantity(100);
         batch.setManufacturingDate(LocalDate.now());
         batch.setManufacturingTime(LocalTime.now());
-        batch.setDueDate(LocalDate.now());
+        batch.setDueDate(LocalDate.now().plusDays(45));
         batch.setProduct(product);
         batch.setOrderEntry(orderEntry);
 
@@ -583,5 +645,19 @@ public class Generators {
         return orderEntryDto;
     }
 
+    public static List<BatchStockDto> getBatchStockDto(Batch batch, Product product) {
+        BatchStockDto batchStockDto = new BatchStockDto();
 
+        batchStockDto.setBatchNumber(batch.getId());
+        batchStockDto.setProductId(product.getId());
+        batchStockDto.setProductType(product.getType());
+        batchStockDto.setQuantity(batch.getCurrentQuantity());
+        batchStockDto.setDueDate(batch.getDueDate());
+
+        List<BatchStockDto> batchStockDtoList = new ArrayList<BatchStockDto>();
+
+        batchStockDtoList.add(batchStockDto);
+
+        return batchStockDtoList;
+    }
 }
