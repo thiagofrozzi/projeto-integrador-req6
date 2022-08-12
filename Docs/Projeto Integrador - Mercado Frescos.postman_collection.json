@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "75d4744b-b08e-44e9-91e0-2ebc04c8d060",
+		"_postman_id": "1fa69900-e746-4d41-b2b6-6b11c6fc374d",
 		"name": "Projeto Integrador - Mercado Frescos",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "17766986"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -84,7 +83,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "\n{\n    \"date\": \"2022-08-05\",\n    \"buyerId\": 1,\n    \"orderStatus\": \"OPEN\",\n    \"products\": [\n        {\n            \"productId\": 1,\n            \"quantity\": 100\n        },\n        {\n            \"productId\": 2,\n            \"quantity\": 10\n        }\n    ]\n}\n",
+							"raw": "\n{\n    \"date\": \"2022-08-05\",\n    \"buyerId\": 1,\n    \"orderStatus\": \"OPEN\",\n    \"products\": [\n        {\n            \"productId\": 1,\n            \"quantity\": 2\n        },\n        {\n            \"productId\": 2,\n            \"quantity\": 2\n        }\n    ]\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -189,7 +188,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/fresh-products/orders/7",
+							"raw": "http://localhost:8080/api/v1/fresh-products/orders/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -200,7 +199,7 @@
 								"v1",
 								"fresh-products",
 								"orders",
-								"7"
+								"1"
 							]
 						}
 					},
@@ -217,7 +216,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/fresh-products/list/1",
+							"raw": "http://localhost:8080/api/v1/fresh-products/list/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -228,7 +227,7 @@
 								"v1",
 								"fresh-products",
 								"list",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -240,7 +239,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/fresh-products/list/1?order=L",
+							"raw": "http://localhost:8080/api/v1/fresh-products/list/2?order=L",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -251,7 +250,7 @@
 								"v1",
 								"fresh-products",
 								"list",
-								"1"
+								"2"
 							],
 							"query": [
 								{
@@ -269,7 +268,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/fresh-products/list/1?order=Q",
+							"raw": "http://localhost:8080/api/v1/fresh-products/list/2?order=Q",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -280,7 +279,7 @@
 								"v1",
 								"fresh-products",
 								"list",
-								"1"
+								"2"
 							],
 							"query": [
 								{
@@ -298,7 +297,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/fresh-products/list/1?order=V",
+							"raw": "http://localhost:8080/api/v1/fresh-products/list/2?order=V",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -309,7 +308,7 @@
 								"v1",
 								"fresh-products",
 								"list",
-								"1"
+								"2"
 							],
 							"query": [
 								{
@@ -332,7 +331,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/fresh-products/warehouse/product/2",
+							"raw": "http://localhost:8080/api/v1/fresh-products/warehouse/product/8",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -344,7 +343,7 @@
 								"fresh-products",
 								"warehouse",
 								"product",
-								"2"
+								"8"
 							]
 						}
 					},
@@ -361,7 +360,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/fresh-products/due-date/",
+							"raw": "http://localhost:8080/api/v1/fresh-products/due-date/section/1/number-of-days/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -372,6 +371,9 @@
 								"v1",
 								"fresh-products",
 								"due-date",
+								"section",
+								"1",
+								"number-of-days",
 								""
 							]
 						}
@@ -384,7 +386,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/fresh-products/due-date/list?",
+							"raw": "http://localhost:8080/api/v1/fresh-products/due-date/number-of-days/1/category/FS",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -395,13 +397,10 @@
 								"v1",
 								"fresh-products",
 								"due-date",
-								"list"
-							],
-							"query": [
-								{
-									"key": "",
-									"value": null
-								}
+								"number-of-days",
+								"1",
+								"category",
+								"FS"
 							]
 						}
 					},
