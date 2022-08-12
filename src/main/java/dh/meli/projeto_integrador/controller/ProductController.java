@@ -65,14 +65,16 @@ public class ProductController {
 
     /**
      * Method to get the product batche's properties by id through the endpoint "/api/v1/fresh-products/fresh-products/list/{id}?order={order}
+     * if the user does not specified the order, the method uses the dueDate as default for the output
      * @param  id (long type) received by url.
      * @param order (character type) may be received by url, to order the API output.
      * @return a list of properties for the specified product.
      */
     @GetMapping("/fresh-products/list/{id}")
-    public ResponseEntity<ProductStockDto> getProductBratches(@PathVariable long id,
-                                                              @RequestParam (required = false, defaultValue = "V") Character order) {
+    public ResponseEntity<ProductStockDto> getProductBatches(@PathVariable long id,
+                                                             @RequestParam (required = false, defaultValue = "V") Character order) {
         return ResponseEntity.ok(productService.getProductBatchProps(id, order));
+        
     }
 
 }
