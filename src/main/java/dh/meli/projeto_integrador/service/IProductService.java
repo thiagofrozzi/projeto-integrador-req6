@@ -21,7 +21,7 @@ public interface IProductService {
     /**
      * Method for to get products by category
      * @param category String
-     * @return a list of objects of type ProductOutputDto
+     * @return a list of output objects of type ProductOutputDto
      */
     List<ProductOutputDto> getProductsByCategory(String category);
 
@@ -31,5 +31,11 @@ public interface IProductService {
      * @return an object of type Product
      */
     Product findProduct(long id);
+
+    /**
+     * Method for to list all products by warehouse
+     * @param productId long id received user request
+     * @return an output object of type ListProductByWarehouseDto
+     */
     ListProductByWarehouseDto listProductByWarehouse(long productId);
 }
