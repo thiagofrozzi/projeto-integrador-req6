@@ -1,6 +1,10 @@
-package dh.meli.projeto_integrador.dto.dtoInput;
+package dh.meli.projeto_integrador.dto.dtoOutput;
 
+import dh.meli.projeto_integrador.enumClass.PurchaseOrderStatusEnum;
 import lombok.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Method Getter implemented by Lombok lib for get access the private attributes of the Product Class
@@ -23,14 +27,15 @@ import lombok.*;
  */
 @Builder
 /**
- * Class used to create a Data Transfer Object for Section POJO
- * @author Diovana Valim, Thiago Almeida
- * @version 0.0.2
+ * Class used to create a Data Transfer Object for Output Cart POJO
+ * @author Rafael Cavalcante
+ * @version 0.0.1
  * @see java.lang.Object
  */
-public class SectionDto {
-
-    private long sectionId;
-
-    private long warehouseId;
+public class CartOutputDto {
+    private String customerName;
+    private PurchaseOrderStatusEnum status;
+    private LocalDate date;
+    private List<CartProductsOutputDto> products;
+    private Double total;
 }

@@ -3,7 +3,6 @@ package dh.meli.projeto_integrador.integration;
 import dh.meli.projeto_integrador.dto.dtoOutput.ProductStockDto;
 import dh.meli.projeto_integrador.model.*;
 import dh.meli.projeto_integrador.repository.*;
-import dh.meli.projeto_integrador.service.IWarehouseService;
 import dh.meli.projeto_integrador.util.Generators;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,13 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -27,31 +24,37 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class ProductIntegrationTest {
 
     @Autowired
     private IProductRepository productRepository;
 
     @Autowired
-    private IWarehouseRepository warehouseRepository;
-
-    @Autowired
-    private ISectionRepository sectionReposity;
-
-    @Autowired
-    private IAgentRepository agentRepository;
+    private IBatchRepository batchRepository;
 
     @Autowired
     private IOrderRepository orderRepository;
 
     @Autowired
-    private IBatchRepository batchRepository;
+    private ISectionRepository sectionRepository;
+
+    @Autowired
+    private IWarehouseRepository warehouseRepository;
+
+    @Autowired
+    private IAgentRepository agentRepository;
 
     @Autowired
     private MockMvc mockMvc;
 
     @BeforeEach
     public void setup() {
+        batchRepository.deleteAll();
+        orderRepository.deleteAll();
+        sectionRepository.deleteAll();
+        agentRepository.deleteAll();
+        warehouseRepository.deleteAll();
         productRepository.deleteAll();
     }
 
@@ -87,7 +90,7 @@ public class ProductIntegrationTest {
                 .andExpect(jsonPath("$.status",
                         CoreMatchers.is(404)))
                 .andExpect(jsonPath("$.title",
-                        CoreMatchers.is("Object Not Found")));
+                        CoreMatchers.is("Resource Not Found")));
     }
 
     @Test
@@ -130,7 +133,43 @@ public class ProductIntegrationTest {
                 .andExpect(jsonPath("$.status",
                         CoreMatchers.is(404)))
                 .andExpect(jsonPath("$.title",
-                        CoreMatchers.is("Object Not Found")));
+                        CoreMatchers.is("Resource Not Found")));
+    }
+
+    @Test
+    public void listProductByWarehouse_whenFindBatchIsSuccessfull() throws Exception {
+        Warehouse warehouse = warehouseRepository.save(Generators.getCleanWarehouse(0));
+
+        Section section = sectionRepository.save(Generators.getCleanSection(warehouse, 2000));
+
+        OrderEntry orderEntry = orderRepository.save(Generators.getCleanOrderEntry(section));
+
+        Product product = productRepository.save(Generators.getProduct());
+
+        Batch batch = batchRepository.save(Generators.getCleanBatch(product, orderEntry));
+
+        ResultActions response = mockMvc.perform(
+                get("/api/v1/fresh-products/warehouse/product/{productId}", product.getId())
+                .contentType(MediaType.APPLICATION_JSON));
+
+        response.andExpect(status().isOk());
+    }
+
+    @Test
+    public void listProductByWarehouse_whenFindBatchFailed() throws Exception {
+        long id = 20;
+
+        ResultActions response = mockMvc.perform(
+                get("/api/v1/fresh-products/warehouse/product/{productId}", id)
+                        .contentType(MediaType.APPLICATION_JSON));
+
+        response.andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message",
+                        CoreMatchers.is("Could not find valid batch stock for product 20")))
+                .andExpect(jsonPath("$.status",
+                        CoreMatchers.is(404)))
+                .andExpect(jsonPath("$.title",
+                        CoreMatchers.is("Resource Not Found")));
     }
 
     @Test
@@ -138,9 +177,9 @@ public class ProductIntegrationTest {
 
         warehouseRepository.save(Generators.createWarehouse());
 
-        sectionReposity.save(Generators.createSectionFresco());
-        sectionReposity.save(Generators.createSectionRefrigerado());
-        sectionReposity.save(Generators.createSectionCongelado());
+        sectionRepository.save(Generators.createSectionFresco());
+        sectionRepository.save(Generators.createSectionRefrigerado());
+        sectionRepository.save(Generators.createSectionCongelado());
 
         agentRepository.save(Generators.createAgent());
 
@@ -163,7 +202,5 @@ public class ProductIntegrationTest {
                         CoreMatchers.is(productStockDto.getBatchStockDto().size()-1)))
                 .andExpect(jsonPath("$.name",
                         CoreMatchers.is(productStockDto.getName())));
-
     }
-
 }
