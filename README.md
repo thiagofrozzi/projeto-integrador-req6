@@ -2,7 +2,7 @@
 <p align="center">Repositório criado para hospedar o código do terceiro e último Touchpoint do Bootcamp IT Java.</p>
 
 <p align="center">
-  <img align="" alt="mascoteJava" src="https://media2.giphy.com/media/kG6B7EcihfJN12CVSj/giphy.gif?cid=ecf05e471tmof99bt97icr9r4bf4hcjj7ds646mgck0y704g&rid=giphy.gif&ct=g" height="70%" width="70%" />
+  <img align="" alt="meliantes" src="https://media2.giphy.com/media/kG6B7EcihfJN12CVSj/giphy.gif?cid=ecf05e471tmof99bt97icr9r4bf4hcjj7ds646mgck0y704g&rid=giphy.gif&ct=g" height="70%" width="70%" />
 </p>
 
 <p align="center">
