@@ -62,7 +62,6 @@ public class ProductController {
         return new ResponseEntity<ListProductByWarehouseDto>(listProductByWarehouseDto, HttpStatus.OK);
     }
 
-
     /**
      * Method to get the product batche's properties by id through the endpoint "/api/v1/fresh-products/fresh-products/list/{id}?order={order}
      * if the user does not specified the order, the method uses the dueDate as default for the output

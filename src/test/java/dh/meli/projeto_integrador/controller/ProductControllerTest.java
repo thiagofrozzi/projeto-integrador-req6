@@ -86,6 +86,7 @@ class ProductControllerTest {
                         CoreMatchers.is(Generators.validProductDto1().getName())));
     }
 
+    @Test
     void listProductByWarehouseTest() {
         BDDMockito.when(productService.listProductByWarehouse(ArgumentMatchers.anyLong()))
                 .thenReturn(Generators.getListProductByWarehouseDto());
@@ -106,7 +107,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void getProductBratches() throws Exception {
+    void getProductBatches() throws Exception {
         ProductStockDto productStockDto = Generators.getProductStockDtos();
         BDDMockito.when(service.getProductBatchProps(anyLong(), anyChar()))
                 .thenReturn(productStockDto);
@@ -121,5 +122,4 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.name",
                         CoreMatchers.is(productStockDto.getName())));
     }
-
 }

@@ -54,7 +54,7 @@ ___
 - TU-06 BatchService (80% methods, 86% lines);
 - TU-07 CartService (100% methods, 100% lines);
 - TU-08 OrderService (100% methods, 92% lines);
-- TU-09 ProductService (100% methods, 85% lines);
+- TU-09 ProductService (87% methods, 90% lines);
 - TU-10 SectionService (100% methods, 75% lines);
 - TU-11 WarehouseService (100% methods, 100% lines);
 
