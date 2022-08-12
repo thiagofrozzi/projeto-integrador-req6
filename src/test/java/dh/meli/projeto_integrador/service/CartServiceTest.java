@@ -16,7 +16,7 @@ import dh.meli.projeto_integrador.utils.GenerateCart;
 import dh.meli.projeto_integrador.utils.GenerateCustomer;
 
 
-import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;;
+import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;
 import dh.meli.projeto_integrador.exception.ForbiddenException;
 import dh.meli.projeto_integrador.model.*;
 import dh.meli.projeto_integrador.repository.*;

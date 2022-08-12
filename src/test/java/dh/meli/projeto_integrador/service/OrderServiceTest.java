@@ -22,7 +22,6 @@ import org.mockito.quality.Strictness;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -208,9 +207,8 @@ public class OrderServiceTest {
 
     @Test
     void updateInboundOrderTest() {
-        OrderEntryDto orderEntryDto = Generators.createOrderEntryDto();
-        OrderEntryDto orderEntryDto2 = Generators.createOrderEntryDto2();
-        OrderEntry orderEntryMock = Generators.getOrderEntry();
+        OrderEntryDto orderEntryDto = Generators.createOrderEntryDto2();
+
         Long id = 1L;
 
         BDDMockito.when(orderRepository.findById(ArgumentMatchers.anyLong()))
@@ -222,20 +220,16 @@ public class OrderServiceTest {
         BDDMockito.when(productService.findProduct(ArgumentMatchers.anyLong()))
             .thenReturn(Generators.getProduct2());
 
-        List<BatchDto> batches = orderService.createInboundOrder(orderEntryDto);
-        List<BatchDto> batches2 = orderService.updateInboundOrder(orderEntryDto2, id);
+        BatchDto batch = orderService.updateInboundOrder(orderEntryDto, id);
 
-        List<Batch> generatedBatches = new ArrayList<Batch>();
-        Batch batch = Generators.createBatch2();
-        generatedBatches.add(batch);
+        Batch batch2 = Generators.createBatch2();
 
-        assertThat(batches2.size()).isEqualTo(1);
-        assertThat(batches2.get(0).getDueDate()).isEqualTo(generatedBatches.get(0).getDueDate());
-        assertThat(batches2.get(0).getCurrentQuantity()).isEqualTo(generatedBatches.get(0).getCurrentQuantity());
-        assertThat(batches2.get(0).getProductId()).isEqualTo(generatedBatches.get(0).getProduct().getId());
+        assertThat(batch.getDueDate()).isEqualTo(batch2.getDueDate());
+        assertThat(batch.getCurrentQuantity()).isEqualTo(batch2.getCurrentQuantity());
+        assertThat(batch.getProductId()).isEqualTo(batch2.getProduct().getId());
 
-        verify(warehouseService, atLeastOnce()).findWarehouse(orderEntryDto.getSection().getWarehouseId());
-        verify(sectionService, atLeastOnce()).findSection(orderEntryDto.getSection().getSectionId());
-        verify(agentService, atLeastOnce()).findAgent(orderEntryDto.getAgentId());
+        verify(warehouseService, atLeastOnce()).findWarehouse(ArgumentMatchers.anyLong());
+        verify(sectionService, atLeastOnce()).findSection(ArgumentMatchers.anyLong());
+        verify(agentService, atLeastOnce()).findAgent(ArgumentMatchers.anyLong());
     }
 }
