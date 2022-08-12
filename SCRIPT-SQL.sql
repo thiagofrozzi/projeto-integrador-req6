@@ -16,15 +16,15 @@ INSERT INTO section VALUES (NULL, 10, 100, 'Fresco', 1),
                            (NULL, 15, 150, 'Congelado', 2),
                            (NULL, 60, 600, 'Congelado', 3);
 
-INSERT INTO product VALUES (NULL, 'Maçã', 20.10, 'Fresco', 1),
-                           (NULL, 'Iogurte', 20.10, 'Refrigerado', 2),
-                           (NULL, 'Peito de Frango', 20.10, 'Congelado', 3),
-                           (NULL, 'Uva', 20.10,'Fresco', 4),
-                           (NULL, 'Manteiga', 20.10, 'Refrigerado', 5),
-                           (NULL, 'Nuggets', 20.10, 'Refrigerado', 5),
-                           (NULL, 'Morango', 20.10, 'Fresco', 4),
-                           (NULL, 'Presunto', 20.10, 'Refrigerado', 2),
-                           (NULL, 'Sorvete', 20.10, 'Congelado', 7);
+INSERT INTO product VALUES (NULL, 'Maçã', 20.10, 'Fresco'),
+                           (NULL, 'Iogurte', 20.10, 'Refrigerado'),
+                           (NULL, 'Peito de Frango', 20.10, 'Congelado'),
+                           (NULL, 'Uva', 20.10,'Fresco'),
+                           (NULL, 'Manteiga', 20.10, 'Refrigerado'),
+                           (NULL, 'Nuggets', 20.10, 'Refrigerado'),
+                           (NULL, 'Morango', 20.10, 'Fresco'),
+                           (NULL, 'Presunto', 20.10, 'Refrigerado'),
+                           (NULL, 'Sorvete', 20.10, 'Congelado');
 
 INSERT INTO customer VALUES (NULL,'111.111.111-11','Alberto@email.com','Alberto','1111-1111'),
                             (NULL,'222.222.222-22','Bernado@email.com','Bernardo','2222-2222'),
