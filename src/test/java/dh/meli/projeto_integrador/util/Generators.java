@@ -381,7 +381,7 @@ public class Generators {
         batch.setCurrentQuantity(100);
         batch.setManufacturingDate(LocalDate.now());
         batch.setManufacturingTime(LocalTime.now());
-        batch.setDueDate(LocalDate.now());
+        batch.setDueDate(LocalDate.now().plusDays(45));
         batch.setProduct(product);
         batch.setOrderEntry(orderEntry);
 
