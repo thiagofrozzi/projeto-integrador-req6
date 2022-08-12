@@ -407,9 +407,9 @@ public class Generators {
     }
 
     public static Set<ProductCart> validProductCartList() {
-        Set<ProductCart> productCartList = new HashSet<>();
-        productCartList.add(validProductCart2());
+        Set<ProductCart> productCartList = new LinkedHashSet<>();
         productCartList.add(validProductCart1());
+        productCartList.add(validProductCart2());
         return productCartList;
     }
 
