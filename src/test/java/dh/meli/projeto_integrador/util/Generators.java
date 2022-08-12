@@ -29,13 +29,13 @@ public class Generators {
     public static Batch createBatch() {
         Warehouse warehouse = new Warehouse();
 
-        warehouse.setId(0);
+        warehouse.setId(1);
         warehouse.setName("Armazém 01");
         warehouse.setAddress("Rua Almeida 259");
 
         Section section = new Section();
 
-        section.setId(0);
+        section.setId(1);
         section.setCurrentProductLoad(130);
         section.setMaxProductLoad(2000);
         section.setProductType("Fresco");
@@ -43,30 +43,23 @@ public class Generators {
 
         HashSet<Section> sections = new HashSet<Section>();
 
-        Agent agent = new Agent();
-        agent.setId(0);
-        agent.setName("João Maria");
-        agent.setPhoneNumber("48 999343899");
-        agent.setEmailAddress("joaomaria@gmail.com");
-        agent.setWarehouse(warehouse);
-
-        HashSet<Agent> agents = new HashSet<Agent>();
-        agents.add(agent);
-
         sections.add(section);
 
         warehouse.setSections(sections);
-        warehouse.setAgents(agents);
 
         Product product = new Product();
+        product.setId(1);
         product.setPrice(12.20);
-        product.setId(0);
         product.setName("Maçã");
-        product.setType("Fruta");
+        product.setType("Fresco");
+
+        HashSet<Product> products = new HashSet<Product>();
+
+        products.add(product);
 
         OrderEntry orderEntry = new OrderEntry();
 
-        orderEntry.setId(0);
+        orderEntry.setId(1);
         orderEntry.setOrderDate(LocalDate.now());
         orderEntry.setSection(section);
 
@@ -78,11 +71,11 @@ public class Generators {
 
         Batch batch01 = new Batch();
 
-        batch01.setId(0);
+        batch01.setId(1);
         batch01.setCurrentTemperature(10);
         batch01.setMinimumTemperature(0);
         batch01.setInitialQuantity(100);
-        batch01.setCurrentQuantity(80);
+        batch01.setCurrentQuantity(100);
         batch01.setManufacturingDate(LocalDate.now());
         batch01.setManufacturingTime(LocalTime.now());
         batch01.setDueDate(LocalDate.now());
@@ -97,6 +90,7 @@ public class Generators {
 
         return batch01;
     }
+
 
     public static OrderEntryDto createOrderEntryDto() {
         BatchDto batchDto = new BatchDto();
@@ -312,6 +306,7 @@ public class Generators {
 
         return batch01;
     }
+
     public static Batch createBatchDueDate90Days() {
         Warehouse warehouse = new Warehouse();
 
@@ -383,6 +378,7 @@ public class Generators {
 
         return batch01;
     }
+
     public static Batch createBatchDueDate21Days() {
         Warehouse warehouse = new Warehouse();
 
@@ -463,6 +459,7 @@ public class Generators {
         batchList.add(createBatchDueDate90Days());
         return batchList;
     }
+
     public static List<Batch> notAbleBatchList() {
         List<Batch> batchList = new ArrayList<>();
         batchList.add(createBatchDueDate21Days());
@@ -473,7 +470,64 @@ public class Generators {
         return new ArrayList<>();
     }
 
-    public static ProductStockDto getEmptyProductStockDto (){
-        return new ProductStockDto();
+    public static ProductStockDto getProductStockDtos() {
+        return new ProductStockDto(getProduct(), validBatchList());
+
+    }
+
+    public static Warehouse createWarehouse() {
+        Warehouse warehouse = new Warehouse();
+        warehouse.setId(1);
+        warehouse.setName("Armazém 01");
+        warehouse.setAddress("Rua Almeida 259");
+        return warehouse;
+    }
+
+    public static Section createSectionFresco(){
+        Section section = new Section();
+        section.setId(1);
+        section.setCurrentProductLoad(130);
+        section.setMaxProductLoad(2000);
+        section.setProductType("Fresco");
+        section.setWarehouse(createWarehouse());
+        return section;
+    }
+
+    public static Section createSectionRefrigerado(){
+        Section section = new Section();
+        section.setId(2);
+        section.setCurrentProductLoad(130);
+        section.setMaxProductLoad(2000);
+        section.setProductType("Fresco");
+        section.setWarehouse(createWarehouse());
+        return section;
+    }
+
+    public static Section createSectionCongelado(){
+        Section section = new Section();
+        section.setId(3);
+        section.setCurrentProductLoad(130);
+        section.setMaxProductLoad(1000);
+        section.setProductType("Fresco");
+        section.setWarehouse(createWarehouse());
+        return section;
+    }
+
+    public static Agent createAgent(){
+        Agent agent = new Agent();
+        agent.setId(1);
+        agent.setName("João Maria");
+        agent.setPhoneNumber("48 999343899");
+        agent.setEmailAddress("joaomaria@gmail.com");
+        agent.setWarehouse(createWarehouse());
+        return agent;
+    }
+
+    public static OrderEntry createOrderEntry(){
+        OrderEntry orderEntry = new OrderEntry();
+        orderEntry.setId(1);
+        orderEntry.setOrderDate(LocalDate.now());
+        orderEntry.setSection(createSectionFresco());
+        return orderEntry;
     }
 }
