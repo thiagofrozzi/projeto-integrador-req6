@@ -25,9 +25,9 @@ import static java.time.temporal.ChronoUnit.DAYS;
  * @see java.lang.Object
  */
 public class ProductStockDto {
-    private Long id;
-    private String name;
     private String section;
+    private String name;
+    private Long id;
     private List<BatchDto> batchStockDto = new ArrayList<>();
 
     public ProductStockDto(Product product, List<Batch> batchList) {
