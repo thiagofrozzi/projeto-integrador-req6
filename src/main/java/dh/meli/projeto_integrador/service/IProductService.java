@@ -22,7 +22,7 @@ public interface IProductService {
     /**
      * Method for to get products by category
      * @param category String
-     * @return a list of objects of type ProductOutputDto
+     * @return a list of output objects of type ProductOutputDto
      */
     List<ProductOutputDto> getProductsByCategory(String category);
 
@@ -33,7 +33,18 @@ public interface IProductService {
      */
     Product findProduct(long id);
 
+     /**
+     * Method to find a product by id and return some properties about the batches
+     * @param id Long
+     * @param order Character
+     * @return an object of type ProductStockDto
+     */
     ProductStockDto getProductBatchProps(Long id,Character order);
 
+    /**
+     * Method for to list all products by warehouse
+     * @param productId long id received user request
+     * @return an output object of type ListProductByWarehouseDto
+     */
     ListProductByWarehouseDto listProductByWarehouse(long productId);
 }

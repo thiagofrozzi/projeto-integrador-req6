@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
 import dh.meli.projeto_integrador.dto.dtoInput.CartDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.UpdateStatusDto;
@@ -21,6 +22,7 @@ import dh.meli.projeto_integrador.utils.GenerateCart;
 import dh.meli.projeto_integrador.utils.GenerateCartDto;
 import dh.meli.projeto_integrador.utils.GenerateTotalPrice;
 import dh.meli.projeto_integrador.utils.GenerateUpdateStatusDto;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;

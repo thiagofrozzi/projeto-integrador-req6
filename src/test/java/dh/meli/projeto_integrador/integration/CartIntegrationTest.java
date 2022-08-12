@@ -1,6 +1,5 @@
 package dh.meli.projeto_integrador.integration;
 
-
 import dh.meli.projeto_integrador.model.Cart;
 import dh.meli.projeto_integrador.model.Customer;
 import dh.meli.projeto_integrador.model.Product;
