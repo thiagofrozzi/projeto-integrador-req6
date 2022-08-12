@@ -158,7 +158,7 @@ public class OrderService implements IOrderService {
      * @return a Set of Batches;
      */
     @Transactional
-    public List<BatchDto> updateInboundOrder(OrderEntryDto orderEntryDto, Long id) {
+    public BatchDto updateInboundOrder(OrderEntryDto orderEntryDto, Long id) {
         OrderEntry foundOrder = findOrderEntry(id); // Checks if the order entry with a given id exists
         List<Batch> batchList = batchService.findAllByOrderEntry(foundOrder);
         Section section = foundOrder.getSection();
@@ -166,7 +166,7 @@ public class OrderService implements IOrderService {
         updateSectionProductLoadBeforeOrderDelete(batchList, section);
         delete(id); // Deletes the old order entry
 
-        return createInboundOrder(orderEntryDto); // Replaces it with a newly created one
+        return createInboundOrder(orderEntryDto).get(0); // Replaces it with a newly created one
     }
 
     /**
@@ -207,7 +207,7 @@ public class OrderService implements IOrderService {
      * @param batchList: List of objects of type Batch. Iterable list
      * @param section an instance of Section. Section identifier
      */
-      static private void updateSectionProductLoadBeforeOrderDelete (List<Batch> batchList, Section section) {
+    static private void updateSectionProductLoadBeforeOrderDelete (List<Batch> batchList, Section section) {
         long currentProductLoad = section.getCurrentProductLoad();
         for (Batch batch : batchList) {
             currentProductLoad -= batch.getCurrentQuantity();
@@ -215,3 +215,4 @@ public class OrderService implements IOrderService {
         section.setCurrentProductLoad(currentProductLoad);
     }
 }
+

@@ -38,15 +38,15 @@ public class OrderController {
     }
 
     /**
-     *  A put method responsible for updating a product batch at application database's;
+     * A put method responsible for updating a product batch at application database's;
      * @param orderEntryDto a valid OrderEntryDto instance received by the request body;
      * @param id long id received by endpoint variable
      * @return Response Entity of type BatchDto and the corresponding HttpStatus;
      */
     @PutMapping("/fresh-products/inboundorder/{id}")
-    public ResponseEntity<List<BatchDto>> updateInboundOrder(@RequestBody OrderEntryDto orderEntryDto, @PathVariable Long id) {
-        List<BatchDto> batches = orderService.updateInboundOrder(orderEntryDto, id);
+    public ResponseEntity<BatchDto> updateInboundOrder(@RequestBody OrderEntryDto orderEntryDto, @PathVariable Long id) {
+        BatchDto batch = orderService.updateInboundOrder(orderEntryDto, id);
 
-        return new ResponseEntity<List<BatchDto>>(batches, HttpStatus.CREATED);
+        return new ResponseEntity<BatchDto>(batch, HttpStatus.OK);
     }
 }
