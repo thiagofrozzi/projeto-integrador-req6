@@ -9,7 +9,6 @@ import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;
 import dh.meli.projeto_integrador.dto.dtoOutput.UpdateStatusDto;
 import dh.meli.projeto_integrador.enumClass.PurchaseOrderStatusEnum;
 import dh.meli.projeto_integrador.dto.dtoInput.CartDto;
-import dh.meli.projeto_integrador.dto.dtoOutput.TotalPriceDto;
 import dh.meli.projeto_integrador.exception.ForbiddenException;
 
 import dh.meli.projeto_integrador.exception.ResourceNotFoundException;
@@ -22,7 +21,6 @@ import javax.transaction.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Class responsible for business rules and communication with the Cart Repository layer

@@ -1,9 +1,9 @@
 package dh.meli.projeto_integrador.repository;
 
 import dh.meli.projeto_integrador.model.Batch;
-import dh.meli.projeto_integrador.model.Product;
 import org.springframework.data.jpa.repository.Query;
 import dh.meli.projeto_integrador.model.OrderEntry;
+import dh.meli.projeto_integrador.model.Product;
 
 import org.springframework.data.repository.CrudRepository;
 
