@@ -18,10 +18,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 /**
  * Class responsible for business rules and communication with the Product Repository layer;
-<<<<<<< HEAD
  *
-=======
->>>>>>> b3f029e (chore: adiciona os m)
  * @author Diovana Valim, Rafael Cavalcante, Amanda Marinelli e Thiago Almeida.
  * @version 0.0.1
  */
