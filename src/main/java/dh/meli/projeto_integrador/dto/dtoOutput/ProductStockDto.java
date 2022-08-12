@@ -7,13 +7,30 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@NoArgsConstructor
-@AllArgsConstructor
+/**
+ * Method Getter implemented by Lombok lib for get access the private attributes of the ProductStockDto Class
+ */
 @Getter
-@Setter
-@Builder
 
-/*
+/**
+ * Method Setter implemented by Lombok lib for set access the private attributes of the ProductStockDto Class
+ */
+@Setter
+/**
+ * Method builder implemented by Lombok lib
+ */
+@Builder
+/**
+ * Method Constructor with all arguments implemented by Lombok lib
+ */
+@AllArgsConstructor
+/**
+ * Method Default Constructor implemented by Lombok lib
+ */
+@NoArgsConstructor
+
+
+/**
  * Class used to create a Data Transfer Object for ProductService.getProductBatchProps method
  * @author Amanda Marinelli, Thiago Almeida
  * @version 0.0.1
@@ -30,9 +47,9 @@ public class ProductStockDto {
         this.id = product.getId();
         this.section = product.getType();
 
-        for (Batch b:batchList) {
+        for (Batch b : batchList) {
             long idWarehouse = (b.getOrderEntry().getSection().getWarehouse().getId());
-            this.batchStockDto.add(new BatchDto(idWarehouse,b.getId(),b.getCurrentQuantity(), b.getDueDate()));
+            this.batchStockDto.add(new BatchDto(idWarehouse, b.getId(), b.getCurrentQuantity(), b.getDueDate()));
         }
     }
 }

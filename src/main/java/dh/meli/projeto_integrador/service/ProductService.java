@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 /**
  * Class responsible for business rules and communication with the Product Repository layer;
  *
- * @author Diovana Valim, Rafael Cavalcante
+ * @author Diovana Valim, Rafael Cavalcante, Amanda Marinelli e Thiago Almeida
  * @version 0.0.1
  */
 @Service

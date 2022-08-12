@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * Class responsible for intermediating the requests sent by the user with the responses provided by the Service;
- * @author Diovana Valim, Rafael Cavalcante
+ * @author Diovana Valim, Rafael Cavalcante, Amanda Marinelli e Thiago Almeida.
  * @version 0.0.1
  */
 @RestController
