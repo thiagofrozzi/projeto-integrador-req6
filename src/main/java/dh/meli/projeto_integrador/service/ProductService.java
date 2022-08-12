@@ -18,7 +18,10 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 /**
  * Class responsible for business rules and communication with the Product Repository layer;
+<<<<<<< HEAD
  *
+=======
+>>>>>>> b3f029e (chore: adiciona os m)
  * @author Diovana Valim, Rafael Cavalcante, Amanda Marinelli e Thiago Almeida.
  * @version 0.0.1
  */
@@ -39,7 +42,6 @@ public class ProductService implements IProductService {
 
     /**
      * Method to find a list of products and return a ProductDto.
-     *
      * @return a list of objects of type ProductDto.
      */
     @Override
@@ -53,7 +55,6 @@ public class ProductService implements IProductService {
 
     /**
      * Method to find a list of products of a specified category and return a ProductDto.
-     *
      * @param category of type String.
      * @return a list of objects of type ProductDto.
      */
@@ -68,7 +69,6 @@ public class ProductService implements IProductService {
 
     /**
      * Method to find a product by id;
-     *
      * @param id of type long. Product identifier;
      * @return an object of type Product;
      */
@@ -85,13 +85,18 @@ public class ProductService implements IProductService {
 
     /**
      * Method to find a product by id and return some properties about the batches;
+<<<<<<< HEAD
      *
      * @param id    of type long. Product identifier;
+=======
+     * @param id of type long. Product identifier;
+>>>>>>> b3f029e (chore: adiciona os m)
      * @param order of type character that identifies the specified order to list the result.
      * @return a DTO with informations of the product and his batches;
      */
     @Override
     public ProductStockDto getProductBatchProps(Long id, Character order) {
+<<<<<<< HEAD
 
         Product product = findProduct(id);
 
@@ -101,6 +106,17 @@ public class ProductService implements IProductService {
             throw new ResourceNotFoundException("No available batch found for this product.");
         }
 
+=======
+        //TODO pegar batch direto do ID -> projeto Dio
+
+        Product product = findProduct(id);
+        Set<Batch> batches = product.getBatches();
+        if (batches.isEmpty()) {
+            throw new ResourceNotFoundException("No available batch found for this product.");
+        }
+
+        List<Batch> batchesInput = new ArrayList<Batch>(batches);
+>>>>>>> b3f029e (chore: adiciona os m)
         List<Batch> sortedFilteredList = sortByOrder(filterByDueDate(batchesInput), order);
 
         if (sortedFilteredList.isEmpty()) {
@@ -112,7 +128,10 @@ public class ProductService implements IProductService {
 
     /**
      * Method to filter a list of batches to contain only batches that have 3 or more weeks until their due date;
+<<<<<<< HEAD
      *
+=======
+>>>>>>> b3f029e (chore: adiciona os m)
      * @param batchList a  List of Batch to be filtered.
      * @return a filtered list of batches;
      */
@@ -124,24 +143,41 @@ public class ProductService implements IProductService {
 
     /**
      * Method to sorted a list of batches
+<<<<<<< HEAD
      *
      * @param batchList a  List of Batch to be sorted.
      * @param order     a  List of Batch to be sorted.
+=======
+     * @param batchList a  List of Batch to be sorted.
+     * @param order a  List of Batch to be sorted.
+>>>>>>> b3f029e (chore: adiciona os m)
      * @return a filtered list of batches;
      */
     private static List<Batch> sortByOrder(List<Batch> batchList, Character order) {
         switch (order) {
             case 'L':
                 return batchList.stream()
+<<<<<<< HEAD
                         .sorted(Comparator.comparingLong(Batch::getId))
                         .collect(Collectors.toList());
             case 'Q':
                 return batchList.stream()
                         .sorted(Comparator.comparingInt(Batch::getCurrentQuantity))
+=======
+                        .sorted((p1, p2) -> Long.valueOf(p1.getId()).compareTo(p2.getId()))
+                        .collect(Collectors.toList());
+            case 'Q':
+                return batchList.stream()
+                        .sorted((p1, p2) -> p1.getCurrentQuantity() - p2.getCurrentQuantity())
+>>>>>>> b3f029e (chore: adiciona os m)
                         .collect(Collectors.toList());
             default:
                 return batchList.stream()
+<<<<<<< HEAD
                         .sorted(Comparator.comparing(Batch::getDueDate))
+=======
+                        .sorted((p1, p2) -> p1.getDueDate().compareTo(p2.getDueDate()))
+>>>>>>> b3f029e (chore: adiciona os m)
                         .collect(Collectors.toList());
         }
     }
