@@ -40,8 +40,8 @@ public interface IBatchRepository extends CrudRepository<Batch, Long> {
 	List<Batch> findByOrderEntry(OrderEntry orderEntry);
 
 	/**
-	 * Method to find all batches that belongs to a given Order Entry;
-	 * @param sectionId long that represents Section identifier
+	 * Method to find all batches querying by section_id parameter;
+	 * @param sectionId long that represents Section identifier;
 	 * @return a List of objects of type Batch;
 	 */
 	@Query(value = "SELECT * from batch " +
