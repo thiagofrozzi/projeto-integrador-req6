@@ -239,6 +239,11 @@ public class CartService implements ICartService {
         return cartRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cart not found with this id"));
     }
 
+    /**
+     * Method to filter a list of batches to contain only batches that have 3 or more weeks until their due date;
+     * @param batchList a  List of Batch to be filtered.
+     * @return a filtered list of batches;
+     */
     private static List<Batch> filterByDueDate(List<Batch> batchList) {
         return batchList.stream()
                 .filter(batch -> DAYS.between(LocalDate.now(), batch.getDueDate()) < 21)
