@@ -1,6 +1,7 @@
 package dh.meli.projeto_integrador.repository;
 
 import dh.meli.projeto_integrador.model.Customer;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -10,4 +11,6 @@ import org.springframework.data.repository.CrudRepository;
  * @version 0.0.1
  */
 public interface ICustomerRepository extends CrudRepository<Customer, Long> {
+    @Query(value = "SELECT * FROM customer WHERE cpf = ?1", nativeQuery = true)
+    Customer findByCpf(String cpf);
 }
