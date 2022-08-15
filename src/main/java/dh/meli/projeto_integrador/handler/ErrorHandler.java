@@ -83,4 +83,16 @@ public class ErrorHandler {
                 .build(),
                 HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(CustomerExistException.class)
+    public ResponseEntity<ExceptionDetails> customerExistExceptionHandler(CustomerExistException ex) {
+        return new ResponseEntity<ExceptionDetails>(ExceptionDetails
+                .builder()
+                .title("Customer Already exist")
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(ex.getMessage())
+                .timestamp(LocalDateTime.now())
+                .build(),
+                HttpStatus.BAD_REQUEST);
+    }
 }
