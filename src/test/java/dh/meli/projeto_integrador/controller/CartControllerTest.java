@@ -105,6 +105,8 @@ class CartControllerTest {
         ForbiddenException exception = Assertions.assertThrows(ForbiddenException.class, () -> {
             cartController.createNewPurchaseOrder(cartDto);
         });
+
+        assertThat(exception.getMessage()).isEqualTo("The new cart cannot be created with order status 'FINISHED'");
     }
 
     @Test
