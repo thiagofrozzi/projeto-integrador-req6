@@ -1,0 +1,61 @@
+{
+	"info": {
+		"_postman_id": "d0e39d02-8cab-410e-bf5f-67094120c884",
+		"name": "Projeto Integrador - Req 6",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Customer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Thiago\",\n    \"email\": \"thiago@meli.com\",\n    \"number\": \"21-67378866\",\n    \"cpf\": \"134.423.367-62\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/customer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Customer By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/customer/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"customer",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
