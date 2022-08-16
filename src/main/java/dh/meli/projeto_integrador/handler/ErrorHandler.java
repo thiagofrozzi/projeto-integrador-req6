@@ -85,6 +85,11 @@ public class ErrorHandler {
                 HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Method that captures a CustomerExistException and build a response to send through HTTP request.
+     * @param ex instance of CustomerExistException class captured during the code execution flow.
+     * @return a ResponseEntity containing details of the exception and a compatible HTTP status code.
+     */
     @ExceptionHandler(CustomerExistException.class)
     public ResponseEntity<ExceptionDetails> customerExistExceptionHandler(CustomerExistException ex) {
         return new ResponseEntity<ExceptionDetails>(ExceptionDetails
@@ -97,6 +102,11 @@ public class ErrorHandler {
                 HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Method that captures a MethodArgumentNotValidException and build a response to send through HTTP request.
+     * @param exception instance of MethodArgumentNotValidException class captured during the code execution flow.
+     * @return a ResponseEntity containing details of the exception and a compatible HTTP status code.
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ExceptionDetails> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException exception) {
         return new ResponseEntity<ExceptionDetails>(

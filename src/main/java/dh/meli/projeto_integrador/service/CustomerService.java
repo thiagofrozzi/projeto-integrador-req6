@@ -10,14 +10,21 @@ import dh.meli.projeto_integrador.repository.ICustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service
 public class CustomerService {
 
+    /**
+     * Dependency Injection of the Customer Repository.
+     */
     @Autowired
     private ICustomerRepository customerRepository;
 
+    /**
+     * Method create customer on the database and returns the customer created.
+     * @param customerDto an object of type CustomerDto
+     * @return an object of type NewCustomerDto.
+     */
     public NewCustomerDto createCustomer(CustomerDto customerDto){
         Customer findCustomer = customerRepository.findByCpf(customerDto.getCpf());
 
@@ -36,6 +43,11 @@ public class CustomerService {
         return new NewCustomerDto(savedCustomer);
     }
 
+    /**
+     * Method that handles the request to fetch a customer in the database and return an Dto with the relevant information.
+     * @param id a Long with the id of the customer requested
+     * @return an object of type CustomerOutputDto with all the information regarding the customer requested.
+     */
     public CustomerOutputDto findById(long id) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));

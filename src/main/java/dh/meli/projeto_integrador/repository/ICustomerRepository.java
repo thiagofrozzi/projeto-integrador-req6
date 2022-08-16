@@ -11,6 +11,11 @@ import org.springframework.data.repository.CrudRepository;
  * @version 0.0.1
  */
 public interface ICustomerRepository extends CrudRepository<Customer, Long> {
+    /**
+     * Method to find a Customer by cpf, with native query sql
+     * @param cpf String
+     * @return an object of type Customer
+     */
     @Query(value = "SELECT * FROM customer WHERE cpf = ?1", nativeQuery = true)
     Customer findByCpf(String cpf);
 }
