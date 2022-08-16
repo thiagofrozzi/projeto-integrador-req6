@@ -18,7 +18,7 @@ public class CustomerService {
         Customer findCustomer = customerRepository.findByCpf(customerDto.getCpf());
 
         if(findCustomer != null){
-            throw new CustomerExistException("This Customer already exist");
+            throw new CustomerExistException("This customer already exists with this CPF");
         }
         Customer customer = Customer.builder()
                 .name(customerDto.getName())
