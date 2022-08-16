@@ -45,6 +45,6 @@ public class CustomerDto {
     private String number;
 
     @NotBlank
-    @Pattern(regexp = "([0-9]{2}[\\.]?[0-9]{3}[\\.]?[0-9]{3}[\\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\\.]?[0-9]{3}[\\.]?[0-9]{3}[-]?[0-9]{2})", message = "O formato do campo CPF esta invalido.")
+    @Pattern(regexp = "([0-9]{2}[\\.][0-9]{3}[\\.][0-9]{3}[\\/][0-9]{4}[-][0-9]{2})|([0-9]{3}[\\.][0-9]{3}[\\.][0-9]{3}[-][0-9]{2})" , message = "O formato do campo CPF esta invalido.")
     private String cpf;
 }
