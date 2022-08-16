@@ -3,6 +3,7 @@ package dh.meli.projeto_integrador.handler;
 import dh.meli.projeto_integrador.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -88,11 +89,23 @@ public class ErrorHandler {
     public ResponseEntity<ExceptionDetails> customerExistExceptionHandler(CustomerExistException ex) {
         return new ResponseEntity<ExceptionDetails>(ExceptionDetails
                 .builder()
-                .title("Customer Already exist")
+                .title("Customer Already exists")
                 .status(HttpStatus.BAD_REQUEST.value())
                 .message(ex.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build(),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ExceptionDetails> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException exception) {
+        return new ResponseEntity<ExceptionDetails>(
+                ExceptionDetails.builder()
+                        .title("Method Argument Not Valid")
+                        .message(exception.getMessage())
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .timestamp(LocalDateTime.now())
+                        .build(),
                 HttpStatus.BAD_REQUEST);
     }
 }
