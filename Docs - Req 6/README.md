@@ -8,7 +8,7 @@ Possui validaçoes no payload da requisiçao de POST.
 Foi utilizado regex para o campo cpf: "123.456.789-10" e number: "21-999999999" 
 
 
-#### POST 
+#### 1. POST 
 
 Este endpoint possui a finalidade de cadastrar novos customers a base de dados. Verificando se ja existe alguem com o CPF informado.
 
@@ -33,7 +33,7 @@ Response
   }
 ```
 
-#### GET
+#### 2. GET
 Este endpoint possui a finalidade de procurar um customer pelo id e retornar suas informaçoes importantes e tambem um array com o id de cada carrinho deste mesmo customer para ter informaçoes como historico de produtos comprados ou produtos que estao no carrinho parados.
 
 ``` 
