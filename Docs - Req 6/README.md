@@ -7,6 +7,9 @@ Possui validaçoes no payload da requisiçao de POST.
 
 Foi utilizado regex para o campo cpf: "123.456.789-10" e number: "21-999999999" 
 
+### Cobertura de testes
+Foram feitos 100% coverage de testes unitarios do **CustomerService**
+
 
 #### 1. POST 
 
